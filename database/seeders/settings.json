@@ -1,0 +1,172 @@
+[
+    {
+        "id": 1,
+        "user_id": null,
+        "code": "action",
+        "key": "group_list",
+        "value": "[{\"id\":\"product\",\"title\":\"Artikl\"},{\"id\":\"category\",\"title\":\"Kategorija\"},{\"id\":\"brand\",\"title\":\"Brand\"},{\"id\":\"all\",\"title\":\"Svi Artikli\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-03-19 11:39:01"
+    },
+    {
+        "id": 2,
+        "user_id": null,
+        "code": "action",
+        "key": "type_list",
+        "value": "[{\"id\":\"P\",\"title\":\"Postotak\"},{\"id\":\"F\",\"title\":\"Fiksni\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-03-19 11:39:01"
+    },
+    {
+        "id": 3,
+        "user_id": null,
+        "code": "payment",
+        "key": "list.cod",
+        "value": "[{\"title\":\"Pla\\u0107anje prilikom pouze\\u0107a\",\"code\":\"cod\",\"min\":\"10\",\"data\":{\"price\":\"0\",\"short_description\":\"Pla\\u0107anje gotovinom prilikom dostave\",\"description\":null},\"geo_zone\":\"1\",\"status\":false,\"sort_order\":\"2\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-10-09 15:32:39"
+    },
+    {
+        "id": 4,
+        "user_id": null,
+        "code": "payment",
+        "key": "list.bank",
+        "value": "[{\"title\":{\"hr\":\"Bankovna transakcija\"},\"code\":\"bank\",\"min\":null,\"data\":{\"price\":\"0\",\"short_description\":{\"hr\":\"Op\\u0107om uplatnicom \\/ Virmanom \\/ Internet bankarstvom \\/ qr kod\"},\"description\":{\"hr\":null}},\"geo_zone\":\"1\",\"status\":true,\"sort_order\":\"5\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-04-26 12:44:00"
+    },
+    {
+        "id": 5,
+        "user_id": null,
+        "code": "payment",
+        "key": "list.pickup",
+        "value": "[{\"title\":\"Platite prilikom preuzimanja\",\"code\":\"pickup\",\"min\":null,\"data\":{\"price\":\"0\",\"short_description\":\"Platiti mou017eete gotovinom ili karticama na POS ureu0111ajima\",\"description\":null},\"geo_zone\":\"1\",\"status\":false,\"sort_order\":\"0\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-03-22 13:39:51"
+    },
+    {
+        "id": 6,
+        "user_id": null,
+        "code": "currency",
+        "key": "list",
+        "value": "[{\"id\":1,\"title\":{\"hr\":\"EUR\",\"en\":\"EUR\"},\"code\":\"EUR\",\"status\":true,\"main\":true,\"symbol_left\":null,\"symbol_right\":\"\\u20ac\",\"value\":\"1\",\"decimal_places\":\"2\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-03-20 17:25:01"
+    },
+    {
+        "id": 7,
+        "user_id": null,
+        "code": "language",
+        "key": "list",
+        "value": "[{\"id\":1,\"title\":{\"hr\":\"Hrvatski\",\"en\":\"Croatian\"},\"code\":\"hr\",\"status\":true,\"main\":false},{\"id\":2,\"title\":{\"hr\":\"Engleski\",\"en\":\"English\"},\"code\":\"en\",\"status\":false,\"main\":false}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-04-23 11:22:34"
+    },
+    {
+        "id": 8,
+        "user_id": null,
+        "code": "order",
+        "key": "statuses",
+        "value": "[{\"id\":1,\"title\":{\"hr\":\"Novo\",\"en\":\"New\"},\"sort_order\":\"0\",\"color\":\"info\"},{\"id\":2,\"title\":{\"hr\":\"\\u010ceka uplatu\",\"en\":\"Waiting for payment\"},\"sort_order\":\"1\",\"color\":\"warning\"},{\"id\":3,\"title\":{\"hr\":\"Pla\\u0107eno\",\"en\":\"Payment succesfull\"},\"sort_order\":\"3\",\"color\":\"success\"},{\"id\":4,\"title\":{\"hr\":\"Poslano\",\"en\":\"On delivery\"},\"sort_order\":\"4\",\"color\":\"secondary\"},{\"id\":5,\"title\":{\"hr\":\"Otkazano\",\"en\":\"Canceled\"},\"sort_order\":\"5\",\"color\":\"danger\"},{\"id\":6,\"title\":{\"hr\":\"Vra\\u0107eno\",\"en\":\"Returned\"},\"sort_order\":\"6\",\"color\":\"dark\"},{\"id\":7,\"title\":{\"hr\":\"Odbijeno\",\"en\":\"Denied\"},\"sort_order\":\"2\",\"color\":\"danger\"},{\"id\":8,\"title\":{\"hr\":\"Nedovr\\u0161ena\",\"en\":\"Unfinished\"},\"sort_order\":\"7\",\"color\":\"light\"}]",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-03-23 12:43:21"
+    },
+    {
+        "id": 9,
+        "user_id": null,
+        "code": "tax",
+        "key": "list",
+        "value": "{\"1\":{\"id\":1,\"geo_zone\":\"1\",\"title\":{\"hr\":\"PDV 25%\",\"en\":\"PDV 25%\"},\"rate\":\"25\",\"sort_order\":\"1\",\"status\":true}}",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-03-20 17:35:35"
+    },
+    {
+        "id": 10,
+        "user_id": null,
+        "code": "geo_zone",
+        "key": "list",
+        "value": "{\"0\":{\"status\":true,\"title\":{\"hr\":\"Hrvatska\"},\"description\":{\"hr\":\"Hrvatska\"},\"state\":{\"5\":\"Hrvatska\"},\"id\":1},\"2\":{\"title\":\"World\",\"description\":null,\"id\":3,\"status\":true,\"state\":[]}}",
+        "json": 1,
+        "created_at": "2024-03-19 11:39:01",
+        "updated_at": "2024-10-11 11:30:01"
+    },
+    {
+        "id": 11,
+        "user_id": null,
+        "code": "shipping",
+        "key": "list.flat",
+        "value": "[{\"title\":{\"hr\":\"Dostava Hrvatska\"},\"code\":\"flat\",\"data\":{\"price\":\"5.99\",\"time\":null,\"short_description\":{\"hr\":\"Dostava se vr\\u0161i putem kurirske slu\\u017ebe.\"},\"description\":{\"hr\":null}},\"geo_zone\":\"1\",\"status\":true,\"sort_order\":\"1\"}]",
+        "json": 1,
+        "created_at": "2024-03-20 11:31:16",
+        "updated_at": "2024-10-09 15:32:05"
+    },
+    {
+        "id": 12,
+        "user_id": null,
+        "code": "shipping",
+        "key": "list.gls_eu",
+        "value": "[{\"title\":{\"hr\":\"P24 Paketomat\"},\"code\":\"gls_eu\",\"data\":{\"price\":\"2.90\",\"time\":null,\"short_description\":{\"hr\":\"*Za dostavu putem HP24 Paketomata, molimo pogledajte na ovaj <a href=\\\"https:\\/\\/www.posta.hr\\/interaktivna-karta-postanskih-ureda\\/6454?paketomat=1\\\" target=\\\"_blank\\\">link<\\/a> i unesite odabranu lokaciju Paketomat kao adresu za dostavu.\"},\"description\":{\"hr\":null}},\"geo_zone\":\"1\",\"status\":false,\"sort_order\":\"3\"}]",
+        "json": 1,
+        "created_at": "2024-03-20 11:31:16",
+        "updated_at": "2024-04-26 12:35:06"
+    },
+    {
+        "id": 13,
+        "user_id": null,
+        "code": "shipping",
+        "key": "list.gls",
+        "value": "[{\"title\":\"gls\",\"code\":\"gls\",\"data\":{\"price\":0},\"geo_zone\":\"0\",\"sort_order\":0,\"status\":false}]",
+        "json": 1,
+        "created_at": "2024-03-20 11:31:16",
+        "updated_at": "2024-03-20 11:31:16"
+    },
+    {
+        "id": 14,
+        "user_id": null,
+        "code": "shipping",
+        "key": "list.gls_world",
+        "value": "[{\"title\":\"gls_world\",\"code\":\"gls_world\",\"data\":{\"price\":0},\"geo_zone\":\"0\",\"sort_order\":0,\"status\":false}]",
+        "json": 1,
+        "created_at": "2024-03-20 11:31:16",
+        "updated_at": "2024-03-20 11:31:16"
+    },
+    {
+        "id": 15,
+        "user_id": null,
+        "code": "shipping",
+        "key": "list.pickup",
+        "value": "[{\"title\":{\"hr\":\"Preuzimanje u trgovini\"},\"code\":\"pickup\",\"data\":{\"price\":\"0\",\"time\":\"Osobno preuzimanje artikala\",\"short_description\":{\"hr\":\"Top Tim d.o.o. - Put Gvozdenova 283, 22000 \\u0160ibenik\"},\"description\":{\"hr\":null}},\"geo_zone\":\"1\",\"status\":true,\"sort_order\":\"8\"}]",
+        "json": 1,
+        "created_at": "2024-03-20 11:31:16",
+        "updated_at": "2024-10-10 10:50:58"
+    },
+    {
+        "id": 16,
+        "user_id": null,
+        "code": "payment",
+        "key": "list.wspay",
+        "value": "[{\"title\":{\"hr\":\"Kreditne kartice \\/ Debitne Kartice - WSPay\"},\"code\":\"wspay\",\"min\":null,\"data\":{\"price\":null,\"short_description\":{\"hr\":\"Pla\\u0107anje karticama WSPay\"},\"description\":{\"hr\":null},\"shop_id\":null,\"secret_key\":null,\"callback\":null,\"test\":\"1\"},\"geo_zone\":null,\"status\":false,\"sort_order\":\"1\"}]",
+        "json": 1,
+        "created_at": "2024-03-20 11:34:53",
+        "updated_at": "2024-10-08 14:19:12"
+    },
+    {
+        "id": 17,
+        "user_id": null,
+        "code": "payment",
+        "key": "list.mypos",
+        "value": "[{\"title\":{\"hr\":\"Kreditne kartice \\/ Debitne Kartice - MyPOS\"},\"code\":\"mypos\",\"min\":null,\"data\":{\"price\":null,\"short_description\":{\"hr\":\"Kreditne kartice \\/ Debitne Kartice - MyPOS\"},\"description\":{\"hr\":null},\"mypos_virtual_configuration_package_test\":\"eyJzaWQiOiIwMDAwMDAwMDAwMDAwMTAiLCJjbiI6IjYxOTM4MTY2NjEwIiwicGsiOiItLS0tLUJFR0lOIFJTQSBQUklWQVRFIEtFWS0tLS0tXHJcbk1JSUNYQUlCQUFLQmdRQ2YwVGRjVHVwaGI3WCtad2VrdDFYS0VXWkRjelNHZWNmbzZ2UWZxdnJhZjVWUHpjbkpcclxuMk1jNUo3MkhCbTB1OThFSkhhbitubGUyV09aTVZHSXRUYVwvMmsxRlJXd2J0N2lRNWR6RGg1UEVlWkFTZzJVV2VcclxuaG9SOEw4TXBOQnFINmg3WklUd1ZUZlJTNExzQnZsRWZUN1B6aG01WUpLZk0rQ2R6RE0rTDlXVkVHd0lEQVFBQlxyXG5Bb0dBWWZLeHdVdEVicTh1bFZyRDNubldoRitoazFrNktlamRVcTBkTFlOMjl3OFdqYkNNS2I5SWFva21xV2lRXHJcbjVpWkdFcll4aDdHNEJEUDhBV1wvK005SFhNNG9xbTVTRWtheGhiVGxna3MrRTFzOWRUcGRGUXZMNzZUdm9kcVN5XHJcbmwyRTJCZ2hWZ0xMZ2tkaFJuOWJ1YUZ6WXRhOTVKS2ZneUtHb25OeHNRQTM5UHdFQ1FRREtiRzBLcDZLRWtOZ0Jcclxuc3JDcTNDeDJvZDVPZmlQREc4ZzNSWVpLeFwvTzlkTXk1Q00xNjBEd3VzVkpwdXl3YnBSaGNXcjNna3owUWdSTWRcclxuSVJWd3l4TmJBa0VBeWgzc2lwbWNnTjdTRDh4QkdcL010QllQcVdQMXZ4aFNWWVBmSnp1UFUzZ1M1TVJKelFIQnpcclxuc1ZDTGhUQlk3aEhTb3FpcWxxV1lhc2k4MUp6QkV3RXVRUUpCQUt3OXFHY1pqeU1IOEpVNVREU0dsbHIzanlieFxyXG5GRk1QajhUZ0pzMzQ2QUI4b3pxTExcL1RodldQcHhIdHRKYkg4UUFkTnV5V2RnNmRJZlZBYTk1aDdZK01DUUVaZ1xyXG5qUkRsMUJ6N2VXR08yYzBGcTlPVHozSVZMV3BubUd3ZlcrSHlheGl6eEZoVitGT2oxR1VWaXI5aHlsVjdWMERVXHJcblFqSWFqeXZcL29lRFdoRlE5d1FFQ1FDeWRoSjZOYU5RT0NaaCs2UVRySDNUQzVNZUJBMVllaXBvZTcrQmhzTE5yXHJcbmNGRzhzOXNUeFJubHRjWmwxZFhhQlNlbXZwTnZCaXpuMEt6aThHM1pBZ2M9XHJcbi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tIiwicGMiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFLS0tLS1cclxuTUlJQnNUQ0NBUm9DQ1FDQ1BqTnR0R05RV0RBTkJna3Foa2lHOXcwQkFRc0ZBREFkTVFzd0NRWURWUVFHRXdKQ1xyXG5SekVPTUF3R0ExVUVDZ3dGYlhsUVQxTXdIaGNOTVRneE1ERXlNRGN3T1RFeldoY05Namd4TURBNU1EY3dPVEV6XHJcbldqQWRNUXN3Q1FZRFZRUUdFd0pDUnpFT01Bd0dBMVVFQ2d3RmJYbFFUMU13Z1o4d0RRWUpLb1pJaHZjTkFRRUJcclxuQlFBRGdZMEFNSUdKQW9HQkFNTCtWVG1pWTR5Q2hvT1RNWlRYQUlHXC9tayt4ZlwvOW1qd0h4V3p4dEJKYk5uY05LXHJcbjBPTEkwVlhZS1cyR2dWa2xHSEhRanZldzFoVEZrRUdqbkNKN2Y1Q0RuYmd4ZXZ0eUFTREdzdDkyYTZ4Y0FlZEVcclxuYWRQMG5GWGhVeitjWVlJZ0ljZ2ZEY1gzWldlTkVGNWtzY3F5NTJrcEQyTzduRk5DVis4NXZTNGR1SkJOQWdNQlxyXG5BQUV3RFFZSktvWklodmNOQVFFTEJRQURnWUVBQ2oweGIrdE5ZRVJKa0wrcCt6RGNCc0JLNFJ2a25QbHBrK1lQXHJcbmVwaHVuRzJkQkdPbWdcL1dLZ29EMVBMV0QyYkVmR2dKeFlCSWc5cjF3TFlwREMxdHhoeFYrMk9CUVM4NktVTGgwXHJcbk5FY3IwcUVZMDVtSTRGbEUrRFwvQnBUXC8rV0Z5S2tadWc5MnJLMEZsejcxWHlcLzltQlhiUWZtK1lLNmw5cm9SWWRcclxuSjRzSGVRYz1cclxuLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLSIsImlkeCI6MX0=\",\"mypos_virtual_configuration_package_live\":\"eyJzaWQiOiIyMTI3NDAiLCJjbiI6IjQwNjE5NDgyMDA5IiwicGsiOiItLS0tLUJFR0lOIFJTQSBQUklWQVRFIEtFWS0tLS0tXG5NSUlDWEFJQkFBS0JnUURiWERHcUFveDg3bjg3aWxqQ09kVzVzM0RNMGxvTVFFT0d5cmRpXC9KSlwvMXRZR2Q3MWRcbjRQaWQ1aXlObGlLQ24rdk1TdGxDcWIzYzJpWjBFSWZFRHFlZ2xJZzJiNWVPVXFCRlRab2d1OW1QM25PMU5wVzNcbkJxVWJxZnV4b0hcLzdJYUhRdmdPQ3RMUmRBTVZsSWdqcVFIQitRcFFiS2VBc2wrQVdLNGxpV2NmcVh3SURBUUFCXG5Bb0dBRGJhUXdFRVNpVWpibVZ4SHVqU2xZTXVQOUszOXhTQkxXR1RaM0ExUUZ6XC9WOTJlSzVoQ0hXayttWDErUVxuWHJ3aW9JM1pVU3FOWFA0aVEwVTVSNDltK1N4SFVzWGdTdkVMNHVzZng4OERBd2ZXdVdRRmhHXC9YN0VwMWowR1VcbkRTSEVZak1MbW80Nmp1cVFMMDlCZzhFXC9CQTQzS2tOM3BtYnlwYU1zckdzNUdGa0NRUUQzMURURUtpaUN5Tk1mXG5lekc4VTVEZXJqTUdPcllcL0VNMG0ycGVmcWUwejF3SzlVNE94TlV4aUdFYUhGRVwveFhZN00xMkZtQ1kxTVo2N0ZcbmROc2pJVnhMQWtFQTRwZXluUzA4dlB0Z2Z3NnhGcmRyTzJXMGdVZHFxekJTbk1Ia2dma1FZSXRpZ0lzbnM2SThcbkdnUExPUjJIbEJKS3JGWElpTXV5RUx0SjJzaENmSm4xdlFKQkFKdnNUbHFSTDdYQlJsdUxOZXFJSlNDRk55TVhcbk0yeVFWSks2ZXlVQVUzWUhNXC9rTUgxSVI5NEhNUml0Y2swT0htbjIwa05vUzdteUEyMHZ1VHFWV3F1c0NRSDR3XG40V1lyVlZJaDVNR2QydjI5dEZobDhicTFuVEF0UHpUUnZvS3J4SFVmNndHUGZkTEtuUklYM3N1MktGVk1RbzNyXG5VRHp1eEFJUmE3WU9KUWpqYlRrQ1FGWTFmRWR4bWVyQXNHVzJCS3RrMFNiK29iWjd4VGdDZFc2Z01pRStxdTZwXG5NWkJWbUs5QnkyVVwvc2taTlZVVnQrVEhueDhmQjQ5dUEzOWxickhLeWRRTT1cbi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tXG4iLCJwYyI6Ii0tLS0tQkVHSU4gQ0VSVElGSUNBVEUtLS0tLVxuTUlJQ0RUQ0NBWGFnQXdJQkFnSUVBV3kxZURBTkJna3Foa2lHOXcwQkFRc0ZBREFkTVFzd0NRWURWUVFHRXdKQ1xuUnpFT01Bd0dBMVVFQ2hNRmJYbFFUMU13SGhjTk1qUXdPVEkyTURneE9ERTFXaGNOTXpRd09USTBNRGd4T0RFMVxuV2pBZE1Rc3dDUVlEVlFRR0V3SkNSekVPTUF3R0ExVUVDaE1GYlhsUVQxTXdnWjh3RFFZSktvWklodmNOQVFFQlxuQlFBRGdZMEFNSUdKQW9HQkFMSTVqYkt6XC8xUVlYVlZ4T3M3OUhtdkRoTHd0ZEFiSlZqUWZQWVl3dW1GNlNQK0NcbmJEazJcLzVDc0lKWVFXQzh3XC9pYnlsOEF5SUFOVXJcL0lLSXhPZkFRME1OSEZJbEhBb1NPd3Y4SlhzR1ArSTFBVzBcbjBOazBydEx1WVZsWGdHbEhQYkNkM1JyT1Z2NkpRbVZcL2xqM1RJOXdCVEFKNzQxMUV3M0twXC9BVlVZVFloQWdNQlxuQUFHaldqQllNQjBHQTFVZERnUVdCQlMwTFJpWGU1cVdXSXRpTUt3S1l2c3Q2dDdZbXpBZkJnTlZIU01FR0RBV1xuZ0JTMExSaVhlNXFXV0l0aU1Ld0tZdnN0NnQ3WW16QUpCZ05WSFJNRUFqQUFNQXNHQTFVZER3UUVBd0lFOERBTlxuQmdrcWhraUc5dzBCQVFzRkFBT0JnUUNKWTJSZzI3eDZWUXVNeVBlVm1yZVwvWDhjU1wvY1wvbkYra2tvN01QRExxb1xuOEQ4WUl5b25VUHJ4Z3pBV25INk1pNWpYeDFVV2gxaHlEZmUwbUtLWXlhM0d1ZVdzVkRwdFBFRTZLeFp2Vk5TNlxuTVlFNnhqRVB2Z25MVzVqY2xBVm9Bc1Q3TmhJZnpzeVYzREpDT2V5c09GVGxzSThBcDJ2eUpaK1diSXQ3WlZaeVxuXC93PT1cbi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS1cbiIsImlkeCI6IjMifQ==\",\"mypos_set_url_cancel\":\"\\/mypos\\/notify\",\"mypos_set_url_ok\":\"\\/mypos\\/notify\",\"mypos_set_url_notify\":\"\\/mypos\\/notify\",\"test\":\"0\"},\"geo_zone\":\"1\",\"status\":true,\"sort_order\":\"0\"}]",
+        "json": 1,
+        "created_at": "2024-10-03 12:59:55",
+        "updated_at": "2024-11-04 08:47:13"
+    }
+]
