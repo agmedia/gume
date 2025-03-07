@@ -20,7 +20,7 @@
                                 B<span class="opacity-75">x</span>
                             </span>
                 <span class="smini-hidden">
-                                ZUZI<span class="opacity-75">SHOP</span>
+                                PNEU<span class="opacity-75">MAX</span>
                             </span>
             </a>
             <!-- END Logo -->
@@ -95,6 +95,12 @@
                     <a class="nav-main-link{{ request()->routeIs(['orders', 'orders.*']) ? ' active' : '' }}" href="{{ route('orders') }}">
                         <i class="nav-main-link-icon si si-basket-loaded"></i>
                         <span class="nav-main-link-name">Narudžbe</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link{{ request()->routeIs(['reservations', 'reservations.*']) ? ' active' : '' }}" href="{{ route('reservations') }}">
+                        <i class="nav-main-link-icon si si-basket-loaded"></i>
+                        <span class="nav-main-link-name">Rezervacije</span>
                     </a>
                 </li>
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
+use App\Http\Controllers\Back\ReservationController;
 use App\Http\Controllers\Back\Settings\App\CurrencyController;
 use App\Http\Controllers\Back\Settings\App\GeoZoneController;
 use App\Http\Controllers\Back\Settings\App\OrderStatusController;
@@ -108,6 +109,13 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
+    // RESERVATIONS
+    Route::get('reservations', [ReservationController::class, 'index'])->name('reservations');
+    Route::get('reservation/create', [ReservationController::class, 'create'])->name('reservations.create');
+    Route::post('reservation', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::get('reservation/{order}', [ReservationController::class, 'show'])->name('reservations.show');
+    Route::get('reservation/{order}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
+    Route::patch('reservation/{order}', [ReservationController::class, 'update'])->name('reservations.update');
 
     // MARKETING
     Route::prefix('marketing')->group(function () {
