@@ -46,8 +46,7 @@
 
                         <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route', ['group' => \App\Helpers\Helper::categoryGroupPath(true)]) }}">Web shop</a></li>
 
-                        <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route.author') }}">Autori</a>
-                        <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route', ['group' => \App\Helpers\Helper::categoryGroupPath(true) . '/rijetke-knjige']) }}">Rijetke knjige</a>
+
                         <li class="widget-list-item"><a class="widget-list-link" href="https://www.zuzi.hr/kategorije-proizvoda/svezalice-pidzame-za-knjige">Svezalice - pidžame za knjige</a>
                         <li class="widget-list-item"><a class="widget-list-link" href="https://www.zuzi.hr/akcijska-ponuda">Akcije</a>
                         <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route', ['group' => \App\Helpers\Helper::categoryGroupPath(true) . '/outlet']) }}">Outlet</a>

@@ -28,10 +28,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $page = Cache::remember('page.homepage', config('cache.life'), function () {
-            return Page::where('slug', 'homepage')->first();
+            return Page::where('slug', 'naslovnica')->first();
         });
 
-        $page->description = Helper::setDescription(isset($page->description) ? $page->description : '');
+        $page->description = Helper::setDescription(isset($page->description) ? $page->description : ' ');
 
         return view('front.page', compact('page'));
     }
