@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class Author
+ * Class Brand
  * @package App\Models\Front\Catalog
  */
-class Author extends Model
+class Brand extends Model
 {
     use HasFactory;
 
     /**
      * @var string
      */
-    protected $table = 'authors';
+    protected $table = 'brands';
 
     /**
      * @var array
@@ -45,7 +45,7 @@ class Author extends Model
      */
     public function products()
     {
-        return $this->hasMany(Product::class, 'author_id', 'id')->active()->hasStock();
+        return $this->hasMany(Product::class, 'brand_id', 'id')->active()->hasStock();
     }
 
 
@@ -90,17 +90,17 @@ class Author extends Model
      */
     public function filter(array $request, int $limit = 20): Builder
     {
-        $query = (new Author())->newQuery();
+        $query = (new Brand())->newQuery();
 
-        if ($request['search_author']) {
+        if ($request['search_brand']) {
             $query->active();
 
-            $query = Helper::searchByTitle($query, $request['search_author']);
+            $query = Helper::searchByTitle($query, $request['search_brand']);
 
         } else {
             $query->active()->featured();
 
-            if ($request['group'] && ! $request['search_author']) {
+            if ($request['group'] && ! $request['search_brand']) {
                 $query->whereHas('products', function ($query) use ($request) {
                     $query = ProductHelper::queryCategories($query, $request);
 
@@ -148,10 +148,10 @@ class Author extends Model
     public static function letters(): Collection
     {
         $letters = collect();
-        $authors = Author::active()->pluck('letter')->unique();
+        $brands = Brand::active()->pluck('letter')->unique();
 
         foreach (Helper::abc() as $item) {
-            if ($item == $authors->contains($item)) {
+            if ($item == $brands->contains($item)) {
                 $letters->push([
                     'value' => $item,
                     'active' => true
@@ -181,17 +181,17 @@ class Author extends Model
 
         if ( ! $id) {
             $query->topList()->select('id', 'group', 'title', 'slug')->whereHas('products', function ($query) {
-                $query->where('author_id', $this->id);
+                $query->where('brand_id', $this->id);
             });
 
         } else {
             $query->whereHas('products', function ($query) {
-                $query->where('author_id', $this->id);
+                $query->where('brand_id', $this->id);
             })->where('parent_id', $id);
         }
 
         return $query->withCount(['products as products_count' => function ($query) {
-                         $query->where('author_id', $this->id);
+                         $query->where('brand_id', $this->id);
                      }])
                      ->sortByName()
                      ->get();

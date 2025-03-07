@@ -13,7 +13,7 @@
     @endif
 @endif
 
-@if (isset($author) && $author)
+@if (isset($brand) && $brand)
     @section ('title',  $seo['title'])
     @section ('description', $seo['description'])
 @endif
@@ -77,28 +77,28 @@
                 </div>
             @endif
 
-            @if (isset($author) && $author)
+            @if (isset($brand) && $brand)
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center ">
                             <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.author') }}">Autori</a></li>
+                            <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand') }}">Autori</a></li>
                             @if ( ! $cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $author->title }}</li>
+                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $brand->title }}</li>
                             @endif
                             @if ($cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.author', ['author' => $author]) }}">{{ $author->title }}</a></li>
+                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand', ['brand' => $brand]) }}">{{ $brand->title }}</a></li>
                                 <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $cat->title }}</li>
                             @elseif ($cat && $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.author', ['author' => $author]) }}">{{ $author->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.author', ['author' => $author, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
+                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand', ['brand' => $brand]) }}">{{ $brand->title }}</a></li>
+                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand', ['brand' => $brand, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
                                 <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $subcat->title }}</li>
                             @endif
                         </ol>
                     </nav>
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">{{ $author->title }}</h1>
+                    <h1 class="h3 text-light mb-0">{{ $brand->title }}</h1>
                 </div>
             @endif
 
@@ -137,22 +137,22 @@
                          group="{{ isset($group) ? $group : null }}"
                          cat="{{ isset($cat) ? $cat : null }}"
                          subcat="{{ isset($subcat) ? $subcat : null }}"
-                         author="{{ isset($author) ? $author['slug'] : null }}"
+                         brand="{{ isset($brand) ? $brand['slug'] : null }}"
                          publisher="{{ isset($publisher) ? $publisher['slug'] : null }}">
             </filter-view>
             <products-view ids="{{ isset($ids) ? $ids : null }}"
                            group="{{ isset($group) ? $group : null }}"
                            cat="{{ isset($cat) ? $cat['id'] : null }}"
                            subcat="{{ isset($subcat) ? $subcat['id'] : null }}"
-                           author="{{ isset($author) ? $author['slug'] : null }}"
+                           brand="{{ isset($brand) ? $brand['slug'] : null }}"
                            publisher="{{ isset($publisher) ? $publisher['slug'] : null }}">
             </products-view>
         </div>
     </div>
 
-    @if (isset($author) && $author && ! empty($author->description))
+    @if (isset($brand) && $brand && ! empty($brand->description))
         <div class="container pb-4 mb-2 mb-md-4" >
-            {!! $author->description !!}
+            {!! $brand->description !!}
         </div>
     @endif
 

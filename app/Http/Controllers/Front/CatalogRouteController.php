@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Models\Front\Blog;
+use App\Models\Front\Catalog\Brand;
 use App\Models\Front\Page;
 use App\Models\Front\Faq;
 use App\Models\Front\Catalog\Author;
@@ -143,9 +144,9 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function author(Request $request, Author $author = null, Category $cat = null, Category $subcat = null)
+    public function brand(Request $request, Brand $brand = null, Category $cat = null, Category $subcat = null)
     {
-        if ( ! $author) {
+        if ( ! $brand) {
             $letters = Helper::resolveCache('authors')->remember('letters', config('cache.life'), function () {
                 return Author::letters();
             });
@@ -157,8 +158,8 @@ class CatalogRouteController extends Controller
 
             $currentPage = request()->get('page', 1);
 
-            $authors = Helper::resolveCache('authors')->remember($letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
-                return Author::query()->select('id', 'title', 'url')
+            $brands = Helper::resolveCache('authors')->remember($letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
+                return Brand::query()->select('id', 'title', 'url')
                                       ->where('status',  1)
                                       ->where('letter', $letter)
                                       ->orderBy('title')
@@ -177,11 +178,11 @@ class CatalogRouteController extends Controller
         if ($cat) { $cat->count = $cat->products()->count(); }
         if ($subcat) { $subcat->count = $subcat->products()->count(); }
 
-        $seo = Seo::getAuthorData($author, $cat, $subcat);
+        $seo = Seo::getAuthorData($brand, $cat, $subcat);
 
         $crumbs = null;
 
-        return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat', 'seo', 'crumbs'));
+        return view('front.catalog.category.index', compact('brand', 'letter', 'cat', 'subcat', 'seo', 'crumbs'));
     }
 
 
