@@ -195,6 +195,7 @@ class Product extends Model
 
             $product = $this->find($id);
 
+
             $product->update([
                 'url'             => ProductHelper::url($product),
                 'category_string' => ProductHelper::categoryString($product),
@@ -255,15 +256,17 @@ class Product extends Model
             'sku'              => $this->request->sku,
             'description'      => $this->cleanHTML($this->request->description),
             'slug'             => $slug,
+            'url'              => '',
+            'category_string'  => '',
             'price'            => isset($this->request->price) ? $this->request->price : 0,
             'quantity'         => $this->request->quantity ?: 0,
-            'decrease'         => (isset($this->request->decrease) and $this->request->decrease == 'on') ? 0 : 1,
+            'decrease'         => 1,
             'tax_id'           => $this->request->tax_id ?: 1,
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
             'special_lock'     => 0,
-            'meta_title'       => $this->request->meta_title ?: $this->request->name/* . '-' . ($author ? '-' . $author->title : '')*/,
+            'meta_title'       => $this->request->meta_title ?: $this->request->name,
             'meta_description' => $this->request->meta_description,
             'viewed'           => 0,
             'sort_order'       => 0,

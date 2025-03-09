@@ -41,11 +41,6 @@
                     </a>
                     <div class="block-options">
                         <div class="dropdown">
-                            <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
-                                <input type="checkbox" class="custom-control-input" id="product-decrease-switch" name="decrease"{{ (isset($product->decrease) and $product->decrease) ? '' : 'checked' }}>
-                                <label class="custom-control-label pt-1" for="product-decrease-switch">Neograničena Količina</label>
-                            </div>
-
                             <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
                                 <input type="checkbox" class="custom-control-input" id="product-switch" name="status"{{ (isset($product->status) and $product->status) ? 'checked' : '' }}>
                                 <label class="custom-control-label pt-1" for="product-switch">Aktiviraj</label>
@@ -53,214 +48,272 @@
                         </div>
                     </div>
                 </div>
-                <div class="block-content">
-                    <div class="row justify-content-center push">
-                        <div class="col-md-12">
-                            <div class="form-group row items-push mb-3">
-                                <div class="col-md-12">
-                                    <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="Upišite naziv artikla" value="{{ isset($product) ? $product->name : old('name') }}" onkeyup="SetSEOPreview()">
-                                    @error('name')
-                                    <span class="text-danger font-italic">Naziv je potreban...</span>
-                                    @enderror
+
+            </div>
+
+            <div class="block block-rounded">
+                <ul class="nav nav-tabs nav-tabs-block" data-toggle="tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#osnovno"><i class="si si-settings"></i> {{ __('Info') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#atributi"><i class="si si-settings"></i> {{ __('Atributi') }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#slike"><i class="si si-picture"></i> {{ __('Slike') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#seo">
+                            <i class="si si-link"></i> {{ __('SEO') }}
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="block-content tab-content">
+                    <div class="tab-pane active" id="osnovno" role="tabpanel">
+
+                    <div class="block">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Info</h3>
+                    </div>
+                     <div class="block-content">
+                <div class="row justify-content-center push">
+                    <div class="col-md-12">
+                        <div class="form-group row items-push mb-3">
+                            <div class="col-md-12">
+                                <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="name-input" name="name" placeholder="Upišite naziv artikla" value="{{ isset($product) ? $product->name : old('name') }}" onkeyup="SetSEOPreview()">
+                                @error('name')
+                                <span class="text-danger font-italic">Naziv je potreban...</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row items-push mb-3">
+                            <div class="col-md-3">
+                                <label for="quantity-input">Količina <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="quantity-input" name="quantity" placeholder="Upišite količinu artikla" value="{{ isset($product) ? $product->quantity : ( ! isset($product) ? 1 : old('quantity')) }}">
+                                @error('quantity ')
+                                <span class="text-danger font-italic">Količina je potrebna...</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="sku-input">Šifra <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="sku-input" name="sku" placeholder="Upišite šifru artikla" value="{{ isset($product) ? $product->sku : old('sku') }}">
+                                @error('sku')
+                                <span class="text-danger font-italic">Šifra je potrebna...</span>
+                                @enderror
+                                @error('sku_dupl')
+                                <span class="text-danger small font-italic">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-3">
+                                <label for="sku-input">EAN </label>
+                                <input type="text" class="form-control" id="ean-input" name="ean" placeholder="Upišite EAN" value="{{ isset($product) ? $product->ean : old('ean') }}">
+
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="price-input">Cijena <span class="text-danger">*</span> <span class="small text-gray">(S PDV-om)</span></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="price-input" name="price" placeholder="00.00" value="{{ isset($product) ? $product->price : old('price') }}">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">EUR</span>
+                                    </div>
+                                </div>
+                                @error('price')
+                                <span class="text-danger font-italic">Cijena je potrebna...</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{--                            @if( ! isset($product) && $active_actions->count())--}}
+                        {{--                                <div class="alert alert-secondary d-flex align-items-center justify-content-between" role="alert">--}}
+                        {{--                                    <div class="flex-fill mr-3">--}}
+                        {{--                                        <p class="mb-0">Upozorenje..! Postoje aktivne akcije u trgovini!</p>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="flex-00-auto">--}}
+                        {{--                                        <select class="js-select2 form-control" id="action-select" style="width: 100%;" data-placeholder="Odaberite akciju...">--}}
+                        {{--                                            <option></option>--}}
+                        {{--                                            @foreach ($active_actions as $action)--}}
+                        {{--                                                <option value="{{ $action->id }}">{{ $action->title }}</option>--}}
+                        {{--                                            @endforeach--}}
+                        {{--                                        </select>--}}
+                        {{--                                    </div>--}}
+                        {{--                                </div>--}}
+                        {{--                            @endif--}}
+
+                        <div class="form-group row items-push mb-3">
+                            <div class="col-md-3">
+                                <label for="special-input">Akcija</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="special-input" name="special" placeholder="00.00" value="{{ isset($product) ? $product->special : old('special') }}">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">EUR</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row items-push mb-3">
-                                <div class="col-md-4">
-                                    <label for="quantity-input">Količina <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="quantity-input" name="quantity" placeholder="Upišite količinu artikla" value="{{ isset($product) ? $product->quantity : ( ! isset($product) ? 1 : old('quantity')) }}">
-                                    @error('quantity ')
-                                    <span class="text-danger font-italic">Količina je potrebna...</span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="sku-input">Šifra <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="sku-input" name="sku" placeholder="Upišite šifru artikla" value="{{ isset($product) ? $product->sku : old('sku') }}">
-                                    @error('sku')
-                                    <span class="text-danger font-italic">Šifra je potrebna...</span>
-                                    @enderror
-                                    @error('sku_dupl')
-                                    <span class="text-danger small font-italic">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="price-input">Cijena <span class="text-danger">*</span> <span class="small text-gray">(S PDV-om)</span></label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="price-input" name="price" placeholder="00.00" value="{{ isset($product) ? $product->price : old('price') }}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">EUR</span>
-                                        </div>
+                            <div class="col-md-6">
+                                <label for="special-from-input">Akcija vrijedi</label>
+                                <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    <input type="text" class="form-control" id="special-from-input" name="special_from" placeholder="od" value="{{ (isset($product->special_from) && $product->special_from != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($product->special_from)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    <div class="input-group-prepend input-group-append">
+                                        <span class="input-group-text font-w600"><i class="fa fa-fw fa-arrow-right"></i></span>
                                     </div>
-                                    @error('price')
-                                    <span class="text-danger font-italic">Cijena je potrebna...</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-{{--                            @if( ! isset($product) && $active_actions->count())--}}
-{{--                                <div class="alert alert-secondary d-flex align-items-center justify-content-between" role="alert">--}}
-{{--                                    <div class="flex-fill mr-3">--}}
-{{--                                        <p class="mb-0">Upozorenje..! Postoje aktivne akcije u trgovini!</p>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="flex-00-auto">--}}
-{{--                                        <select class="js-select2 form-control" id="action-select" style="width: 100%;" data-placeholder="Odaberite akciju...">--}}
-{{--                                            <option></option>--}}
-{{--                                            @foreach ($active_actions as $action)--}}
-{{--                                                <option value="{{ $action->id }}">{{ $action->title }}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-
-                            <div class="form-group row items-push mb-3">
-                                <div class="col-md-3">
-                                    <label for="special-input">Akcija</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="special-input" name="special" placeholder="00.00" value="{{ isset($product) ? $product->special : old('special') }}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">EUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="special-from-input">Akcija vrijedi</label>
-                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="special-from-input" name="special_from" placeholder="od" value="{{ (isset($product->special_from) && $product->special_from != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($product->special_from)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <div class="input-group-prepend input-group-append">
-                                            <span class="input-group-text font-w600"><i class="fa fa-fw fa-arrow-right"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="do" value="{{ (isset($product->special_to) && $product->special_to != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($product->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <div class="input-group-append">
+                                    <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="do" value="{{ (isset($product->special_to) && $product->special_to != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($product->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    <div class="input-group-append">
                                             <span class="input-group-text" style="padding: 0.17rem 0.45rem;">
                                                 <button onclick="deleteAction({{ isset($product) ? $product->id : null }});" type="button" class="btn btn-sm" data-toggle="tooltip" title="Obriši samo akciju">
                                                     <i class="fa fa-trash-alt"></i>
                                                 </button>
                                             </span>
-                                        </div>
                                     </div>
-                                    <input type="hidden" id="action-id" name="action" value="{{ isset($product) ? $product->action_id : 0 }}">
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="price-input">Porez</label>
-                                    <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="Odaberite porez...">
-                                        <option></option>
-                                        @foreach ($data['taxes'] as $tax)
-                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <input type="hidden" id="action-id" name="action" value="{{ isset($product) ? $product->action_id : 0 }}">
                             </div>
-                            <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
-                            <!-- For more info and examples you can check out http://ckeditor.com -->
-                            <div class="form-group row mb-4">
+                            <div class="col-md-3">
+                                <label for="price-input">Porez</label>
+                                <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="Odaberite porez...">
+                                    <option></option>
+                                    @foreach ($data['taxes'] as $tax)
+                                        <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
+                        <!-- For more info and examples you can check out http://ckeditor.com -->
+                        <div class="form-group row mb-4">
+                            <div class="col-md-12">
+                                <label for="description-editor">Opis</label>
+                                <textarea id="description-editor" name="description">{!! isset($product) ? $product->description : old('description') !!}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row items-push mb-4">
+                            <div class="col-md-6">
+                                <label for="categories">Odaberi kategorije</label>
+                                <select class="form-control" id="category-select" name="category[]" style="width: 100%;" multiple>
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    @foreach ($data['categories'] as $group => $cats)
+                                        @foreach ($cats as $id => $category)
+                                            <option value="{{ $id }}" class="font-weight-bold small" {{ ((isset($product)) and (in_array($id, $product->categories()->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $category['title'] }}</option>
+                                            @if ( ! empty($category['subs']))
+                                                @foreach ($category['subs'] as $sub_id => $subcategory)
+                                                    <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ ((isset($product) && $product->subcategory()) and ($sub_id == $product->subcategory()->id)) ? 'selected' : '' }}>{{ $category['title'] . ' >> ' . $subcategory['title'] }}</option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                </select>
+                                {{--                                    <label for="dm-post-edit-slug">Kategorija <span class="text-danger">*</span></label>--}}
+                                {{--                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberite kategoriju">--}}
+                                {{--                                        <option></option>--}}
+                                {{--                                        @foreach ($data['categories'] as $group => $cats)--}}
+                                {{--                                            @foreach ($cats as $id => $category)--}}
+                                {{--                                                <option value="{{ $id }}" class="font-weight-bold small" {{ ((isset($product)) and (in_array($id, $product->categories()->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>--}}
+                                {{--                                                @if ( ! empty($category['subs']))--}}
+                                {{--                                                    @foreach ($category['subs'] as $sub_id => $subcategory)--}}
+                                {{--                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ ((isset($product) && $product->subcategory()) and ($sub_id == $product->subcategory()->id)) ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>--}}
+                                {{--                                                    @endforeach--}}
+                                {{--                                                @endif--}}
+                                {{--                                            @endforeach--}}
+                                {{--                                        @endforeach--}}
+                                {{--                                    </select>--}}
+                                @error('category')
+                                <span class="text-danger font-italic">Kategorija je potrebna...</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dm-post-edit-slug">Brand</label>
+                                @livewire('back.catalog.brand-search-input', ['brand_id' => isset($product) ? $product->brand_id : 0])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                 </div>
+                    </div>
+
+                    <div class="tab-pane" id="slike" role="tabpanel">
+                    <div class="block">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Slike</h3>
+                        </div>
+                        <div class="block-content block-content-full">
+                            <div class="row justify-content-center">
                                 <div class="col-md-12">
-                                    <label for="description-editor">Opis</label>
-                                    <textarea id="description-editor" name="description">{!! isset($product) ? $product->description : old('description') !!}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group row items-push mb-4">
-                                <div class="col-md-6">
-                                    <label for="categories">Odaberi kategorije</label>
-                                    <select class="form-control" id="category-select" name="category[]" style="width: 100%;" multiple>
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach ($data['categories'] as $group => $cats)
-                                            @foreach ($cats as $id => $category)
-                                                <option value="{{ $id }}" class="font-weight-bold small" {{ ((isset($product)) and (in_array($id, $product->categories()->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $category['title'] }}</option>
-                                                @if ( ! empty($category['subs']))
-                                                    @foreach ($category['subs'] as $sub_id => $subcategory)
-                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ ((isset($product) && $product->subcategory()) and ($sub_id == $product->subcategory()->id)) ? 'selected' : '' }}>{{ $category['title'] . ' >> ' . $subcategory['title'] }}</option>
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                    </select>
-{{--                                    <label for="dm-post-edit-slug">Kategorija <span class="text-danger">*</span></label>--}}
-{{--                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberite kategoriju">--}}
-{{--                                        <option></option>--}}
-{{--                                        @foreach ($data['categories'] as $group => $cats)--}}
-{{--                                            @foreach ($cats as $id => $category)--}}
-{{--                                                <option value="{{ $id }}" class="font-weight-bold small" {{ ((isset($product)) and (in_array($id, $product->categories()->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>--}}
-{{--                                                @if ( ! empty($category['subs']))--}}
-{{--                                                    @foreach ($category['subs'] as $sub_id => $subcategory)--}}
-{{--                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ ((isset($product) && $product->subcategory()) and ($sub_id == $product->subcategory()->id)) ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>--}}
-{{--                                                    @endforeach--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-                                    @error('category')
-                                    <span class="text-danger font-italic">Kategorija je potrebna...</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="dm-post-edit-slug">Brand</label>
-                                    @livewire('back.catalog.brand-search-input', ['brand_id' => isset($product) ? $product->brand_id : 0])
+                                    <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
+                                    <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
+        <!--                            <div class="dropzone">
+                                        <div class="dz-message" data-dz-message><span>Klikni ovdje ili dovuci slike za uplad</span></div>
+                                    </div>-->
+                                    @include('back.catalog.product.edit-photos')
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="block">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Slike</h3>
-                </div>
-                <div class="block-content block-content-full">
-                    <div class="row justify-content-center">
-                        <div class="col-md-10">
-                            <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
-                            <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
-<!--                            <div class="dropzone">
-                                <div class="dz-message" data-dz-message><span>Klikni ovdje ili dovuci slike za uplad</span></div>
-                            </div>-->
-                            @include('back.catalog.product.edit-photos')
-                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="block">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Meta Data - SEO</h3>
-                </div>
-                <div class="block-content">
-                    <div class="row justify-content-center">
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label for="meta-title-input">Meta naslov</label>
-                                <input type="text" class="js-maxlength form-control" id="meta-title-input" name="meta_title" value="{{ isset($product) ? $product->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
-                                <small class="form-text text-muted">
-                                    70 znakova max
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="meta-description-input">Meta opis</label>
-                                <textarea class="js-maxlength form-control" id="meta-description-input" name="meta_description" rows="4" maxlength="160" data-always-show="true" data-placement="top">{{ isset($product) ? $product->meta_description : old('meta_description') }}</textarea>
-                                <small class="form-text text-muted">
-                                    160 znakova max
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="slug-input">SEO link (url)</label>
-                                <input type="text" class="form-control" id="slug-input" value="{{ isset($product) ? $product->slug : old('slug') }}" disabled>
-                                <input type="hidden" name="slug" value="{{ isset($product) ? $product->slug : old('slug') }}">
+                    <div class="tab-pane" id="seo" role="tabpanel">
+                    <div class="block">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Meta Data - SEO</h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="row justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="meta-title-input">Meta naslov</label>
+                                        <input type="text" class="js-maxlength form-control" id="meta-title-input" name="meta_title" value="{{ isset($product) ? $product->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
+                                        <small class="form-text text-muted">
+                                            70 znakova max
+                                        </small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meta-description-input">Meta opis</label>
+                                        <textarea class="js-maxlength form-control" id="meta-description-input" name="meta_description" rows="4" maxlength="160" data-always-show="true" data-placement="top">{{ isset($product) ? $product->meta_description : old('meta_description') }}</textarea>
+                                        <small class="form-text text-muted">
+                                            160 znakova max
+                                        </small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="slug-input">SEO link (url)</label>
+                                        <input type="text" class="form-control" id="slug-input" value="{{ isset($product) ? $product->slug : old('slug') }}" disabled>
+                                        <input type="hidden" name="slug" value="{{ isset($product) ? $product->slug : old('slug') }}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-                </div>
+                    </div>
+
+                    <div class="tab-pane" id="atributi" role="tabpanel">
+                    <div class="block">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Atributi artikla</h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="row justify-content-center">
+                                <div class="col-md-12">
+                                    @livewire('back.catalog.product-attribute-table', ['items' => isset($product) ? $product->attributes()->get()->toArray() : []])
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                    </div>
+                    </div>
+
                 <div class="block-content bg-body-light">
                     <div class="row justify-content-center push">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <button type="submit" class="btn btn-hero-success my-2">
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
-                        <div class="col-md-5 text-right">
+                        <div class="col-md-6 text-right">
                             @if (isset($product))
                                 <a href="{{ route('products.destroy', ['product' => $product]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-product-form{{ $product->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
@@ -269,19 +322,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="block">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Atributi artikla</h3>
-                </div>
-                <div class="block-content">
-                    <div class="row justify-content-center">
-                        <div class="col-md-10">
-                            @livewire('back.catalog.product-attribute-table', ['items' => isset($product) ? $product->attributes()->get()->toArray() : []])
-                        </div>
-                    </div>
-                </div>
             </div>
         </form>
 
