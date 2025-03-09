@@ -7,7 +7,7 @@ use App\Models\Back\Marketing\Action;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Widget\WidgetGroup;
 use App\Models\Front\Blog;
-use App\Models\Front\Catalog\Author;
+use App\Models\Front\Catalog\Brand;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
 use Darryldecode\Cart\CartCondition;
@@ -96,12 +96,12 @@ class Helper
             $preg = explode(' ', $target, 3);
 
             if (isset ($preg[1]) && in_array($preg[1], $preg) && ! isset($preg[2])) {
-                $authors = Author::active()->where('title', 'like', '%' . $preg[0] . '%' . $preg[1] . '%')
+                $authors = Brand::active()->where('title', 'like', '%' . $preg[0] . '%' . $preg[1] . '%')
                                  ->orWhere('title', 'like', '%' . $preg[1] . '% ' . $preg[0] . '%')
                                  ->with('products')->get();
 
             } elseif (isset ($preg[2]) && in_array($preg[2], $preg)) {
-                $authors = Author::active()->where('title', 'like', $preg[0] . '%' . $preg[1] . '%' . $preg[2] . '%')
+                $authors = Brand::active()->where('title', 'like', $preg[0] . '%' . $preg[1] . '%' . $preg[2] . '%')
                                  ->orWhere('title', 'like', $preg[2] . '%' . $preg[1] . '% ' . $preg[0] . '%')
                                  ->orWhere('title', 'like', $preg[0] . '%' . $preg[2] . '% ' . $preg[1] . '%')
                                  ->orWhere('title', 'like', $preg[1] . '%' . $preg[0] . '% ' . $preg[2] . '%')
@@ -109,7 +109,7 @@ class Helper
                                  ->with('products')->get();
 
             } else {
-                $authors = Author::active()->where('title', 'like', '%' . $preg[0] . '%')
+                $authors = Brand::active()->where('title', 'like', '%' . $preg[0] . '%')
                                  ->with('products')->get();
             }
 
@@ -293,7 +293,7 @@ class Helper
                     'subtitle' => $widget->subtitle,
                     'color'    => $widget->badge,
                     'url'      => $widget->url,
-                    'image'    => $widget->thumb,
+                    'image'    => $widget->image,
                     'width'    => $widget->width,
                     'right'    => (isset($data['right']) && $data['right'] == 'on') ? 1 : null,
                 ];

@@ -1,41 +1,69 @@
 <!-- {"title": "Product Carousel", "description": "Some description of a Product Carousel."} -->
-<section class="container {{ $data['css'] }}" style="z-index: 10;">
-    @if ($data['container'])
-
-                <h2 class="h3 text-center">{{ $data['title'] }}</h2>
-        @if($data['subtitle'])  <p class="text-muted-light text-center ">{{ $data['subtitle'] }}</p> @endif
-                @if($data['url'] !='/')
-                    <p class=" text-center">  <a class="btn btn-primary btn-shadow " href="{{ url($data['url']) }}">Pogledajte ponudu <i class="ci-arrow-right "></i></a></p>
-                @endif
-
-                <div class="tns-carousel pt-4 pb-2">
-                    <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": true, "nav": true, "autoHeight": true, "responsive": {"0":{"items":2, "gutter": 10},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
-                    @foreach ($data['items'] as $product)
-                        <!-- Product-->
-                            <div>
-                                @include('front.catalog.category.product')
-                            </div>
-                        @endforeach
-                    </div>
-
-        </div>
-    @else
-        <div class="container">
-            <h2 class="text-center fw-bold pt-4 pt-sm-3">{{ $data['title'] }}</h2>
-            @if($data['subtitle'])  <p class="text-muted text-center mb-5">{{ $data['subtitle'] }}</p> @endif
+<section class="container pt-4 pb-5 mt-2 mt-sm-3 mt-lg-4">
+    <!-- Heading -->
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pb-md-4">
+        <h2 class="h4 mb-0 ">{{ $data['title'] }}</h2>
         @if($data['url'] !='/')
-            <p class=" text-center">  <a class="btn btn-primary btn-shadow " href="{{ url($data['url']) }}">Pogledajte ponudu <i class="ci-arrow-right "></i></a></p>
+            <div class="nav ms-3">
+                <a class="nav-link animate-underline px-0 py-2" href="{{ url($data['url']) }}">
+                    <span class="animate-target">Pogledajte sve</span>
+                    <i class="ci-chevron-right fs-base ms-1"></i>
+                </a>
+            </div>
         @endif
-        <div class="tns-carousel pt-4 mb-2">
-            <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": true, "nav": true, "autoHeight": true, "responsive": {"0":{"items":2, "gutter": 10},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":5, "gutter": 30}}}'>
-            @foreach ($data['items'] as $product)
-                <!-- Product-->
-                    <div>
+    </div>
+
+    <!-- Product carousel -->
+    <div class="position-relative pb-xxl-3">
+
+        <!-- External slider prev/next buttons visible on screens > 500px wide (sm breakpoint) -->
+        <button type="button" class="popular-prev btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start position-absolute top-50 start-0 z-2 translate-middle mt-n5 d-none d-sm-inline-flex" aria-label="Prev">
+            <i class="ci-chevron-left fs-lg animate-target"></i>
+        </button>
+        <button type="button" class="popular-next btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end position-absolute top-50 start-100 z-2 translate-middle mt-n5 d-none d-sm-inline-flex" aria-label="Next">
+            <i class="ci-chevron-right fs-lg animate-target"></i>
+        </button>
+
+        <!-- Slider -->
+        <div class="swiper pt-3 pt-sm-4" data-swiper='{
+            "slidesPerView": 2,
+            "spaceBetween": 40,
+            "loop": true,
+            "navigation": {
+              "prevEl": ".popular-prev",
+              "nextEl": ".popular-next"
+            },
+            "breakpoints": {
+              "768": {
+                "slidesPerView": 3
+              },
+              "992": {
+                "slidesPerView": 4
+              },
+              "1280": {
+                "slidesPerView": 5
+              }
+            }
+          }'>
+            <div class="swiper-wrapper">
+
+                @foreach ($data['items'] as $product)
+                    <!-- Product-->
+
                         @include('front.catalog.category.product')
-                    </div>
+
                 @endforeach
             </div>
         </div>
-        </div>
-    @endif
+    </div>
+
+    <!-- External slider prev/next buttons visible on screens < 500px wide (sm breakpoint) -->
+    <div class="d-flex justify-content-center gap-2 mt-1 pt-4 d-sm-none">
+        <button type="button" class="popular-prev btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start me-1" aria-label="Prev">
+            <i class="ci-chevron-left fs-lg animate-target"></i>
+        </button>
+        <button type="button" class="popular-next btn btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end" aria-label="Next">
+            <i class="ci-chevron-right fs-lg animate-target"></i>
+        </button>
+    </div>
 </section>

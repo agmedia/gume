@@ -272,7 +272,7 @@ class Product extends Model
      */
     public function author()
     {
-        return $this->hasOne(Author::class, 'id', 'author_id');
+        return $this->hasOne(Brand::class, 'id', 'author_id');
     }
 
 

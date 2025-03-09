@@ -24,7 +24,7 @@ return [
     'search_keyword'    => 'pojam',
     'brand_path'        => 'brand',
     'publisher_path'    => 'nakladnik',
-    'group_path'        => 'Kategorija proizvoda',
+    'group_path'        => 'webshop',
 
     'unknown_author'    => 3282,
     'unknown_publisher' => 376,

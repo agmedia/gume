@@ -1,31 +1,40 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="{{ config('app.locale') }}" data-bs-theme="light" data-pwa="false">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
     <title> @yield('title') </title>
     <!-- SEO Meta Tags-->
     <meta name="description" content="@yield('description')">
-
-    <meta name="author" content="Zuzi Shop">
+    <meta name="author" content="pneumax">
     @stack('meta_tags')
     <!-- Viewport-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/apple-touch-icon.png' }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-    <link rel="mask-icon" href="{{ config('settings.images_domain') . 'safari-pinned-tab.svg' }}" color="#e50077">
-    <meta name="msapplication-TileColor" content="#e50077">
-    <meta name="theme-color" content="#ffffff">
 
-    <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{{ asset(config('settings.images_domain') . 'css/theme.css?v=1.92') }}">
+    <link rel="icon" type="image/png" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon-96x96.png' }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.svg' }}" />
+    <link rel="shortcut icon" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.ico' }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'assets/app-icons/apple-touch-icon.png' }}" />
+    <link rel="manifest" href="{{ config('settings.images_domain') . '/manifest.json' }}" />
+    <!-- Theme switcher (color modes) -->
+    <script src="{{ config('settings.images_domain') . 'assets/js/theme-switcher.js' }}"></script>
+    <!-- Preloaded local web font (Inter) -->
+    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/fonts/inter-variable-latin.woff2' }}" as="font" type="font/woff2" crossorigin>
+    <!-- Font icons -->
+    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/icons/cartzilla-icons.woff2' }}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/icons/cartzilla-icons.min.css' }}">
+    <!-- Vendor styles -->
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/swiper/swiper-bundle.min.css' }}">
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/simplebar/dist/simplebar.min.css' }}">
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/choices.js/public/assets/styles/choices.min.css' }}">
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/glightbox/dist/css/glightbox.min.css' }}">
+    <!-- Bootstrap + Theme styles -->
+    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/css/theme.min.css' }}" as="style">
+    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/css/theme.rtl.min.css' }}" as="style">
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/css/theme.min.css' }}" id="theme-styles">
+
+
+
 
     @if (config('app.env') == 'production')
         @yield('google_data_layer')
@@ -76,7 +85,7 @@
 
 </head>
 <!-- Body-->
-<body class="bg-secondary">
+<body>
 
 @if (config('app.env') == 'production')
     <!-- Google Tag Manager (noscript) -->
@@ -86,75 +95,64 @@
 @endif
 
 
-<!-- Light topbar -->
-<div class="topbar topbar-light  bg-dark">
-    <div class="container">
 
-        <div class="topbar-text text-nowrap  d-inline-block">
-            <i class="ci-support"></i>
-            <span class=" me-1">Podrška</span>
-            <a class="topbar-link" href="tel:00385916047126">091 604 7126</a>
-        </div>
-        <div class="topbar-text  d-none  d-md-inline-block">Besplatna dostava za sve narudžbe iznad 70 €</div>
-        <div class="ms-3 text-nowrap ">
-            <a class="topbar-link me-2 d-inline-block" href="https://www.facebook.com/zuziobrt/">
-                <i class="ci-facebook"></i>
-            </a>
-
-            <a class="topbar-link me-2 d-inline-block" href="https://www.instagram.com/zuziobrt/">
-                <i class="ci-instagram"></i>
-            </a>
-
-            <a class="topbar-link me-0 d-inline-block" href="mailto:info@zuzi.hr">
-                <i class="ci-mail"></i>
-            </a>
-
-        </div>
-    </div>
-</div>
-
-<section class="spikes"></section>
 
 <div id="agapp">
     @include('front.layouts.partials.header')
+            <main class="content-wrapper">
 
-    @yield('content')
-    <section class="spikesw"></section>
+
+            @yield('content')
+
+
+            </main>
+
     @include('front.layouts.partials.footer')
 
-    @include('front.layouts.partials.handheld')
 </div>
 
-<!-- Back To Top Button-->
-<a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
-<!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-<link rel="stylesheet" media="screen" href="{{ asset(config('settings.images_domain') . 'css/tiny-slider.css?v=1.2') }}"/>
-<!-- Vendor scrits: js libraries and plugins-->
-<script src="{{ asset('js/jquery/jquery-2.1.1.min.js?v=1.2') }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js?v=1.2') }}"></script>
-<script src="{{ asset('js/tiny-slider.js?v=1.2') }}"></script>
-<script src="{{ asset('js/smooth-scroll.polyfills.min.js?v=1.2') }}"></script>
+<!-- Back to top button -->
+<div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
+    <a class="btn-scroll-top btn btn-sm bg-body border-0 rounded-pill shadow animate-slide-end" href="#top">
+        Vrh
+        <i class="ci-arrow-right fs-base ms-1 me-n1 animate-target"></i>
+        <span class="position-absolute top-0 start-0 w-100 h-100 border rounded-pill z-0"></span>
+        <svg class="position-absolute top-0 start-0 w-100 h-100 z-1" viewBox="0 0 62 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x=".75" y=".75" width="60.5" height="30.5" rx="15.25" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/>
+        </svg>
+    </a>
+</div>
 
 
-
-<script src="{{ asset('js/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
-<script src="{{ asset('js/shufflejs/dist/shuffle.min.js') }}"></script>
-<!-- Main theme script-->
-
+<!-- Vendor scripts -->
+<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/simplebar/dist/simplebar.min.js') }}"></script>
+<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/glightbox/dist/js/glightbox.min.js') }}"></script>
 <script src="{{ asset('js/cart.js?v=1.2') }}"></script>
 
-<script src="{{ asset('js/theme.min.js') }}"></script>
+<script src="https://kit.fontawesome.com/62acfcc394.js" crossorigin="anonymous"></script>
+<!-- Bootstrap + Theme scripts -->
 
-<script>
-    $(() => {
-        $('#search-input').on('keyup', (e) => {
-            if (e.keyCode == 13) {
-                e.preventDefault();
-                $('search-form').submit();
-            }
-        })
-    });
+<script type="text/javascript">
+    function ClickSpec()
+    {
+        document.getElementById("washing-tab").click();
+    }
+    function ClickReviews()
+    {
+        document.getElementById("reviews-tab").click();
+    }
 </script>
+
+<!-- Bootstrap + Theme scripts -->
+<script src="{{ asset(config('settings.images_domain') . 'assets/js/theme.min.js') }}"></script>
+
+
+
+
+
+
 
 @if (config('app.env') == 'production')
     <!-- Messenger Chat Plugin Code -->

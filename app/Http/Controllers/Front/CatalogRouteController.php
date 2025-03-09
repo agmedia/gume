@@ -7,14 +7,14 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Models\Front\Blog;
-use App\Models\Front\Catalog\Brand;
 use App\Models\Front\Page;
 use App\Models\Front\Faq;
-use App\Models\Front\Catalog\Author;
+use App\Models\Front\Catalog\Brand;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
 use App\Models\Seo;
+use App\Models\Back\Catalog\Product\ProductAttribute;
 use App\Models\TagManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -64,8 +64,11 @@ class CatalogRouteController extends Controller
             $bc = new Breadcrumb();
             $crumbs = $bc->product($group, $cat, $subcat, $prod)->resolve();
             $bookscheme = $bc->productBookSchema($prod);
+            $attribute = ProductAttribute::query()->with('attribute')->where('product_id', $prod->id )->get();
 
-            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs', 'bookscheme', 'gdl'));
+
+
+            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs', 'bookscheme', 'gdl','attribute'));
         }
 
         // If only group...

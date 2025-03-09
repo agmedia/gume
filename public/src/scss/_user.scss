@@ -1,0 +1,14 @@
+// _user.scss
+// Use this file to write your custom SCSS
+[data-bs-theme="dark"] .display-light {
+  display: none;
+}
+[data-bs-theme="dark"] .display-dark {
+  display: block;
+}
+[data-bs-theme="light"] .display-dark {
+  display: none;
+}
+[data-bs-theme="light"] .display-light {
+  display: block;
+}

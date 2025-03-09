@@ -1,105 +1,156 @@
-<!-- Footer-->
-<footer class="bg-dark pt-sm-5"  style="background-image: url({{ config('settings.images_domain') . 'media/img/zuzi-bck.svg' }});background-repeat: repeat-x;background-position-y: bottom;">
-
-    <div class="container pt-2 pb-3">
-        <div class="row">
-            <div class="col-md-3  text-center text-md-start mb-4">
-
-                <h3 class="widget-title fw-700 d-none d-md-block text-white"><span>Knjižara</span></h3>
-                <p class=" text-white  fs-md pb-1 d-none d-sm-block">
-
-                    <strong>Adresa</strong><br>Antuna Šoljana 33, 10000 Zagreb</p>
+<footer class="footer position-relative bg-dark border-top">
+    <span class="position-absolute top-0 start-0 w-100 h-100 bg-body d-none d-block-dark"></span>
+    <div class="container position-relative z-1 pt-sm-2 pt-md-3 pt-lg-4" data-bs-theme="dark">
 
 
-                <p class=" text-white  fs-md pb-1 d-none d-sm-block">  <strong>Broj telefona</strong><br>
-                    091 604 7126</p>
 
-                <p class=" text-white  fs-md pb-1 d-none d-sm-block">  <strong>Radno vrijeme</strong><br>
-                    Pon-Pet: 8-20<br>
-                    Sub: 9-15
+        <!-- Columns with links that are turned into accordion on screens < 500px wide (sm breakpoint) -->
+        <div class="accordion py-5" id="footerLinks">
+            <div class="row">
+                <div class="col-md-4 d-sm-flex flex-md-column align-items-center align-items-md-start pb-3 mb-sm-4">
+                    <h4 class="mb-sm-0 mb-md-4 me-4">
+                        <a class="text-dark-emphasis text-decoration-none" href="{{ route('index') }}"><img style="max-width:180px" src="{{ asset('assets/images/pneu-max.svg') }}" alt ="PNEU-MAX | Auto gume i ugradnja"/></a>
 
-                </p>
 
+                    </h4>
+                    <p class="text-body fs-lg text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4"><span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="tel:+38515613930">+385 1 561 3930</a></span></p>
+                    <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">
+                        <strong>Adresa</strong> <br>Severinska 4
+                        10000 Zagreb </p>
+                    <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">
+                        <strong> Radno vrijeme</strong><br>
+                        Ponedjeljak - petak: 08:00 - 18:00<br>
+                        Subota: 08:00 - 13:00
+                    </p>
 
-                <div class="widget mt-4 text-md-nowrap text-center text-sm-start">
-                    <a class="btn-social bs-light bg-primary bs-instagram me-2 mb-2" href="https://www.instagram.com/zuziobrt/"><i class="ci-instagram"></i></a>
-                    <a class="btn-social bs-light bg-primary bs-facebook me-2 mb-2" href="https://www.facebook.com/zuziobrt/"><i class="ci-facebook"></i></a>
+                    <div class="d-flex gap-3 mt-2">
+                        <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Instagram">
+                            <i class="ci-instagram fs-base"></i>
+                        </a>
+                        <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Facebook">
+                            <i class="ci-facebook fs-base"></i>
+                        </a>
+                        <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="YouTube">
+                            <i class="ci-youtube fs-base"></i>
+                        </a>
+                        <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Telegram">
+                            <i class="ci-telegram fs-base"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <!-- Mobile dropdown menu (visible on screens below md)-->
-            <div class="col-12 d-md-none text-center mb-sm-4 pb-2">
-                <div class="btn-group dropdown d-block mx-auto mb-3">
-                    <button class="btn btn-outline-light border-light dropdown-toggle" type="button" data-bs-toggle="dropdown">Uvjeti kupnje</button>
-                    <ul class="dropdown-menu my-1">
-                        @foreach ($uvjeti_kupnje as $page)
-                            <li><a class="dropdown-item" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+                <div class="col-md-8">
+                    <div class="row row-cols-1 row-cols-sm-3 gx-3 gx-md-4">
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="companyHeading">
+                                <span class="text-dark-emphasis d-none d-sm-block">Informacije</span>
+                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#companyLinks" aria-expanded="false" aria-controls="companyLinks">Informacije</button>
+                            </h6>
+                            <div class="accordion-collapse collapse d-sm-block" id="companyLinks" aria-labelledby="companyHeading" data-bs-parent="#footerLinks">
+                                <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">O nama</a>
+                                    </li>
 
-            <!-- Desktop menu (visible on screens above md)-->
-            <div class="col-md-3 d-none d-md-block text-center text-md-start mb-4">
-                <div class="widget widget-links widget-light pb-2">
-                    <h3 class="widget-title fw-700 text-white"><span>Zuzi Shop</span></h3>
-                    <ul class="widget-list">
-
-                        <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route', ['group' => \App\Helpers\Helper::categoryGroupPath(true)]) }}">Web shop</a></li>
-
-
-                        <li class="widget-list-item"><a class="widget-list-link" href="https://www.zuzi.hr/kategorije-proizvoda/svezalice-pidzame-za-knjige">Svezalice - pidžame za knjige</a>
-                        <li class="widget-list-item"><a class="widget-list-link" href="https://www.zuzi.hr/akcijska-ponuda">Akcije</a>
-                        <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route', ['group' => \App\Helpers\Helper::categoryGroupPath(true) . '/outlet']) }}">Outlet</a>
-
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Desktop menu (visible on screens above md)-->
-            <div class="col-md-3 d-none d-md-block text-center text-md-start mb-4">
-                <div class="widget widget-links widget-light pb-2">
-                    <h3 class="widget-title fw-700 text-white"><span>Uvjeti kupnje</span></h3>
-                    <ul class="widget-list">
-                        @foreach ($uvjeti_kupnje as $page)
-                            <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3 d-none d-md-block text-center text-md-start mb-4">
-                <div class="widget widget-links widget-light pb-2">
-                    <h3 class="widget-title fw-700 text-white"><span>Načini plaćanja</span></h3>
-                    <ul class="widget-list  ">
-                        <li class="widget-list-item"><a href="https://www.zuzi.hr/info/nacini-placanja" class="widget-list-link" > kreditnom karticom jednokratno ili na rate</a></li>
-                        <li class="widget-list-item"><a href="https://www.zuzi.hr/info/nacini-placanja" class="widget-list-link" > virmanom / općom uplatnicom / internet bankarstvom</a></li>
-                        <li class="widget-list-item"><a href="https://www.zuzi.hr/info/nacini-placanja" class="widget-list-link" >gotovinom prilikom pouzeća</a></li>
-
-                        <li class="widget-list-item"><a href="https://www.zuzi.hr/info/nacini-placanja" class="widget-list-link" >osobno preuzimanje i plaćanje u antikvarijatu</a></li>
-                    </ul>
-
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Montažni partneri</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Česta pitanja</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Kontaktirajte nas</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Novosti</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="d-sm-none my-0">
+                        </div>
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="accountHeading">
+                                <span class="text-dark-emphasis d-none d-sm-block">Uvjeti kupnje</span>
+                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#accountLinks" aria-expanded="false" aria-controls="accountLinks">Uvjeti kupnje</button>
+                            </h6>
+                            <div class="accordion-collapse collapse d-sm-block" id="accountLinks" aria-labelledby="accountHeading" data-bs-parent="#footerLinks">
+                                <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Uvjeti korištenja</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Dostava robe</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Jamstveni list</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Zaštita podataka</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Kolačići i privatnost</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Uvjeti povrata</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="d-sm-none my-0">
+                        </div>
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="customerHeading">
+                                <span class="text-dark-emphasis d-none d-sm-block">Web shop</span>
+                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#customerLinks" aria-expanded="false" aria-controls="customerLinks">Web shop</button>
+                            </h6>
+                            <div class="accordion-collapse collapse d-sm-block" id="customerLinks" aria-labelledby="customerHeading" data-bs-parent="#footerLinks">
+                                <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Auto gume</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Naplatci / Felge</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Moto gume</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Scooter gume</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Hotel za gume - B2C</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Dodatna oprema</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="d-sm-none my-0">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Second row-->
-    <div class="pt-0 ">
+
+        <!-- Category / tag links -->
 
 
-        <div class="container">
-
-
-
-            <div class="d-md-flex justify-content-between pt-2">
-                <div class="pb-4 fs-sm text-light  text-center text-md-start">© 2023. Sva prava pridržana Zuzi. Web by <a class="text-light" title="Izrada web shopa - B2C ili B2B web trgovina - AG media" href="https://www.agmedia.hr/usluge/izrada-web-shopa/" target="_blank" rel="noopener">AG media</a></div>
-                <div class="widget widget-links widget-light pb-4 text-center text-md-end">
-                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ config('settings.images_domain') }}media/cards/visa.svg" width="55" height="35" alt="Visa"/>
-                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ config('settings.images_domain') }}media/cards/maestro.svg" width="55" height="35" alt="Maestro"/>
-                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ config('settings.images_domain') }}media/cards/mastercard.svg" width="55" height="35" alt="MasterCard"/>
-                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ config('settings.images_domain') }}media/cards/diners.svg" width="55" height="35" alt="Diners"/>
-
-
+        <!-- Copyright + Payment methods -->
+        <div class="d-md-flex align-items-center border-top py-4">
+            <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
+                <div>
+                    <img src="{{ asset('assets/img/payment-methods/visa-dark-mode.svg') }}" alt="Visa">
                 </div>
+                <div>
+                    <img src="{{ asset('assets/img/payment-methods/mastercard.svg') }}" alt="Mastercard">
+                </div>
+                <div>
+                    <img src="{{ asset('assets/img/payment-methods/maestro.svg') }}" alt="Maestro">
+                </div>
+                <div>
+                    <img src="{{ asset('assets/img/payment-methods/amex.svg') }}" alt="Amex">
+                </div>
+
             </div>
+            <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; Sva prava pridržana. Web by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://www.agmedia.hr" target="_blank" rel="noreferrer">AG media</a></span></p>
         </div>
     </div>
 </footer>

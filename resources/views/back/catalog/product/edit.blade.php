@@ -55,7 +55,7 @@
                 </div>
                 <div class="block-content">
                     <div class="row justify-content-center push">
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <div class="form-group row items-push mb-3">
                                 <div class="col-md-12">
                                     <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>

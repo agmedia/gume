@@ -2073,6 +2073,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -2159,6 +2175,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
 //
 //
 //
@@ -5781,43 +5799,47 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "cart d-flex flex-wrap align-items-center pt-2 pb-2 mb-3" },
-    [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.quantity,
-            expression: "quantity"
-          }
-        ],
-        staticClass: "form-control me-3 mb-1",
-        staticStyle: { width: "5rem" },
-        attrs: {
-          type: "number",
-          inputmode: "numeric",
-          pattern: "[0-9]*",
-          min: "1",
-          max: _vm.available
-        },
-        domProps: { value: _vm.quantity },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+  return _c("div", { staticClass: "cart" }, [
+    _c("div", { staticClass: " d-flex gap-3 pb-2 pb-lg-2 mb-0" }, [
+      _c("div", { staticClass: "count-input flex-shrink-0" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.quantity,
+              expression: "quantity"
             }
-            _vm.quantity = $event.target.value
+          ],
+          staticClass: "form-control form-control-lg",
+          attrs: {
+            type: "number",
+            inputmode: "numeric",
+            pattern: "[0-9]*",
+            min: "1",
+            max: _vm.available,
+            readonly: ""
+          },
+          domProps: { value: _vm.quantity },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.quantity = $event.target.value
+            }
           }
-        }
-      }),
+        }),
+        _vm._v(" "),
+        _vm._m(1)
+      ]),
       _vm._v(" "),
       _c(
         "button",
         {
-          staticClass: "btn btn-primary btn-shadow me-3 mb-1 ",
+          staticClass: "btn btn-lg btn-dark w-100",
           attrs: { disabled: _vm.disabled },
           on: {
             click: function($event) {
@@ -5825,27 +5847,58 @@ var render = function() {
             }
           }
         },
-        [_c("i", { staticClass: "ci-cart" }), _vm._v(" Dodaj u Košaricu")]
-      ),
-      _vm._v(" "),
-      _vm.has_in_cart
-        ? _c(
-            "p",
-            {
-              staticClass: "fs-md fw-light text-danger",
-              staticStyle: { width: "100%" }
-            },
-            [
-              _vm._v(
-                "Imate " + _vm._s(_vm.has_in_cart) + " artikala u košarici."
-              )
-            ]
-          )
-        : _vm._e()
-    ]
-  )
+        [_vm._v("Dodaj u košaricu")]
+      )
+    ]),
+    _vm._v(" "),
+    _vm.has_in_cart
+      ? _c(
+          "p",
+          {
+            staticClass: "fs-md fw-light text-danger",
+            staticStyle: { width: "100%" }
+          },
+          [_vm._v("Imate " + _vm._s(_vm.has_in_cart) + " artikala u košarici.")]
+        )
+      : _vm._e()
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-icon btn-lg",
+        attrs: {
+          type: "button",
+          "data-decrement": "",
+          "aria-label": "Decrement quantity"
+        }
+      },
+      [_c("i", { staticClass: "ci-minus" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-icon btn-lg",
+        attrs: {
+          type: "button",
+          "data-increment": "",
+          "aria-label": "Increment quantity"
+        }
+      },
+      [_c("i", { staticClass: "ci-plus" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -5871,7 +5924,8 @@ var render = function() {
   return _c(
     "button",
     {
-      staticClass: "btn btn-primary btn-shadow btn-sm",
+      staticClass:
+        "product-card-button btn btn-icon btn-primary animate-slide-end ms-2",
       attrs: { disabled: _vm.disabled, type: "button" },
       on: {
         click: function($event) {
@@ -5879,7 +5933,7 @@ var render = function() {
         }
       }
     },
-    [_vm._v("+"), _c("i", { staticClass: "ci-cart fs-base ms-1" })]
+    [_c("i", { staticClass: "ci-shopping-cart fs-base animate-target" })]
   )
 }
 var staticRenderFns = []

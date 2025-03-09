@@ -1,6 +1,8 @@
 <template>
-    <button class="btn btn-primary btn-shadow btn-sm" :disabled="disabled" @click="add()" type="button">+<i class="ci-cart fs-base ms-1"></i></button>
+    <button class="product-card-button btn btn-icon btn-primary animate-slide-end ms-2" :disabled="disabled" @click="add()" type="button"><i class="ci-shopping-cart fs-base animate-target"></i></button>
 </template>
+
+
 
 <script>
 export default {

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-        <title>Zuzi shop</title>
+        <title>PNEUMAX</title>
 
         <meta name="description" content="Zuzi shop">
         <meta name="author" content="pixelcave">
@@ -14,15 +14,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Favicon and Touch Icons-->
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/apple-touch-icon.png' }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-        <link rel="mask-icon" href="{{ config('settings.images_domain') . 'safari-pinned-tab.svg' }}" color="#e50077">
-        <meta name="msapplication-TileColor" content="#e50077">
-        <meta name="theme-color" content="#ffffff">
+        <link rel="icon" type="image/png" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon-96x96.png' }}" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.svg' }}" />
+        <link rel="shortcut icon" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.ico' }}" />
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'assets/app-icons/apple-touch-icon.png' }}" />
+        <link rel="manifest" href="{{ config('settings.images_domain') . '/manifest.json' }}" />
 
         <!-- Fonts and Styles -->
         @stack('css_before')
@@ -62,7 +58,7 @@
                             Crafted with <i class="fa fa-heart text-danger"></i> by <a class="font-w600" href="https://www.agmedia.hr" target="_blank">AG media</a>
                         </div>
                         <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                            <a class="font-w600" href="https://www.zuzi.hr" target="_blank">Zuzi Shop</a> &copy; <span data-toggle="year-copy"></span>
+                            <a class="font-w600" href="https://www.zuzi.hr" target="_blank">PNEUMAX</a> &copy; <span data-toggle="year-copy"></span>
                         </div>
                     </div>
                 </div>
