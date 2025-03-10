@@ -47,27 +47,29 @@
 
     @else
 
-        <div class=" bg-dark pt-4 pb-3" style="background-image: url({{ config('settings.images_domain') . 'media/img/zuzi-bck.svg' }});background-repeat: repeat-x;background-position-y: bottom;">
-            <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
-                <div class="order-lg-2 mb-1 mb-lg-0 pt-lg-2">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $page->title }}</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h2 text-light">{{ $page->title }}</h1>
-                </div>
-            </div>
-        </div>
+        <main class="content-wrapper">
+            <div class="container py-5 pt-0 mb-2 mt-n2 mt-sm-1 my-md-3 my-lg-4 mb-xl-5">
 
-        <div class="container">
-            <div class="mt-5 mb-5">
-                {!! $page->description !!}
+                <div class="row justify-content-center">
+                    <div class="col-lg-11 col-xl-10 col-xxl-9">
+                        <nav class="pt-0 my-3  mt-1" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovnica</a></li>
+
+                                <li class="breadcrumb-item active" aria-current="page">{{ $page->title }}</li>
+                            </ol>
+                        </nav>
+                        <h1 class="h2 pb-2 pb-sm-3 pb-lg-4">{{ $page->title }}</h1>
+                        <hr class="mt-0">
+                        {!! $page->description !!}
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
+
+
+
+
 
     @endif
 
