@@ -12,14 +12,14 @@
 
         <div class="hero-static col-sm-10 col-md-8 col-xl-4 d-flex align-items-center p-2 px-sm-0">
             <!-- Sign In Block -->
-            <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" >
+            <div class="block block-rounded block-transparent  w-100 mb-0 overflow-hidden bg-image" >
                 <div class="row no-gutters">
                     <div class="col-md-12 order-md-1 bg-white">
                         <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
                             <!-- Header -->
                             <div class="mb-2 text-center">
                                 <a class="link-fx font-w700 font-size-h2" href="{{ route('index') }}">
-                                    <span class="text-dark">ZUZI</span> <span class="text-primary">SHOP</span>
+                                    <img src="{{ asset('assets/images/pneu-max-light.svg') }}"  style="max-width:200px" alt ="PNEU-MAX | Auto gume i ugradnja" class="display-light"/>
                                 </a>
                                 <p class="text-uppercase font-w700 font-size-sm text-muted">PRIJAVA</p>
                             </div>

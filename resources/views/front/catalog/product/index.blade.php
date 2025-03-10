@@ -43,7 +43,7 @@
 @endif
 @section('content')
     <!-- Page content -->
-    <main class="content-wrapper">
+
         <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
             <!-- Breadcrumb -->
             <nav class="position-relative  my-3 ms-3" aria-label="breadcrumb" style="z-index: 1021">
@@ -211,11 +211,11 @@
                             Opis <span class="d-none d-md-inline">&nbsp;artikla</span>
                         </button>
                     </li>
-                    <li class="nav-item me-md-1" role="presentation">
+                 <!--   <li class="nav-item me-md-1" role="presentation">
                         <button type="button" class="nav-link" id="washing-tab" data-bs-toggle="tab" data-bs-target="#washing-tab-pane" role="tab" aria-controls="washing-tab-pane" aria-selected="false">
                             Specifikacije
                         </button>
-                    </li>
+                    </li>-->
                     <li class="nav-item me-md-1" role="presentation">
                         <button type="button" class="nav-link" id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery-tab-pane" role="tab" aria-controls="delivery-tab-pane" aria-selected="false">
                             Montaža<span class="d-none d-md-inline">&nbsp;i dostava</span>
@@ -253,9 +253,9 @@
                                             </tbody>
                                         </table>
 
-                                        <div onclick="ClickSpec()" style="cursor:pointer;">
+                                     <!--   <div onclick="ClickSpec()" style="cursor:pointer;">
                                             <p class="fs-sm fw-normal mb-0"> <u>Pogledajte detaljnije specifikacije</u></p>
-                                        </div>
+                                        </div> -->
 
                                     </div>
                                     <!-- Dark table with striped rows -->
@@ -264,12 +264,12 @@
                         </div>
                     </div>
 
-                    <!-- Washing instructions tab -->
-                    <div class="tab-pane fade fs-sm" id="washing-tab-pane" role="tabpanel" aria-labelledby="washing-tab">
+                    <!-- additional spec -->
+                <!--    <div class="tab-pane fade fs-sm" id="washing-tab-pane" role="tabpanel" aria-labelledby="washing-tab">
 
                         <div class="row row-cols-1 row-cols-md-2">
                             <div class="col mb-3 mb-md-0">
-                                <!-- Table with striped rows -->
+
                                 <div class="table-responsive">
                                     <table class="table table-striped fs-sm">
 
@@ -310,10 +310,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- Dark table with striped rows -->
+
                             </div>
                             <div class="col">
-                                <!-- Table with striped rows -->
+
                                 <div class="table-responsive">
                                     <table class="table table-striped fs-sm">
 
@@ -354,12 +354,12 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- Dark table with striped rows -->
+
 
 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Delivery and returns tab -->
                     <div class="tab-pane fade fs-sm" id="delivery-tab-pane" role="tabpanel" aria-labelledby="delivery-tab">
@@ -616,7 +616,7 @@
             </section>
 
         </div>
-    </main>
+
 
 
 

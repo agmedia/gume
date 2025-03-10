@@ -73,7 +73,7 @@
                             <!-- Header -->
                             <div class="mb-2 text-center">
                                 <a class="link-fx text-success font-w700 font-size-h1" href="{{ route('index') }}">
-                                    <span class="text-dark">Zuzi</span> <span class="text-primary">Shop</span>
+                                    <img src="{{ asset('assets/images/pneu-max-light.svg') }}"  style="max-width:200px" alt ="PNEU-MAX | Auto gume i ugradnja" class="display-light"/>
                                 </a>
                                 <p class="text-uppercase font-w700 font-size-sm text-muted">Napravite korisnički račun</p>
                             </div>

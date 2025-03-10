@@ -13,7 +13,7 @@
                             <!-- Header -->
                             <div class="mb-2 text-center">
                                 <a class="link-fx font-w700 font-size-h2" href="{{ route('index') }}">
-                                    <span class="text-dark">Antikvarijat</span> <span class="text-primary">Biblos</span>
+                                    <img src="{{ asset('assets/images/pneu-max-light.svg') }}"  style="max-width:200px" alt ="PNEU-MAX | Auto gume i ugradnja" class="display-light"/>
                                 </a>
                                 <p class="text-uppercase font-w700 font-size-sm text-muted">Reset lozinke</p>
                             </div>

@@ -34,135 +34,72 @@
 
 @section('content')
 
-    <!-- Page Title-->
-    <div class="page-title bg-dark pt-4 pb-4 mb-0" style="background-image: url({{ config('settings.images_domain') . 'media/img/zuzi-bck.svg' }});background-repeat: repeat-x;background-position-y: bottom;">
-        <div class="container d-lg-block justify-content-start py-2 py-lg-3">
+    <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
+        @if (isset($group) && $group)
+        <!-- Breadcrumb -->
+        <nav class="position-relative  my-3 " aria-label="breadcrumb" style="z-index: 1021">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovnica</a></li>
 
-            @if (isset($group) && $group)
-                <div class="order-lg-2 mb-3 mb-lg-0 pb-lg-2">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center ">
-                            <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                            @if ($group && ! $cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ \Illuminate\Support\Str::ucfirst($group) }}</li>
-                            @elseif ($group && $cat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group]) }}">{{ \Illuminate\Support\Str::ucfirst($group) }}</a></li>
-                            @endif
-                            @if ($cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $cat->title }}</li>
-                            @elseif ($cat && $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $subcat->title }}</li>
-                            @endif
-                        </ol>
-                    </nav>
-                </div>
-                <div class="order-lg-1 pe-lg-4 text-center ">
-                    @if ($group && ! $cat && ! $subcat)
-                        <h1 class="h3 text-light mb-0">{{ \Illuminate\Support\Str::ucfirst($group) }}</h1>
-                    @endif
-                    @if ($cat && ! $subcat)
-                        <h1 class="h3 text-light mb-0">{{ $cat->title }}</h1>
-                    @elseif ($cat && $subcat)
-                        <h1 class="h3 text-light mb-0">{{ $subcat->title }}</h1>
-                    @endif
+                @if ($group && ! $cat && ! $subcat)
+                    <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::ucfirst($group) }}</li>
+                @elseif ($group && $cat)
+                    <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group]) }}">{{ \Illuminate\Support\Str::ucfirst($group) }}</a></li>
+                @endif
+                @if ($cat && ! $subcat)
+                    <li class="breadcrumb-item" aria-current="page">{{ $cat->title }}</li>
+                @elseif ($cat && $subcat)
+                    <li class="breadcrumb-iteme" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
+                    <li class="breadcrumb-item" aria-current="page">{{ $subcat->title }}</li>
+                @endif
+            </ol>
+        </nav>
+        <!-- Page title -->
+            @if ($group && ! $cat && ! $subcat)
+                <h1 class="h3 position-relative pb-0" style="z-index: 1021">{{ \Illuminate\Support\Str::ucfirst($group) }}</h1>
 
-                </div>
+            @endif
+            @if ($cat && ! $subcat)
+                <h1 class="h3 position-relative pb-0" style="z-index: 1021">{{ $cat->title }}</h1>
+
+            @elseif ($cat && $subcat)
+                <h1 class="h3 position-relative pb-0" style="z-index: 1021">{{ $subcat->title }}</h1>
 
             @endif
 
-            @if (Route::currentRouteName() == 'pretrazi')
-                <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0"><span class="small fw-light me-2">Rezultati za:</span> {{ request()->input('pojam') }}</h1>
-                </div>
-            @endif
+        @endif
 
-            @if (isset($brand) && $brand)
-                <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center ">
-                            <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand') }}">Autori</a></li>
-                            @if ( ! $cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $brand->title }}</li>
-                            @endif
-                            @if ($cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand', ['brand' => $brand]) }}">{{ $brand->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $cat->title }}</li>
-                            @elseif ($cat && $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand', ['brand' => $brand]) }}">{{ $brand->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.brand', ['brand' => $brand, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $subcat->title }}</li>
-                            @endif
-                        </ol>
-                    </nav>
-                </div>
-                <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">{{ $brand->title }}</h1>
-                </div>
-            @endif
 
-            @if (isset($publisher) && $publisher)
-                <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                            <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.publisher') }}">Nakladnici</a></li>
-                            @if ( ! $cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $publisher->title }}</li>
-                            @endif
-                            @if ($cat && ! $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.publisher', ['publisher' => $publisher]) }}">{{ $publisher->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $cat->title }}</li>
-                            @elseif ($cat && $subcat)
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.publisher', ['publisher' => $publisher]) }}">{{ $publisher->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route.publisher', ['publisher' => $publisher, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $subcat->title }}</li>
-                            @endif
-                        </ol>
-                    </nav>
-                </div>
-                <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">{{ $publisher->title }}</h1>
-                </div>
-            @endif
 
-        </div>
 
-    </div>
-    <section class="spikesg" ></section>
-    <div class="container pb-4 mb-2 mb-md-4 mt-4" id="filter-app" v-cloak>
-        <div class="row">
-            <filter-view ids="{{ isset($ids) ? $ids : null }}"
-                         group="{{ isset($group) ? $group : null }}"
-                         cat="{{ isset($cat) ? $cat : null }}"
-                         subcat="{{ isset($subcat) ? $subcat : null }}"
-                         brand="{{ isset($brand) ? $brand['slug'] : null }}"
-                         publisher="{{ isset($publisher) ? $publisher['slug'] : null }}">
-            </filter-view>
+        <!-- Product grid -->
+
+
+
             <products-view ids="{{ isset($ids) ? $ids : null }}"
                            group="{{ isset($group) ? $group : null }}"
                            cat="{{ isset($cat) ? $cat['id'] : null }}"
                            subcat="{{ isset($subcat) ? $subcat['id'] : null }}"
-                           brand="{{ isset($brand) ? $brand['slug'] : null }}"
-                           publisher="{{ isset($publisher) ? $publisher['slug'] : null }}">
+                           brand="{{ isset($brand) ? $brand['slug'] : null }}">
             </products-view>
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
-    @if (isset($brand) && $brand && ! empty($brand->description))
-        <div class="container pb-4 mb-2 mb-md-4" >
-            {!! $brand->description !!}
-        </div>
-    @endif
 
-    <div class="container pb-4 mb-2 mb-md-4" >
-        @if ($cat && ! $subcat)
-            {!! $cat->description !!}
-        @elseif ($subcat && ! $subcat)
-            {!! $cat->description !!}
-        @endif
-    </div>
+
 
 @endsection
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>Zuzi shop</title>
+    <title>PNEU-MAX</title>
 
     <meta name="description" content="Zuzi shop">
     <meta name="author" content="pixelcave">
@@ -14,13 +14,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/apple-touch-icon.png' }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-    <link rel="mask-icon" href="{{ config('settings.images_domain') . 'safari-pinned-tab.svg' }}" color="#e50077">
+
+    <link rel="icon" type="image/png" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon-96x96.png' }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.svg' }}" />
+    <link rel="shortcut icon" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.ico' }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'assets/app-icons/apple-touch-icon.png' }}" />
+    <link rel="manifest" href="{{ config('settings.images_domain') . '/manifest.json' }}" />
 
     <!-- Fonts and Styles -->
     @stack('css_before')
