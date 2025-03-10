@@ -3662,18 +3662,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'ProductsList',
@@ -7885,46 +7873,6 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "col-md-12 d-flex justify-content-center mt-4" },
-            [
-              _c("p", { staticClass: "fs-sm" }, [
-                _vm._v("Prikazano\n                "),
-                _c("span", { staticClass: "font-weight-bolder mx-1" }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.products.from
-                        ? Number(_vm.products.from).toLocaleString("hr-HR")
-                        : 0
-                    )
-                  )
-                ]),
-                _vm._v(" do\n                "),
-                _c("span", { staticClass: "font-weight-bolder mx-1" }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.products.to
-                        ? Number(_vm.products.to).toLocaleString("hr-HR")
-                        : 0
-                    )
-                  )
-                ]),
-                _vm._v(" od\n                "),
-                _c("span", { staticClass: "font-weight-bold mx-1" }, [
-                  _vm._v(
-                    _vm._s(
-                      _vm.products.total
-                        ? Number(_vm.products.total).toLocaleString("hr-HR")
-                        : 0
-                    )
-                  )
-                ]),
-                _vm._v(" " + _vm._s(_vm.hr_total) + "\n            ")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
             {
               staticClass:
                 "text-center pt-5 mt-md-2 mt-lg-3 mt-xl-4 mb-xxl-3 mx-auto",
@@ -7939,13 +7887,23 @@ var render = function() {
                         ? Number(_vm.products.from).toLocaleString("hr-HR")
                         : 0
                     ) +
-                    " od 225 artikala"
+                    " do " +
+                    _vm._s(
+                      _vm.products.to
+                        ? Number(_vm.products.to).toLocaleString("hr-HR")
+                        : 0
+                    ) +
+                    " od " +
+                    _vm._s(
+                      _vm.products.total
+                        ? Number(_vm.products.total).toLocaleString("hr-HR")
+                        : 0
+                    ) +
+                    " artikala"
                 )
               ]),
               _vm._v(" "),
-              _vm._m(3),
-              _vm._v(" "),
-              _vm._m(4)
+              _vm._m(3)
             ]
           )
         ],
@@ -7953,7 +7911,7 @@ var render = function() {
       )
     : _c("div", [
         !_vm.products_loaded
-          ? _c("div", { staticClass: "row" }, [_vm._m(5)])
+          ? _c("div", { staticClass: "row" }, [_vm._m(4)])
           : _vm._e(),
         _vm._v(" "),
         _vm.products_loaded && _vm.search_zero_result
@@ -7968,7 +7926,7 @@ var render = function() {
               _vm._v(" "),
               _c("h4", { staticClass: "h5" }, [_vm._v("Savjeti i smjernica")]),
               _vm._v(" "),
-              _vm._m(6),
+              _vm._m(5),
               _vm._v(" "),
               _c("hr", { staticClass: "d-sm-none" })
             ])
@@ -8257,27 +8215,6 @@ var staticRenderFns = [
         })
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "nav justify-content-center" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link animate-underline fs-base pt-2 pb-0 px-0",
-          attrs: { href: "#!" }
-        },
-        [
-          _c("span", { staticClass: "animate-target my-1 me-2" }, [
-            _vm._v("Prikaži više")
-          ]),
-          _vm._v(" "),
-          _c("i", { staticClass: "ci-chevron-down fs-lg" })
-        ]
-      )
-    ])
   },
   function() {
     var _vm = this

@@ -151,27 +151,15 @@
             </div>
         <pagination :data="products" align="center" :show-disabled="true" :limit="4" @pagination-change-page="getProductsPage"></pagination>
 
-            <div class="col-md-12 d-flex justify-content-center mt-4" >
-                <p class="fs-sm">Prikazano
-                    <span class="font-weight-bolder mx-1">{{ products.from ? Number(products.from).toLocaleString('hr-HR') : 0 }}</span> do
-                    <span class="font-weight-bolder mx-1">{{ products.to ? Number(products.to).toLocaleString('hr-HR') : 0 }}</span> od
-                    <span class="font-weight-bold mx-1">{{ products.total ? Number(products.total).toLocaleString('hr-HR') : 0 }}</span> {{ hr_total }}
-                </p>
-            </div>
 
         <!-- Pagination -->
         <div class="text-center pt-5 mt-md-2 mt-lg-3 mt-xl-4 mb-xxl-3 mx-auto" style="max-width: 306px">
-            <p class="fs-sm">Prikazujemo {{ products.from ? Number(products.from).toLocaleString('hr-HR') : 0 }} od 225 artikala</p>
+            <p class="fs-sm">Prikazujemo {{ products.from ? Number(products.from).toLocaleString('hr-HR') : 0 }} do {{ products.to ? Number(products.to).toLocaleString('hr-HR') : 0 }} od {{ products.total ? Number(products.total).toLocaleString('hr-HR') : 0 }} artikala</p>
             <div class="progress mb-3" role="progressbar" aria-label="Items shown" aria-valuenow="20" aria-valuemin="0" aria-valuemax="225" style="height: 4px">
                 <div class="progress-bar bg-dark rounded-pill d-none-dark" style="width: 25%"></div>
                 <div class="progress-bar bg-light rounded-pill d-none d-block-dark" style="width: 25%"></div>
             </div>
-            <div class="nav justify-content-center">
-                <a class="nav-link animate-underline fs-base pt-2 pb-0 px-0" href="#!">
-                    <span class="animate-target my-1 me-2">Prikaži više</span>
-                    <i class="ci-chevron-down fs-lg"></i>
-                </a>
-            </div>
+
         </div>
     </div>
     </div>
