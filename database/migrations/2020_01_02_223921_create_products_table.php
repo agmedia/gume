@@ -36,6 +36,15 @@ class CreateProductsTable extends Migration
             $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('related_products')->nullable();
+            //
+            $table->string('nosivost')->nullable();
+            $table->string('namjena')->nullable();
+            $table->string('promjer')->nullable();
+            $table->string('sirina')->nullable();
+            $table->string('visina')->nullable();
+            $table->string('buka')->nullable();
+            $table->string('prijanjanje')->nullable();
+            //
             $table->integer('viewed')->unsigned()->default(0);
             $table->integer('sort_order')->unsigned()->default(0);
             $table->boolean('featured')->default(false);
