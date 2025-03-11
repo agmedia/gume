@@ -282,7 +282,7 @@
                     <div class="accordion-body pb-3">
                         <ul class="dropdown-menu show position-static shadow-none">
                             @foreach($uvjeti_kupnje as $page)
-                            <li><a class="dropdown-item" href="category.html">{{$page->title}}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{$page->title}}</a></li>
                             <!--<li><a class="dropdown-item" href="category.html">Dostava robe</a></li>
                             <li><a class="dropdown-item" href="category.html">Jamstveni list</a></li>
                             <li><a class="dropdown-item" href="category.html">Zaštita podataka</a></li>
