@@ -11,27 +11,27 @@
     <!-- Viewport-->
 
 
-    <link rel="icon" type="image/png" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon-96x96.png' }}" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.svg' }}" />
-    <link rel="shortcut icon" href="{{ config('settings.images_domain') . 'assets/app-icons/favicon.ico' }}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'assets/app-icons/apple-touch-icon.png' }}" />
-    <link rel="manifest" href="{{ config('settings.images_domain') . '/manifest.json' }}" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/app-icons/favicon-96x96.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/app-icons/favicon.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/app-icons/favicon.ico') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/app-icons/apple-touch-icon.png') }}" />
+    <link rel="manifest" href="{{ asset('/manifest.json') }}" />
     <!-- Theme switcher (color modes) -->
-    <script src="{{ config('settings.images_domain') . 'assets/js/theme-switcher.js' }}"></script>
+    <script src="{{ asset('assets/js/theme-switcher.js') }}"></script>
     <!-- Preloaded local web font (Inter) -->
-    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/fonts/inter-variable-latin.woff2' }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/inter-variable-latin.woff2') }}" as="font" type="font/woff2" crossorigin>
     <!-- Font icons -->
-    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/icons/cartzilla-icons.woff2' }}" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/icons/cartzilla-icons.min.css' }}">
+    <link rel="preload" href="{{ asset('assets/icons/cartzilla-icons.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{{ asset('assets/icons/cartzilla-icons.min.css') }}">
     <!-- Vendor styles -->
-    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/swiper/swiper-bundle.min.css' }}">
-    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/simplebar/dist/simplebar.min.css' }}">
-    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/choices.js/public/assets/styles/choices.min.css' }}">
-    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/vendor/glightbox/dist/css/glightbox.min.css' }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/simplebar/dist/simplebar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/choices.js/public/assets/styles/choices.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/glightbox/dist/css/glightbox.min.css') }}">
     <!-- Bootstrap + Theme styles -->
-    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/css/theme.min.css' }}" as="style">
-    <link rel="preload" href="{{ config('settings.images_domain') . 'assets/css/theme.rtl.min.css' }}" as="style">
-    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'assets/css/theme.min.css' }}" id="theme-styles">
+    <link rel="preload" href="{{ asset('assets/css/theme.min.css') }}" as="style">
+    <link rel="preload" href="{{ asset('assets/css/theme.rtl.min.css') }}" as="style">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}" id="theme-styles">
 
 
 
@@ -125,10 +125,10 @@
 
 
 <!-- Vendor scripts -->
-<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/simplebar/dist/simplebar.min.js') }}"></script>
-<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/choices.js/public/assets/scripts/choices.min.js') }}"></script>
-<script src="{{ asset(config('settings.images_domain') . 'assets/vendor/glightbox/dist/js/glightbox.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/simplebar/dist/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/glightbox/dist/js/glightbox.min.js') }}"></script>
 <script src="{{ asset('js/cart.js?v=1.4') }}"></script>
 
 <script src="https://kit.fontawesome.com/62acfcc394.js" crossorigin="anonymous"></script>
@@ -146,7 +146,7 @@
 </script>
 
 <!-- Bootstrap + Theme scripts -->
-<script src="{{ asset(config('settings.images_domain') . 'assets/js/theme.min.js') }}"></script>
+<script src="{{ asset('assets/js/theme.min.js') }}"></script>
 
 
 
