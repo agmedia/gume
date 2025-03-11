@@ -6,7 +6,7 @@ use App\Helpers\Helper;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Front\Catalog\Product;
 use App\Models\Back\Catalog\Product\ProductImage;
-use App\Models\Front\Catalog\Author;
+use App\Models\Front\Catalog\Brand;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Publisher;
 use Illuminate\Database\Eloquent\Builder;

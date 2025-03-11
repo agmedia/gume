@@ -144,25 +144,34 @@
                 <span class="d-inline-block animate-target py-1">Naslovnica</span>
             </a>
         </div>
+
         <!-- Navbar nav -->
         <div class="accordion" id="navigation">
             <!-- Rest of the menu -->
-            <div class="accordion-item border-0">
-                <div class="accordion-header" id="headingPages1">
-                    <button type="button" class="accordion-button animate-underline fw-medium collapsed py-2" data-bs-toggle="collapse" data-bs-target="#pages1" aria-expanded="false" aria-controls="pages1">
-                        <span class="d-block animate-target py-1">Auto gume</span>
-                    </button>
-                </div>
-                <div class="accordion-collapse collapse" id="pages1" aria-labelledby="headingPages1" data-bs-parent="#navigation">
-                    <div class="accordion-body pb-3">
-                        <ul class="dropdown-menu show position-static shadow-none">
-                            <li><a class="dropdown-item" href="category.html">Zimske gume</a></li>
-                            <li><a class="dropdown-item" href="category.html">Ljetne gume</a></li>
-                            <li><a class="dropdown-item" href="category.html">Pogledajte sve</a></li>
-                        </ul>
+
+            @foreach($category_list as $item)
+                <div class="accordion-item border-0">
+                    <div class="accordion-header" id="headingPages{{$item->id}}">
+                        <button type="button" class="accordion-button animate-underline fw-medium collapsed py-2" data-bs-toggle="collapse" data-bs-target="#pages{{$item->id}}" aria-expanded="false" aria-controls="pages{{$item->id}}">
+                            <span class="d-block animate-target py-1">{{$item->title}} </span>
+                        </button>
+                    </div>
+                    <div class="accordion-collapse collapse" id="pages{{$item->id}}" aria-labelledby="headingPages{{$item->id}}" data-bs-parent="#navigation">
+                        <div class="accordion-body pb-3">
+                            <ul class="dropdown-menu show position-static shadow-none">
+
+                                @foreach($item->subcategories as $sub_item)
+                                <li><a class="dropdown-item" href=" {{ route('catalog.route', ['group' => \App\Helpers\Helper::categoryGroupPath(true) . '/'. $item->slug.'/'.$sub_item->slug]) }}">{{$sub_item->title}}</a></li>
+
+
+
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
+
 
             <div class="accordion-item border-0">
                 <div class="accordion-header" id="headingPages2">
@@ -242,6 +251,8 @@
 
             <hr>
 
+
+
             <div class="accordion-item border-0">
                 <div class="accordion-header" id="headingPages6">
                     <button type="button" class="accordion-button animate-underline fw-medium collapsed py-2" data-bs-toggle="collapse" data-bs-target="#pages6" aria-expanded="false" aria-controls="pages6">
@@ -270,12 +281,14 @@
                 <div class="accordion-collapse collapse" id="pages7" aria-labelledby="headingPages7" data-bs-parent="#navigation">
                     <div class="accordion-body pb-3">
                         <ul class="dropdown-menu show position-static shadow-none">
-                            <li><a class="dropdown-item" href="category.html">Uvjeti korištenja</a></li>
-                            <li><a class="dropdown-item" href="category.html">Dostava robe</a></li>
+                            @foreach($uvjeti_kupnje as $page)
+                            <li><a class="dropdown-item" href="category.html">{{$page->title}}</a></li>
+                            <!--<li><a class="dropdown-item" href="category.html">Dostava robe</a></li>
                             <li><a class="dropdown-item" href="category.html">Jamstveni list</a></li>
                             <li><a class="dropdown-item" href="category.html">Zaštita podataka</a></li>
                             <li><a class="dropdown-item" href="category.html">Kolačići i privatnostt</a></li>
-                            <li><a class="dropdown-item" href="category.html">Uvjeti povrata</a></li>
+                            <li><a class="dropdown-item" href="category.html">Uvjeti povrata</a></li> -->
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -692,6 +705,10 @@
         </div>
     </div>
 </header>
+
+
+{{-- dd($category_list) --}}
+
 
 <!-- Categories -->
 <section class="border-top-dark ">

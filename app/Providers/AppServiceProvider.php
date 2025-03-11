@@ -45,8 +45,11 @@ class AppServiceProvider extends ServiceProvider
         $users = User::count();
         View::share('users', $users);
 
-        $knjige = Category::active()->topList(Helper::categoryGroupPath(true))->sortByName()->select('id', 'title', 'group', 'slug')->get();
-        View::share('knjige', $knjige);
+       // $category = (new Category())->getList(true);
+      //  View::share('category_list', $category);
+
+        $category = Category::active()->topList(Helper::categoryGroupPath(true))->sortByName()->select('id', 'title', 'group', 'slug')->get();
+        View::share('category_list', $category);
 
         $kategorijefeatured = Category::active()->where('image', '!=', 'media/avatars/avatar0.jpg')->sortByName()->select('id','image','title', 'group', 'slug')->get();
         View::share('kategorijefeatured', $kategorijefeatured);

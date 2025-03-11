@@ -167,7 +167,9 @@ class Category extends Model
                 }
             }
 
-            $categories->put($group, $cats);
+            //$categories->put($group, $cats);
+
+            $categories = $cats;
         }
 
         return $categories;
