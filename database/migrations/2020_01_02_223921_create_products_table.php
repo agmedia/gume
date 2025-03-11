@@ -37,13 +37,14 @@ class CreateProductsTable extends Migration
             $table->string('meta_description')->nullable();
             $table->string('related_products')->nullable();
             //
-            $table->string('nosivost')->nullable();
-            $table->string('namjena')->nullable();
-            $table->string('promjer')->nullable();
-            $table->string('sirina')->nullable();
-            $table->string('visina')->nullable();
-            $table->string('buka')->nullable();
-            $table->string('prijanjanje')->nullable();
+            $table->string('nosivost')->nullable()->index();
+            $table->string('namjena')->nullable()->index();
+            $table->string('promjer')->nullable()->index();
+            $table->string('sirina')->nullable()->index();
+            $table->string('visina')->nullable()->index();
+            $table->string('buka')->nullable()->index();
+            $table->string('prijanjanje')->nullable()->index();
+            $table->string('iskoristivost')->nullable()->index();
             //
             $table->integer('viewed')->unsigned()->default(0);
             $table->integer('sort_order')->unsigned()->default(0);
