@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Models;
-
+namespace App\Models\Front\Cart;
 
 use App\Models\Front\AgCart;
 use App\Models\Front\Catalog\Product;
@@ -12,7 +11,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class Cart extends Model
+/**
+ *
+ */
+class CartSession extends Model
 {
 
     /**
@@ -24,18 +26,6 @@ class Cart extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-
-    /**
-     * @param Builder $query
-     * @param int     $days
-     *
-     * @return Builder
-     */
-    public function scopeNotOlderThan(Builder $query, int $days = 30): Builder
-    {
-        return $query->where('updated_at', '>', now()->subDays($days)->endOfDay());
-    }
 
 
     /**
@@ -58,6 +48,10 @@ class Cart extends Model
      */
     public static function store($request)
     {
+        /*if (auth()->guest()) {
+            return session(config('session.cart'))->put(config('session.cart'), $request->all());
+        }*/
+
         return self::create([
             'user_id'    => Auth::user()->id,
             'session_id' => session(config('session.cart')),
@@ -89,11 +83,11 @@ class Cart extends Model
     public static function checkLogged(AgCart $cart, $session_id = null): string
     {
         if (Auth::user()) {
-            $has_cart = Cart::where('user_id', Auth::user()->id)->first();
+            $has_cart = self::where('user_id', Auth::user()->id)->first();
 
             if ($has_cart) {
                 $cart_items = $cart->getCartItems(true);
-                $cart_data = json_decode($has_cart->cart_data, true);
+                $cart_data  = json_decode($has_cart->cart_data, true);
 
                 if (isset($cart_data['items'])) {
                     foreach ($cart_data['items'] as $item) {

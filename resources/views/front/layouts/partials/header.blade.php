@@ -1,136 +1,5 @@
 <!-- Shopping cart offcanvas -->
-<div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
-
-    <!-- Header -->
-    <div class="offcanvas-header flex-column align-items-start py-3 pt-lg-4">
-        <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-lg-4">
-            <h4 class="offcanvas-title" id="shoppingCartLabel">Košarica</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-
-    </div>
-
-    <!-- Items -->
-    <div class="offcanvas-body d-flex flex-column gap-4 pt-2">
-
-        <!-- Item -->
-        <div class="d-flex align-items-center">
-            <a class="position-relative flex-shrink-0" href="shop-product-grocery.html">
-                <!--   <span class="badge text-bg-danger position-absolute top-0 start-0 z-2 mt-0 ms-0">-15%</span>-->
-                <img src="assets/images/artikl-lista.jpg" width="110" alt="Thumbnail">
-            </a>
-            <div class="w-100 ps-3">
-                <h5 class="fs-sm fw-medium lh-base mb-2">
-                    <a class="hover-effect-underline" href="shop-product-grocery.html">BRIDGESTONE BLIZZAK LM005 195/65 R15 91T</a>
-                </h5>
-                <div class="h6 pb-1 mb-2">300.00€</div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="count-input rounded-pill">
-                        <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
-                            <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control form-control-sm" value="1" readonly>
-                        <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
-                            <i class="ci-plus"></i>
-                        </button>
-                    </div>
-                    <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Obriši iz košarice"></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Item -->
-        <div class="d-flex align-items-center">
-            <a class="position-relative flex-shrink-0" href="shop-product-grocery.html">
-
-                <img src="assets/images/artikl-lista.jpg" width="110" alt="Thumbnail">
-            </a>
-            <div class="w-100 ps-3">
-                <h5 class="fs-sm fw-medium lh-base mb-2">
-                    <a class="hover-effect-underline" href="shop-product-grocery.html">BRIDGESTONE BLIZZAK LM005 195/65 R15 91T</a>
-                </h5>
-                <div class="h6 pb-1 mb-2">300.00€</div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="count-input rounded-pill">
-                        <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
-                            <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control form-control-sm" value="1" readonly>
-                        <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
-                            <i class="ci-plus"></i>
-                        </button>
-                    </div>
-                    <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Obriši iz košarice"></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Item -->
-        <div class="d-flex align-items-center">
-            <a class="position-relative flex-shrink-0" href="shop-product-grocery.html">
-
-                <img src="assets/images/artikl-lista.jpg" width="110" alt="Thumbnail">
-            </a>
-            <div class="w-100 ps-3">
-                <h5 class="fs-sm fw-medium lh-base mb-2">
-                    <a class="hover-effect-underline" href="shop-product-grocery.html">BRIDGESTONE BLIZZAK LM005 195/65 R15 91T</a>
-                </h5>
-                <div class="h6 pb-1 mb-2">300.00€</div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="count-input rounded-pill">
-                        <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
-                            <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control form-control-sm" value="1" readonly>
-                        <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
-                            <i class="ci-plus"></i>
-                        </button>
-                    </div>
-                    <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Obriši iz košarice"></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Item -->
-        <div class="d-flex align-items-center">
-            <a class="position-relative flex-shrink-0" href="shop-product-grocery.html">
-
-                <img src="assets/images/artikl-lista.jpg" width="110" alt="Thumbnail">
-            </a>
-            <div class="w-100 ps-3">
-                <h5 class="fs-sm fw-medium lh-base mb-2">
-                    <a class="hover-effect-underline" href="shop-product-grocery.html">BRIDGESTONE BLIZZAK LM005 195/65 R15 91T</a>
-                </h5>
-                <div class="h6 pb-1 mb-2">300.00€</div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="count-input rounded-pill">
-                        <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
-                            <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control form-control-sm" value="1" readonly>
-                        <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
-                            <i class="ci-plus"></i>
-                        </button>
-                    </div>
-                    <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Obriši iz košarice"></button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Footer -->
-    <div class="offcanvas-header flex-column align-items-start">
-        <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
-            <span class="text-light-emphasis">Ukupno:</span>
-            <span class="h6 mb-0">1200.00€</span>
-        </div>
-        <div class="d-flex w-100 gap-3">
-            <a class="btn btn-lg btn-secondary w-100 rounded-pill" href="checkout-v2-cart.html">Pogledajte košaricu</a>
-            <a class="btn btn-lg btn-primary w-100 rounded-pill" href="checkout-v1-delivery-1.html">Na naplatu</a>
-        </div>
-    </div>
-</div>
+@livewire('front.checkout.cart-drawer')
 
 <!-- Site menu offcanvas -->
 <nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel">
@@ -597,8 +466,6 @@
     </div>
 </div>
 
-
-
 <!-- Navigation bar (Page header) -->
 <header class="navbar navbar-expand navbar-sticky sticky-top d-block bg-body-tertiary z-fixed py-1 py-lg-0 py-xl-1 px-0" data-sticky-element>
     <div class="container justify-content-start py-2 py-lg-3">
@@ -705,10 +572,6 @@
         </div>
     </div>
 </header>
-
-
-{{-- dd($category_list) --}}
-
 
 <!-- Categories -->
 <section class="border-top-dark ">

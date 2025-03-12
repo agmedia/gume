@@ -33,16 +33,13 @@ class Product extends Model
      * @var string[]
      */
     protected $appends = [
-        'eur_price',
-        'eur_special',
         'main_price',
         'main_price_text',
         'main_special',
         'main_special_text',
-        'secondary_price',
-        'secondary_price_text',
-        'secondary_special',
-        'secondary_special_text',
+        'image',
+        'thumb',
+        'url'
     ];
 
     /**
@@ -99,71 +96,6 @@ class Product extends Model
 
 
     /**
-     * @return Collection|string
-     */
-    public function getSecondaryPriceAttribute()
-    {
-        return Currency::secondary($this->price);
-    }
-
-
-    /**
-     * @return Collection|string
-     */
-    public function getSecondaryPriceTextAttribute()
-    {
-        return Currency::secondary($this->price, true);
-    }
-
-
-    /**
-     * @return Collection|string
-     */
-    public function getSecondarySpecialAttribute()
-    {
-        return Currency::secondary($this->special());
-    }
-
-
-    /**
-     * @return Collection|string
-     */
-    public function getSecondarySpecialTextAttribute()
-    {
-        return Currency::secondary($this->special(), true);
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getEurPriceAttribute()
-    {
-        $this->eur = Settings::get('currency', 'list')->where('code', 'EUR')->first();
-
-        if (isset($this->eur->status) && $this->eur->status) {
-            return number_format(($this->price * $this->eur->value), 2);
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEurSpecialAttribute()
-    {
-        $this->eur = Settings::get('currency', 'list')->where('code', 'EUR')->first();
-
-        if (isset($this->eur->status) && $this->eur->status) {
-            return number_format(($this->special() * $this->eur->value), 2);
-        }
-
-        return null;
-    }
-
-
-    /**
      * @param $value
      *
      * @return array|string|string[]
@@ -182,6 +114,17 @@ class Product extends Model
     public function getThumbAttribute($value)
     {
         return str_replace('.webp', '-thumb.webp', $this->image);
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return array|string|string[]
+     */
+    public function getUrlAttribute($value)
+    {
+        return url($this->url);
     }
 
 
@@ -205,83 +148,11 @@ class Product extends Model
 
 
     /**
-     * @return false|float|int|mixed
-     */
-    public function special()
-    {
-        $action = $this->action;
-        $coupon_session_key = config('session.cart') . '_coupon';
-        $coupon_ok = false;
-
-        if ( ! $action || ($action && ! $action->coupon)) {
-            $coupon_ok = true;
-        }
-
-        if (isset($action->status) && $action->status) {
-            if ((isset($action->coupon) && $action->coupon) && session()->has($coupon_session_key) && session($coupon_session_key) == $action->coupon) {
-                $coupon_ok = true;
-            }
-        }
-
-        // If special is set, return special.
-        if ($this->special && $coupon_ok) {
-            $from = now()->subDay();
-            $to = now()->addDay();
-
-            if ($this->special_from && $this->special_from != '0000-00-00 00:00:00') {
-                $from = Carbon::make($this->special_from);
-            }
-            if ($this->special_to && $this->special_to != '0000-00-00 00:00:00') {
-                $to = Carbon::make($this->special_to);
-            }
-
-            if ($from <= now() && now() <= $to) {
-                return $this->special;
-            }
-        }
-
-        return $this->price;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function coupon(): string
-    {
-        $action = $this->action;
-        $coupon_session_key = config('session.cart') . '_coupon';
-        $coupon_ok = '';
-
-        if ( ! $action || ($action && ! $action->coupon)) {
-            $coupon_ok = '';
-        }
-
-        if ($action && $action->status) {
-            if ((isset($action->coupon) && $action->coupon) && session()->has($coupon_session_key) && session($coupon_session_key) == $action->coupon) {
-                $coupon_ok = true;
-            }
-        }
-
-        return $coupon_ok;
-    }
-
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function author()
+    public function brand()
     {
         return $this->hasOne(Brand::class, 'id', 'author_id');
-    }
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function publisher()
-    {
-        return $this->hasOne(Publisher::class, 'id', 'publisher_id');
     }
 
 
@@ -313,17 +184,6 @@ class Product extends Model
         return $this->hasOneThrough(Category::class, CategoryProducts::class, 'product_id', 'id', 'id', 'category_id')
             ->where('parent_id', '!=', 0)
             ->first();
-    }
-
-
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function tax(int $id)
-    {
-        return Settings::get('tax', 'list')->where('id', $id)->first();
     }
 
 

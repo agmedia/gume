@@ -385,7 +385,6 @@ class AgCart extends Model
             'id'              => $product->id,
             'name'            => $product->name,
             'price'           => $product->price,
-            'sec_price'       => $product->secondary_price,
             'quantity'        => $request['item']['quantity'],
             'associatedModel' => $product,
             'attributes'      => $this->structureCartItemAttributes($product)

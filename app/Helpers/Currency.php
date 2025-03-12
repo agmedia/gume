@@ -40,22 +40,6 @@ class Currency
 
 
     /**
-     * @param      $price
-     * @param bool $text_price
-     *
-     * @return Collection|string|bool
-     */
-    public static function secondary($price = null, bool $text_price = false)
-    {
-        $currency = Cache::rememberForever('currency_secondary', function () {
-            return Settings::get('currency', 'list')->where('status', '=', true)->where('main', '=', false)->first();
-        });
-
-        return static::resolveCurrency($currency, $price, $text_price);
-    }
-
-
-    /**
      * @return string
      */
     public static function main_symbol(): string
