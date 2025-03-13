@@ -4,6 +4,7 @@ namespace App\Models\Front\Catalog;
 
 use App\Helpers\Currency;
 use App\Models\Back\Catalog\Product\ProductAction;
+use App\Models\Back\Catalog\Product\ProductAttribute;
 use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -124,7 +125,7 @@ class Product extends Model
      */
     public function getUrlAttribute($value)
     {
-        return url($this->url);
+        return url($value);
     }
 
 
@@ -184,6 +185,15 @@ class Product extends Model
         return $this->hasOneThrough(Category::class, CategoryProducts::class, 'product_id', 'id', 'id', 'category_id')
             ->where('parent_id', '!=', 0)
             ->first();
+    }
+
+
+    /**
+     * @return Relation
+     */
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class, 'product_id')->with('attribute');
     }
 
 
@@ -452,6 +462,75 @@ class Product extends Model
         $query = (new self())->newQuery();
 
         return $query->where('status', 1)->select('id', 'name')->get();
+    }
+
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+
+    /**
+     * @return false|float|int|mixed
+     */
+    public function special()
+    {
+        $action = $this->action;
+        $coupon_session_key = config('session.cart') . '_coupon';
+        $coupon_ok = false;
+
+        if ( ! $action || ($action && ! $action->coupon)) {
+            $coupon_ok = true;
+        }
+
+        if (isset($action->status) && $action->status) {
+            if ((isset($action->coupon) && $action->coupon) && session()->has($coupon_session_key) && session($coupon_session_key) == $action->coupon) {
+                $coupon_ok = true;
+            }
+        }
+
+        // If special is set, return special.
+        if ($this->special && $coupon_ok) {
+            $from = now()->subDay();
+            $to = now()->addDay();
+
+            if ($this->special_from && $this->special_from != '0000-00-00 00:00:00') {
+                $from = Carbon::make($this->special_from);
+            }
+            if ($this->special_to && $this->special_to != '0000-00-00 00:00:00') {
+                $to = Carbon::make($this->special_to);
+            }
+
+            if ($from <= now() && now() <= $to) {
+                return $this->special;
+            }
+        }
+
+        return $this->price;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function coupon(): string
+    {
+        $action = $this->action;
+        $coupon_session_key = config('session.cart') . '_coupon';
+        $coupon_ok = '';
+
+        if ( ! $action || ($action && ! $action->coupon)) {
+            $coupon_ok = '';
+        }
+
+        if ($action && $action->status) {
+            if ((isset($action->coupon) && $action->coupon) && session()->has($coupon_session_key) && session($coupon_session_key) == $action->coupon) {
+                $coupon_ok = true;
+            }
+        }
+
+        return $coupon_ok;
     }
 
 }

@@ -129,7 +129,9 @@
 <script src="{{ asset('assets/vendor/simplebar/dist/simplebar.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/choices.js/public/assets/scripts/choices.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/glightbox/dist/js/glightbox.min.js') }}"></script>
-<script src="{{ asset('js/cart.js?v=1.4') }}"></script>
+{{--<script src="{{ asset('js/cart.js?v=1.4') }}"></script>--}}
+
+<script src="https://cdn.jsdelivr.net/npm/axios@1.8.1/dist/axios.min.js"></script>
 
 <script src="https://kit.fontawesome.com/62acfcc394.js" crossorigin="anonymous"></script>
 <!-- Bootstrap + Theme scripts -->

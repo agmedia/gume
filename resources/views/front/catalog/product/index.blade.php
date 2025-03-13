@@ -1,34 +1,34 @@
 @extends('front.layouts.app')
-@section ('title', $seo['title'])
-@section ('description', $seo['description'])
+@section ('title', $meta['product']['title'])
+@section ('description', $meta['product']['description'])
 @push('meta_tags')
 
-    <link rel="canonical" href="{{ env('APP_URL')}}/{{ $prod->url }}" />
+    <link rel="canonical" href="{{ env('APP_URL')}}/{{ $data->product->url }}" />
     <meta property="og:locale" content="hr_HR" />
     <meta property="og:type" content="product" />
-    <meta property="og:title" content="{{ $seo['title'] }}" />
-    <meta property="og:description" content="{{ $seo['description']  }}" />
-    <meta property="og:url" content="{{ env('APP_URL')}}/{{ $prod->url }}"  />
+    <meta property="og:title" content="{{ $meta['product']['title'] }}" />
+    <meta property="og:description" content="{{ $meta['product']['description']  }}" />
+    <meta property="og:url" content="{{ env('APP_URL')}}/{{ $data->product->url }}"  />
     <meta property="og:site_name" content="PNEU-MAX" />
-    <meta property="og:updated_time" content="{{ $prod->updated_at  }}" />
-    <meta property="og:image" content="{{ asset($prod->image) }}" />
-    <meta property="og:image:secure_url" content="{{ asset($prod->image) }}" />
+    <meta property="og:updated_time" content="{{ $data->product->updated_at  }}" />
+    <meta property="og:image" content="{{ asset($data->product->image) }}" />
+    <meta property="og:image:secure_url" content="{{ asset($data->product->image) }}" />
     <meta property="og:image:width" content="640" />
     <meta property="og:image:height" content="480" />
     <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:alt" content="{{ $prod->image_alt }}" />
-    <meta property="product:price:amount" content="{{ number_format($prod->price, 2) }}" />
+    <meta property="og:image:alt" content="{{ $data->product->image_alt }}" />
+    <meta property="product:price:amount" content="{{ number_format($data->product->price, 2) }}" />
     <meta property="product:price:currency" content="EUR" />
     <meta property="product:availability" content="instock" />
-    <meta property="product:retailer_item_id" content="{{ $prod->sku }}" />
+    <meta property="product:retailer_item_id" content="{{ $data->product->sku }}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ $seo['title'] }}" />
-    <meta name="twitter:description" content="{{ $seo['description'] }}" />
-    <meta name="twitter:image" content="{{ asset($prod->image) }}" />
+    <meta name="twitter:title" content="{{ $meta['product']['title'] }}" />
+    <meta name="twitter:description" content="{{ $meta['product']['description'] }}" />
+    <meta name="twitter:image" content="{{ asset($data->product->image) }}" />
 
 @endpush
 
-@if (isset($gdl))
+@if (isset($meta['gdl']))
     @section('google_data_layer')
         <script>
             window.dataLayer = window.dataLayer || [];
@@ -36,7 +36,7 @@
             window.dataLayer.push({
                 'event': 'view_item',
                 'ecommerce': {
-                    'items': [<?php echo json_encode($gdl); ?>]
+                    'items': [<?php echo json_encode($meta['gdl']); ?>]
                 } });
         </script>
     @endsection
@@ -50,32 +50,32 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovnica</a></li>
 
-                    @if ($group)
-                        @if ($group && ! $cat && ! $subcat)
-                            <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::ucfirst($group) }}</li>
-                        @elseif ($group && $cat)
-                            <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group]) }}">{{ \Illuminate\Support\Str::ucfirst($group) }}</a></li>
+                    @if ($data->group)
+                        @if ($data->group && ! $data->category && ! $data->subcategory)
+                            <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::ucfirst($data->group) }}</li>
+                        @elseif ($data->group && $data->category)
+                            <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group]) }}">{{ \Illuminate\Support\Str::ucfirst($data->group) }}</a></li>
                         @endif
 
-                        @if ($cat && ! $subcat)
-                            @if ($prod)
-                                <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
+                        @if ($data->category && ! $data->subcategory)
+                            @if ($data->product)
+                                <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]) }}">{{ $data->category->title }}</a></li>
                             @else
-                                <li class="breadcrumb-item" aria-current="page">{{ $cat->title }}</li>
+                                <li class="breadcrumb-item" aria-current="page">{{ $data->category->title }}</li>
                             @endif
-                        @elseif ($cat && $subcat)
-                            <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}">{{ $cat->title }}</a></li>
-                            @if ($prod)
-                                @if ($cat && ! $subcat)
-                                    <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}">{{ \Illuminate\Support\Str::limit($prod->name, 50) }}</a></li>
+                        @elseif ($data->category && $data->subcategory)
+                            <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]) }}">{{ $data->category->title }}</a></li>
+                            @if ($data->product)
+                                @if ($data->category && ! $data->subcategory)
+                                    <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]) }}">{{ \Illuminate\Support\Str::limit($data->product->name, 50) }}</a></li>
                                 @else
-                                    <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat, 'subcat' => $subcat]) }}">{{ $subcat->title }}</a></li>
+                                    <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category, 'subcat' => $data->subcategory]) }}">{{ $data->subcategory->title }}</a></li>
                                 @endif
                             @endif
                         @endif
                     @endif
 
-                    <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::limit($prod->name, 50) }}</li>
+                    <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::limit($data->product->name, 50) }}</li>
 
                 </ol>
             </nav>
@@ -93,15 +93,15 @@
                                 "watchSlidesProgress": true
                               }' style="max-width: 96px; height: 420px;">
                                 <div class="swiper-wrapper flex-column">
-                                    @if ($prod->images->count())
-                                        @if ( ! empty($prod->thumb))
+                                    @if ($data->product->images->count())
+                                        @if ( ! empty($data->product->thumb))
                                             <div class="swiper-slide swiper-thumb">
                                                 <div class="ratio ratio-1x1" style="max-width: 94px">
-                                                    <img src="{{ asset($prod->thumb) }}" class="swiper-thumb-img" alt="{{ $prod->name }}">
+                                                    <img src="{{ asset($data->product->thumb) }}" class="swiper-thumb-img" alt="{{ $data->product->name }}">
                                                 </div>
                                             </div>
                                         @endif
-                                        @foreach ($prod->images as $key => $image)
+                                        @foreach ($data->product->images as $key => $image)
                                                 <div class="swiper-slide swiper-thumb">
                                                     <div class="ratio ratio-1x1" style="max-width: 94px">
                                                         <img src="{{ url('cache/thumb?size=100x100&src=' . $image->thumb) }}" class="swiper-thumb-img" alt="{{ $image->alt }}">
@@ -123,15 +123,15 @@
                                     }
                                   }'>
                                 <div class="swiper-wrapper">
-                                    @if ( ! empty($prod->image))
+                                    @if ( ! empty($data->product->image))
                                         <div class="swiper-slide">
-                                            <a class="ratio ratio-1x1 d-block rounded cursor-zoom-in" href="{{ asset($prod->image) }}" data-glightbox data-gallery="product-gallery">
-                                                <img src="{{ asset($prod->image) }}" class="rounded" alt="{{ $prod->name }}">
+                                            <a class="ratio ratio-1x1 d-block rounded cursor-zoom-in" href="{{ asset($data->product->image) }}" data-glightbox data-gallery="product-gallery">
+                                                <img src="{{ asset($data->product->image) }}" class="rounded" alt="{{ $data->product->name }}">
                                             </a>
                                         </div>
                                     @endif
-                                    @if ($prod->images->count())
-                                        @foreach ($prod->images as $key => $image)
+                                    @if ($data->product->images->count())
+                                        @foreach ($data->product->images as $key => $image)
                                                 <div class="swiper-slide">
                                                     <a class="ratio ratio-1x1 d-block rounded cursor-zoom-in" href="{{ asset($image->image) }}" data-glightbox data-gallery="product-gallery">
                                                         <img src="{{ asset($image->image) }}" class="rounded" alt="{{ $image->alt }}">
@@ -161,7 +161,7 @@
                             </a>
                             <img src="https://cdn.tiresleader.com/static/img/brand/bridgestone.jpg" class="img-fluid mb-1" alt="Bridgestone" width="125" height="37" loading="lazy">
                             <!-- Title -->
-                            <h1 class="h3">{{ $prod->name }}</h1>
+                            <h1 class="h3">{{ $data->product->name }}</h1>
 
                             <p class="fs-sm fw-normal mb-0">Klasa Premium</p>
 
@@ -169,15 +169,15 @@
 
                             <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> C <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> A <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> B 71dB </span> </p>
                             <!-- Description -->
-                            @if ($prod->main_price > $prod->main_special)
+                            @if ($data->product->main_price > $data->product->main_special)
                                 <div class="h4 d-flex align-items-center mt-4 mb-2">
-                                    {{ $prod->main_special_text }}
-                                    <del class="fs-sm fw-normal text-body-tertiary ms-2">{{ $prod->main_price_text }}</del>
+                                    {{ $data->product->main_special_text }}
+                                    <del class="fs-sm fw-normal text-body-tertiary ms-2">{{ $data->product->main_price_text }}</del>
                                 </div>
-                                <p class="fs-sm fw-normal mb-4">Najniža cijena u zadnjih 30 dana je: {{ $prod->main_price_text }}</p>
+                                <p class="fs-sm fw-normal mb-4">Najniža cijena u zadnjih 30 dana je: {{ $data->product->main_price_text }}</p>
                             @else
                                 <div class="h4 d-flex align-items-center mt-4 mb-2">
-                                    {{ $prod->main_price_text }}
+                                    {{ $data->product->main_price_text }}
                                 </div>
 
                             @endif
@@ -185,7 +185,7 @@
 
                             <!-- Count input + Add to cart button -->
 
-                            <add-to-cart-btn id="{{ $prod->id }}" available="{{ $prod->quantity }}"></add-to-cart-btn>
+                            <add-to-cart-btn id="{{ $data->product->id }}" available="{{ $data->product->quantity }}"></add-to-cart-btn>
 
 
                             <!-- Stock status -->
@@ -235,7 +235,7 @@
                         <div class="row">
                             <div class="col-lg-6 fs-sm">
 
-                                {!! $prod->description !!}
+                                {!! $data->product->description !!}
                             </div>
                             <div class="col-lg-6 col-xl-5 offset-xl-1">
                                 <div class="row  g-4 my-0 my-lg-n2">
@@ -244,10 +244,10 @@
                                         <table class="table table-striped fs-sm">
 
                                             <tbody>
-                                            @foreach($attribute as $att)
+                                            @foreach($data->product->attributes as $attribute)
                                             <tr>
-                                                <th scope="row">{{$att->attribute->title }} </th>
-                                                <td>{{$att->value }}</td>
+                                                <th scope="row">{{$attribute->attribute->title }} </th>
+                                                <td>{{$attribute->value }}</td>
                                             </tr>
                                             @endforeach
                                             </tbody>
@@ -601,10 +601,10 @@
 
 
 
-                        @foreach ($cat->products()->get()->unique()->take(10) as $cat_product)
-                            @if ($cat_product->id  != $prod->id)
+                        @foreach ($data->category->products()->get()->unique()->take(10) as $data->category_product)
+                            @if ($data->category_product->id  != $data->product->id)
                                 <div>
-                                    @include('front.catalog.category.product', ['product' => $cat_product])
+                                    @include('front.catalog.category.product', ['product' => $data->category_product])
                                 </div>
                             @endif
                         @endforeach
@@ -624,15 +624,7 @@
 @endsection
 
 @push('js_after')
-
-
-
-
     <script type="application/ld+json">
         {!! collect($crumbs)->toJson() !!}
     </script>
-    <script type="application/ld+json">
-        {!! collect($bookscheme)->toJson() !!}
-    </script>
-
 @endpush

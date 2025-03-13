@@ -13,4 +13,13 @@ class Metatags
             'content' => 'noindex,nofollow'
         ];
     }
+
+
+    public static function empty()
+    {
+        return [
+            'name' => '',
+            'content' => ''
+        ];
+    }
 }

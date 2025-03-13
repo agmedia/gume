@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Catalog;
 
+use App\Helpers\Helper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -173,6 +174,36 @@ class Category extends Model
         }
 
         return $categories;
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    /**
+     * @param Category $category
+     *
+     * @return int
+     */
+    public static function getProductsCount(Category $category): int
+    {
+        return Helper::resolveCache('category')->remember('count' . $category->id, config('cache.life'), function () use ($category) {
+            return $category->products()->count();
+        });
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return Category|null
+     */
+    public static function getById(int $id): Category|null
+    {
+        return Helper::resolveCache('category')->remember($id, config('cache.life'), function () use ($id) {
+            return Category::query()->find($id);
+        });
     }
 
 }

@@ -8,28 +8,39 @@ use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
 use Illuminate\Http\Request;
+use stdClass;
 
 /**
- * Class Sitemap
- * @package App\Models
+ *
  */
 class Seo
 {
 
-
     /**
+     * @param Product $product
+     *
      * @return array
      */
     public static function getProductData(Product $product): array
     {
-        return [
+        $response = [];
+
+        $response['product'] = [
             'title'       => $product->name . ' knjige ' . (isset($product->author->title) ? $product->author->title : ''),
             'description' => 'Knjiga ' . $product->name . ' izdavača ' . (isset($product->author->title) ? $product->author->title : '') . ' godine izdanja ' . ($product->year ?: '') . ' i mjesta izdavanja ' . ($product->origin ?: '') . ' u Zuzi Shop-u.'
         ];
+
+        $response['gdl'] = TagManager::getGoogleProductDataLayer($product);
+
+        return $response;
     }
 
 
     /**
+     * @param Author        $author
+     * @param Category|null $cat
+     * @param Category|null $subcat
+     *
      * @return array
      */
     public static function getAuthorData(Author $author, Category $cat = null, Category $subcat = null): array
@@ -83,7 +94,7 @@ class Seo
 
     public static function getMetaTags(Request $request, $target = 'product')
     {
-        $response = [];
+        $response = [Metatags::empty()];
         $data = $request->toArray();
 
         if ($target == 'filter') {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Breadcrumb;
 use App\Helpers\Helper;
+use App\Helpers\RouteResolver;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Models\Front\Blog;
@@ -37,71 +38,31 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function resolve(Request $request, $group, Category $cat = null, $subcat = null, Product $prod = null)
+    public function resolve(Request $request, string $group, string $cat = null, string $subcat = null, Product $prod = null)
     {
-        //
-        if ($subcat) {
-            $sub_category = Category::where('slug', $subcat)->where('parent_id', $cat->id)->first();
+        $route = new RouteResolver($group, $cat, $subcat, $prod);
 
-            if ( ! $sub_category) {
-                $prod = Product::where('slug', $subcat)->first();
-            }
+        $route->checkForUnwantedPaths();
 
-            $subcat = $sub_category;
+        $route->setRoute()->isAllowedGroup();
+
+        $data = $route->getData();
+
+        // Provjeri ako je proizvod setan u ruti.
+        if ($data->product) {
+            $data->product->increment('viewed', 1);
+
+            $meta = Seo::getProductData($prod);
+            $crumbs = (new Breadcrumb())->product($data->group, $data->category, $data->subcategory, $data->product)->resolve();
+
+            return view('front.catalog.product.index', compact('data', 'meta', 'crumbs'));
         }
 
-        // Check if there is Product set.
-        if ($prod) {
-            if ( ! $prod->status) {
-                abort(404);
-            }
+        // Nastavi sa prikazom kategorije sa listom proizvoda.
+        $meta = Seo::getMetaTags($request, 'filter');
+        $crumbs = (new Breadcrumb())->category($data->group, $data->category, $data->subcategory)->resolve();
 
-            $prod->increment('viewed', 1);
-
-            $seo = Seo::getProductData($prod);
-            $gdl = TagManager::getGoogleProductDataLayer($prod);
-
-            $bc = new Breadcrumb();
-            $crumbs = $bc->product($group, $cat, $subcat, $prod)->resolve();
-            $bookscheme = $bc->productBookSchema($prod);
-            $attribute = ProductAttribute::query()->with('attribute')->where('product_id', $prod->id )->get();
-
-
-
-            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs', 'bookscheme', 'gdl','attribute'));
-        }
-
-        // If only group...
-        if ($group && ! $cat && ! $subcat) {
-            if ($group == 'zemljovidi-i-vedute') {
-                $group = 'Zemljovidi i vedute';
-            }
-
-            $categories = Category::where('group', $group)->first('id');
-
-            if ( ! $categories) {
-                abort(404);
-            }
-        }
-
-        if ($cat) {
-            $cat->count = Helper::resolveCache('cats_count')->remember($cat->id, config('cache.life'), function () use ($cat) {
-                return $cat->products()->count();
-            });
-            //$cat->count = $cat->products()->count();
-        }
-        if ($subcat) {
-            $subcat->count = Helper::resolveCache('cats_count')->remember($cat->id, config('cache.life'), function () use ($subcat) {
-                return $subcat->products()->count();
-            });
-            //$subcat->products()->count();
-        }
-
-        $meta_tags = Seo::getMetaTags($request, 'filter');
-
-        $crumbs = (new Breadcrumb())->category($group, $cat, $subcat)->resolve();
-
-        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'prod', 'crumbs', 'meta_tags'));
+        return view('front.catalog.category.index', compact('data', 'crumbs', 'meta'));
     }
 
 
@@ -173,7 +134,7 @@ class CatalogRouteController extends Controller
 
             $meta_tags = Seo::getMetaTags($request, 'ap_filter');
 
-            return view('front.catalog.authors.index', compact('authors', 'letters', 'letter', 'meta_tags'));
+            return view('front.catalog.authors.index', compact('brands', 'letters', 'letter', 'meta_tags'));
         }
 
         $letter = null;
