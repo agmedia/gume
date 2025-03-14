@@ -369,7 +369,7 @@ class Helper
             $prods->whereIn('id', $data['list']);
         }
 
-        return $prods->with('author');
+        return $prods->with('brand');
     }
 
 
