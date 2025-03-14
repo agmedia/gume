@@ -10,18 +10,18 @@ function addToCart(product_id, quantity) {
         quantity: quantity
     };
 
-    axios.post('cart/add', { data: item })
+    axios.post('cart/add', { item: item })
     .then((response) => {
-        successToast.fire({
+        /*successToast.fire({
             text: 'Fotografija je uspješno izbrisana',
-        });
+        });*/
 
         console.log(response.data);
     })
     .catch((error) => {
-        errorToast.fire({
+        /*errorToast.fire({
             text: 'Greška u brisanju fotografije..! Molimo pokušajte ponovo.',
-        });
+        });*/
 
         console.log(error);
     });

@@ -11,7 +11,7 @@
 
     <!-- Items -->
     <div class="offcanvas-body d-flex flex-column gap-4 pt-2">
-        @foreach($cart['items'] as $item)
+        @foreach($cart->get()['items'] as $item)
             <!-- Item -->
             <div class="d-flex align-items-center">
                 <a class="position-relative flex-shrink-0" href="shop-product-grocery.html">
@@ -22,18 +22,18 @@
                     <h5 class="fs-sm fw-medium lh-base mb-2">
                         <a class="hover-effect-underline" href="shop-product-grocery.html">{{ $item->name }}</a>
                     </h5>
-                    <div class="h6 pb-1 mb-2">300.00€</div>
+                    <div class="h6 pb-1 mb-2">{{ $item->price }} €</div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="count-input rounded-pill">
                             <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
                                 <i class="ci-minus"></i>
                             </button>
-                            <input type="number" class="form-control form-control-sm" value="1" readonly>
+                            <input type="number" class="form-control form-control-sm" value="{{ $item->quantity }}" readonly>
                             <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
                                 <i class="ci-plus"></i>
                             </button>
                         </div>
-                        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Obriši iz košarice"></button>
+                        <button type="button" wire:click="removeFromCart({{ $item->id }})" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Obriši iz košarice"></button>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
     <div class="offcanvas-header flex-column align-items-start">
         <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
             <span class="text-light-emphasis">Ukupno:</span>
-            <span class="h6 mb-0">1200.00€</span>
+            <span class="h6 mb-0">{{ $cart->get()['total'] }} €</span>
         </div>
         <div class="d-flex w-100 gap-3">
             <a class="btn btn-lg btn-secondary w-100 rounded-pill" href="checkout-v2-cart.html">Pogledajte košaricu</a>

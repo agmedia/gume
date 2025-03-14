@@ -31,13 +31,13 @@ class CartSession extends Model
     /**
      * @return AgCart
      */
-    public static function resolve(): AgCart
+    public static function resolve(): Cart
     {
         if (session()->has(config('session.cart'))) {
-            return new AgCart(session(config('session.cart')));
+            return new Cart(session(config('session.cart')));
         }
 
-        return new AgCart(config('session.cart'));
+        return new Cart(config('session.cart'));
     }
 
 
@@ -80,7 +80,7 @@ class CartSession extends Model
      *
      * @return string
      */
-    public static function checkLogged(AgCart $cart, $session_id = null): string
+    public static function checkLogged(Cart $cart, $session_id = null): string
     {
         if (Auth::user()) {
             $has_cart = self::where('user_id', Auth::user()->id)->first();

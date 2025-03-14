@@ -409,7 +409,7 @@ class AgCart extends Model
     {
         return [
             'path' => $product->url,
-            'tax'  => $product->tax($product->tax_id)
+            'tax'  => 0,
         ];
     }
 

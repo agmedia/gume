@@ -32,9 +32,8 @@
     <link rel="preload" href="{{ asset('assets/css/theme.min.css') }}" as="style">
     <link rel="preload" href="{{ asset('assets/css/theme.rtl.min.css') }}" as="style">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}" id="theme-styles">
-
-
-
+    @livewireStyles
+    @livewireScripts
 
     @if (config('app.env') == 'production')
         @yield('google_data_layer')
@@ -131,7 +130,8 @@
 <script src="{{ asset('assets/vendor/glightbox/dist/js/glightbox.min.js') }}"></script>
 {{--<script src="{{ asset('js/cart.js?v=1.4') }}"></script>--}}
 
-<script src="https://cdn.jsdelivr.net/npm/axios@1.8.1/dist/axios.min.js"></script>
+{{--<script src="https://cdn.jsdelivr.net/npm/axios@1.8.1/dist/axios.min.js"></script>
+<script src="{{ asset('assets/cart.js?v=1.0') }}"></script>--}}
 
 <script src="https://kit.fontawesome.com/62acfcc394.js" crossorigin="anonymous"></script>
 <!-- Bootstrap + Theme scripts -->
@@ -151,15 +151,17 @@
 <script src="{{ asset('assets/js/theme.min.js') }}"></script>
 
 
-
-
-
-
-
 @if (config('app.env') == 'production')
     <!-- Messenger Chat Plugin Code -->
 
 @endif
+
+<script>
+    Livewire.on('updateCartNavIcon', (quantity) => {
+        console.log(quantity)
+        document.getElementById('cart-header-count').textContent = quantity;
+    })
+</script>
 
 @stack('js_after')
 
