@@ -262,7 +262,7 @@ class RouteResolver
      */
     private function getProduct(string $slug)
     {
-        return Helper::resolveCache($this->cache_tag)->remember('groups', config('cache.life'), function () use ($slug) {
+        return Helper::resolveCache($this->cache_tag)->remember('product' . $slug, config('cache.life'), function () use ($slug) {
             return Product::where('slug', $slug)->first();
         });
     }
