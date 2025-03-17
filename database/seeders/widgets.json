@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "group_id": 1,
+    "title": "Hotel za gume - B2C",
+    "subtitle": "Kako bih što kvalitetnije izvršili sezonsku izmjenu pneumatika  molimo rezervirajte Vaš termin  na vrijeme!",
+    "description": null,
+    "data": "a:10:{s:5:\"title\";s:19:\"Hotel za gume - B2C\";s:8:\"subtitle\";s:110:\"Kako bih što kvalitetnije izvršili sezonsku izmjenu pneumatika  molimo rezervirajte Vaš termin  na vrijeme!\";s:3:\"url\";s:5:\"login\";s:5:\"width\";s:2:\"12\";s:10:\"sort_order\";s:1:\"1\";s:5:\"right\";s:2:\"on\";s:6:\"status\";s:2:\"on\";s:5:\"badge\";N;s:8:\"group_id\";s:1:\"1\";s:14:\"group_template\";s:6:\"custom\";}",
+    "image": "media/img/widget/1/hotel-za-gume-b2c-1741360098.jpg",
+    "link": null,
+    "link_id": null,
+    "url": "login",
+    "badge": null,
+    "width": "12",
+    "sort_order": 1,
+    "status": 1,
+    "created_at": "2025-03-07 16:00:59",
+    "updated_at": "2025-03-07 16:08:18"
+  },
+  {
+    "id": 2,
+    "group_id": 2,
+    "title": "Popularni artikli",
+    "subtitle": null,
+    "description": null,
+    "data": "a:10:{s:5:\"title\";s:17:\"Popularni artikli\";s:6:\"target\";s:7:\"product\";s:8:\"subtitle\";N;s:3:\"url\";s:10:\"/auto-gume\";s:3:\"css\";N;s:3:\"new\";s:2:\"on\";s:6:\"status\";s:2:\"on\";s:5:\"group\";s:7:\"product\";s:8:\"group_id\";s:1:\"2\";s:14:\"group_template\";s:16:\"product_carousel\";}",
+    "image": null,
+    "link": null,
+    "link_id": null,
+    "url": "/auto-gume",
+    "badge": null,
+    "width": null,
+    "sort_order": 0,
+    "status": 1,
+    "created_at": "2025-03-07 16:29:11",
+    "updated_at": "2025-03-07 16:44:05"
+  }
+]

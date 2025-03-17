@@ -195,7 +195,6 @@ class Product extends Model
 
             $product = $this->find($id);
 
-
             $product->update([
                 'url'             => ProductHelper::url($product),
                 'category_string' => ProductHelper::categoryString($product),
@@ -268,6 +267,14 @@ class Product extends Model
             'special_lock'     => 0,
             'meta_title'       => $this->request->meta_title ?: $this->request->name,
             'meta_description' => $this->request->meta_description,
+            'nosivost'         => $this->request->nosivost,
+            'namjena'          => $this->request->namjena,
+            'promjer'          => $this->request->promjer,
+            'sirina'           => $this->request->sirina,
+            'visina'           => $this->request->visina,
+            'buka'             => $this->request->buka,
+            'prijanjanje'      => $this->request->prijanjanje,
+            'iskoristivost'    => $this->request->iskoristivost,
             'viewed'           => 0,
             'sort_order'       => 0,
             'featured'         => 0,
@@ -397,9 +404,9 @@ class Product extends Model
     }
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param $request

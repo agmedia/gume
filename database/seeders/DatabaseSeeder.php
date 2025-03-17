@@ -30,7 +30,15 @@ class DatabaseSeeder extends Seeder
         $this->command->comment('Roles, abilities & permissions created!');
         $this->command->comment('Default settings created!');
         $this->command->comment('Default pages created!');
-        
+
+        $dummy = $this->command->askWithCompletion('Do you want to create some dummy data? (y/n)', ['y', 'n'], 'n');
+
+        if ($dummy === 'y') {
+            $this->call(ProductsPlusSedder::class);
+
+            $this->command->comment('Categories, brands, products created!');
+        }
+
         $this->command->newLine();
         $this->command->info('Enjoy your app!');
         $this->command->comment('...');

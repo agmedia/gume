@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "group": "",
+    "title": "EPREL link",
+    "description": null,
+    "type": "text",
+    "sort_order": 1,
+    "status": 1,
+    "created_at": "2025-03-08 19:35:34",
+    "updated_at": "2025-03-08 19:35:37"
+  },
+  {
+    "id": 2,
+    "group": "",
+    "title": "Informacijski list",
+    "description": null,
+    "type": "text",
+    "sort_order": 2,
+    "status": 1,
+    "created_at": "2025-03-09 07:15:10",
+    "updated_at": "2025-03-09 07:15:10"
+  }
+]

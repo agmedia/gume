@@ -296,6 +296,56 @@
                             <h3 class="block-title">Atributi artikla</h3>
                         </div>
                         <div class="block-content">
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="nosivost-input">Nosivost</label>
+                                        <input type="text" class="form-control" id="nosivost-input" name="nosivost" value="{{ isset($product) ? $product->nosivost : old('nosivost') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="namjena-input">Namjena</label>
+                                        <input type="text" class="form-control" id="namjena-input" name="namjena" value="{{ isset($product) ? $product->namjena : old('namjena') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="promjer-input">Promjer</label>
+                                        <input type="text" class="form-control" id="promjer-input" name="promjer" value="{{ isset($product) ? $product->promjer : old('promjer') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sirina-input">Širina</label>
+                                        <input type="text" class="form-control" id="sirina-input" name="sirina" value="{{ isset($product) ? $product->sirina : old('sirina') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="visina-input">Visina</label>
+                                        <input type="text" class="form-control" id="visina-input" name="visina" value="{{ isset($product) ? $product->visina : old('visina') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="buka-input">Buka</label>
+                                        <input type="text" class="form-control" id="buka-input" name="buka" value="{{ isset($product) ? $product->buka : old('buka') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="prijanjanje-input">Prijanjanje</label>
+                                        <input type="text" class="form-control" id="prijanjanje-input" name="prijanjanje" value="{{ isset($product) ? $product->prijanjanje : old('prijanjanje') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="iskoristivost-input">Iskoristivost</label>
+                                        <input type="text" class="form-control" id="iskoristivost-input" name="iskoristivost" value="{{ isset($product) ? $product->iskoristivost : old('iskoristivost') }}">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row justify-content-center">
                                 <div class="col-md-12">
                                     @livewire('back.catalog.product-attribute-table', ['items' => isset($product) ? $product->attributes()->get()->toArray() : []])
