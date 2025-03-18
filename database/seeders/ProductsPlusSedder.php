@@ -76,11 +76,11 @@ class ProductsPlusSedder extends Seeder
 
                 $cats = Category::query()->where('parent_id', '==', 0)->with('subcategories')->get();
 
-                $names    = collect(['SPORT', 'TREK', 'AVANT', 'ECO'])->random();
-                $nosivost = collect(['120', '130', '140', '150'])->random() . 'M';
-                $promjer  = 'R' . collect(['15', '16', '17', '18', '19'])->random();
-                $sirina   = collect(['195', '205', '215'])->random();
-                $visina   = collect(['40', '45', '50', '55', '60', '75'])->random();
+                $names    = collect(['SPORT', 'TREK', 'AVANT', 'ECO'])->random(1)->first();
+                $nosivost = collect(['120', '130', '140', '150'])->random(1)->first() . 'M';
+                $promjer  = 'R' . collect(['15', '16', '17', '18', '19'])->random(1)->first();
+                $sirina   = collect(['195', '205', '215'])->random(1)->first();
+                $visina   = collect(['40', '45', '50', '55', '60', '75'])->random(1)->first();
                 $brand    = Brand::query()->inRandomOrder()->first();
 
                 $name        = $brand->title . ' ' . $sirina . '/' . $visina . ' ' . $promjer . ' ' . $names . ' ' . $nosivost;
@@ -106,14 +106,14 @@ class ProductsPlusSedder extends Seeder
                     'meta_title'       => $name,
                     'meta_description' => Str::substr($description, 0, 100),
                     'nosivost'         => $nosivost,
-                    'namjena'          => collect(['Teretne', 'Auto gume', 'Off road'])->random(),
+                    'namjena'          => collect(['Teretne', 'Auto gume', 'Off road'])->random(1)->first(),
                     'promjer'          => $promjer,
                     'sirina'           => $sirina,
                     'visina'           => $visina,
-                    'buka'             => collect([60, 70, 80, 90, 100])->random(),
-                    'prijanjanje'      => collect(['A', 'B', 'C'])->random(),
-                    'iskoristivost'    => collect(['A', 'B', 'C'])->random(),
-                    'sezona'           => collect(['Zima', 'Ljeto', 'Sva'])->random(),
+                    'buka'             => collect([60, 70, 80, 90, 100])->random(1)->first(),
+                    'prijanjanje'      => collect(['A', 'B', 'C'])->random(1)->first(),
+                    'iskoristivost'    => collect(['A', 'B', 'C'])->random(1)->first(),
+                    'sezona'           => collect(['Zima', 'Ljeto', 'Sva'])->random(1)->first(),
                     'viewed'           => 0,
                     'sort_order'       => $count,
                     'featured'         => 0,
