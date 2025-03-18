@@ -45,6 +45,7 @@ class CreateProductsTable extends Migration
             $table->string('buka')->nullable()->index();
             $table->string('prijanjanje')->nullable()->index();
             $table->string('iskoristivost')->nullable()->index();
+            $table->string('sezona')->nullable()->index();
             //
             $table->integer('viewed')->unsigned()->default(0);
             $table->integer('sort_order')->unsigned()->default(0);

@@ -34,9 +34,11 @@ class DatabaseSeeder extends Seeder
         $dummy = $this->command->askWithCompletion('Do you want to create some dummy data? (y/n)', ['y', 'n'], 'n');
 
         if ($dummy === 'y') {
-            $this->call(ProductsPlusSedder::class);
+            $qty = $this->command->ask('How many products do you want? [10]');
 
-            $this->command->comment('Categories, brands, products created!');
+            $this->call((new ProductsPlusSedder())->run($qty ?: 10));
+
+            $this->command->comment('Categories, brands... and ' . $qty . ' products created!');
         }
 
         $this->command->newLine();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\OrderHelper;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FrontController;
 use App\Mail\OrderReceived;
 use App\Mail\OrderSent;
 use App\Models\Back\Settings\Settings;
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class CheckoutController extends Controller
+class CheckoutController extends FrontController
 {
 
     /**

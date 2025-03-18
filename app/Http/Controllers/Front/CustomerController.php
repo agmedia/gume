@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Country;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FrontController;
 use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class CustomerController extends FrontController
 {
     /**
      * Display a listing of the resource.

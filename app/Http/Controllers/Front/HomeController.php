@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Njuskalo;
 use App\Helpers\Recaptcha;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FrontController;
 use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
 use App\Models\Front\Page;
@@ -18,7 +19,7 @@ use Intervention\Image\Facades\Image;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class HomeController extends Controller
+class HomeController extends FrontController
 {
     /**
      * Display a listing of the resource.

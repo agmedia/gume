@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->text('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->string('image')->default('media/avatars/avatar0.jpg');
+            $table->string('icon')->nullable();
             $table->string('group')->default(\App\Helpers\Helper::categoryGroupPath(true));
             $table->string('lang')->default('hr');
             $table->integer('sort_order')->unsigned()->default(0);

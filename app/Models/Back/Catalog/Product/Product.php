@@ -275,6 +275,7 @@ class Product extends Model
             'buka'             => $this->request->buka,
             'prijanjanje'      => $this->request->prijanjanje,
             'iskoristivost'    => $this->request->iskoristivost,
+            'sezona'           => $this->request->sezona,
             'viewed'           => 0,
             'sort_order'       => 0,
             'featured'         => 0,

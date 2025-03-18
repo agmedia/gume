@@ -6,6 +6,7 @@ use App\Helpers\Breadcrumb;
 use App\Helpers\Helper;
 use App\Helpers\RouteResolver;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FrontController;
 use App\Imports\ProductImport;
 use App\Models\Front\Blog;
 use App\Models\Front\Page;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class CatalogRouteController extends Controller
+class CatalogRouteController extends FrontController
 {
 
     /**
@@ -147,55 +148,6 @@ class CatalogRouteController extends Controller
         $crumbs = null;
 
         return view('front.catalog.category.index', compact('brand', 'letter', 'cat', 'subcat', 'seo', 'crumbs'));
-    }
-
-
-    /**
-     *
-     *
-     * @param Publisher $publisher
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function publisher(Request $request, Publisher $publisher = null, Category $cat = null, Category $subcat = null)
-    {
-        if ( ! $publisher) {
-            $letters = Helper::resolveCache('publishers')->remember('letters', config('cache.life'), function () {
-                return Publisher::letters();
-            });
-            $letter = $this->checkLetter($letters);
-
-            if ($request->has('letter')) {
-                $letter = $request->input('letter');
-            }
-
-            $currentPage = request()->get('page', 1);
-
-            $publishers = Helper::resolveCache('publishers')->remember($letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
-                return Publisher::query()->select('id', 'title', 'url')
-                                         ->where('status',  1)
-                                         ->where('letter', $letter)
-                                         ->orderBy('title')
-                                         ->withCount('products')
-                                         ->paginate(36)
-                                         ->appends(request()->query());
-            });
-
-            $meta_tags = Seo::getMetaTags($request, 'ap_filter');
-
-            return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter', 'meta_tags'));
-        }
-
-        $letter = null;
-
-        if ($cat) { $cat->count = $cat->products()->count(); }
-        if ($subcat) { $subcat->count = $subcat->products()->count(); }
-
-        $seo = Seo::getPublisherData($publisher, $cat, $subcat);
-
-        $crumbs = null;
-
-        return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat', 'seo', 'crumbs'));
     }
 
 
