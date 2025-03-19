@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class ReservationController extends Controller
+class HotelController extends Controller
 {
 
     /**
@@ -30,7 +30,7 @@ class ReservationController extends Controller
         $orders   = $order->filter($request)->paginate(config('settings.pagination.back'));
         $statuses = Settings::get('order', 'statuses');
 
-        return view('back.reservation.index', compact('orders', 'statuses'));
+        return view('back.hotel.index', compact('orders', 'statuses'));
     }
 
 
@@ -41,7 +41,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        return view('back.reservation.edit');
+        return view('back.hotel.edit');
     }
 
 
@@ -59,7 +59,7 @@ class ReservationController extends Controller
         $stored = $order->validateRequest($request)->store();
 
         if ($stored) {
-            return redirect()->route('reservation.edit', ['order' => $stored])->with(['success' => 'Rezervacija je snimljena!']);
+            return redirect()->route('hotel.edit', ['order' => $stored])->with(['success' => 'Upis je snimljen!']);
         }
 
         return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
@@ -77,7 +77,7 @@ class ReservationController extends Controller
     {
         $statuses = Settings::get('order', 'statuses');
 
-        return view('back.reservation.show', compact('order', 'statuses'));
+        return view('back.hotel.show', compact('order', 'statuses'));
     }
 
 
@@ -95,7 +95,7 @@ class ReservationController extends Controller
         $shippings = Settings::getList('shipping');
         $payments  = Settings::getList('payment');
 
-        return view('back.order.edit', compact('order', 'countries', 'statuses', 'shippings', 'payments'));
+        return view('back.hotel.edit', compact('order', 'countries', 'statuses', 'shippings', 'payments'));
     }
 
 

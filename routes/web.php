@@ -7,12 +7,12 @@ use App\Http\Controllers\Back\Catalog\AttributesController;
 use App\Http\Controllers\Back\Catalog\BrandController;
 use App\Http\Controllers\Back\Catalog\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
-use App\Http\Controllers\Back\Catalog\PublisherController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
 use App\Http\Controllers\Back\ReservationController;
+use App\Http\Controllers\Back\HotelController;
 use App\Http\Controllers\Back\Settings\App\CurrencyController;
 use App\Http\Controllers\Back\Settings\App\GeoZoneController;
 use App\Http\Controllers\Back\Settings\App\OrderStatusController;
@@ -116,6 +116,14 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('reservation/{order}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::get('reservation/{order}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
     Route::patch('reservation/{order}', [ReservationController::class, 'update'])->name('reservations.update');
+
+    // Hotel
+    Route::get('hotels', [HotelController::class, 'index'])->name('hotels');
+    Route::get('hotel/create', [HotelController::class, 'create'])->name('hotels.create');
+    Route::post('hotel', [HotelController::class, 'store'])->name('hotels.store');
+    Route::get('hotel/{order}', [HotelController::class, 'show'])->name('hotels.show');
+    Route::get('hotel/{order}/edit', [HotelController::class, 'edit'])->name('hotels.edit');
+    Route::patch('hotel/{order}', [HotelController::class, 'update'])->name('hotels.update');
 
     // MARKETING
     Route::prefix('marketing')->group(function () {

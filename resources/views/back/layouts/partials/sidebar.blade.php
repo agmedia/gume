@@ -99,8 +99,15 @@
                 </li>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['reservations', 'reservations.*']) ? ' active' : '' }}" href="{{ route('reservations') }}">
-                        <i class="nav-main-link-icon si si-basket-loaded"></i>
+                        <i class="nav-main-link-icon si si-list"></i>
                         <span class="nav-main-link-name">Rezervacije</span>
+                    </a>
+                </li>
+
+                <li class="nav-main-item">
+                    <a class="nav-main-link{{ request()->routeIs(['hotels', 'hotels.*']) ? ' active' : '' }}" href="{{ route('hotels') }}">
+                        <i class="nav-main-link-icon si si-hourglass"></i>
+                        <span class="nav-main-link-name">Hotel za gume</span>
                     </a>
                 </li>
 
