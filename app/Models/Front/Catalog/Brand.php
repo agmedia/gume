@@ -196,4 +196,29 @@ class Brand extends Model
                      ->sortByName()
                      ->get();
     }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    public static function getSelectList(string $key = 'id')
+    {
+        return Helper::resolveCache('brands')->remember('list' . $key, config('cache.life'), function () use ($key) {
+            return Brand::query()->where('status', 1)->orderBy('sort_order')->pluck('title', $key)->toArray();
+        });
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return Brand|null
+     */
+    public static function getById(int $id): Brand|null
+    {
+        return Helper::resolveCache('brand')->remember($id, config('cache.life'), function () use ($id) {
+            return Brand::query()->find($id);
+        });
+    }
 }

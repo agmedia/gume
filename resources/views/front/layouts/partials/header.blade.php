@@ -86,7 +86,7 @@
     <div class="offcanvas-body pt-0">
 
         <!-- Sort by -->
-        <select class="form-select form-select-lg form-select-flush text-body-emphasis fw-medium py-3 px-0" id="fil" data-select='{
+        {{--<select class="form-select form-select-lg form-select-flush text-body-emphasis fw-medium py-3 px-0" id="fil" data-select='{
           "classNames": {
             "containerInner": ["form-select", "form-select-lg", "form-select-flush", "text-body-emphasis", "fw-medium", "py-3", "px-0"]
           }
@@ -96,7 +96,7 @@
             <option value="match">Zadnje dodano</option>
             <option value="price-asc">Cijena (viša - niža) </option>
             <option value="price-desc">Cijena (niža - viša)</option>
-        </select>
+        </select>--}}
 
         <div class="accordion" id="filters">
 

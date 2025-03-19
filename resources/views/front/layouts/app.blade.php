@@ -163,6 +163,29 @@
     })
 </script>
 
+{{--<script>
+    document.addEventListener('livewire:load', function () {
+        // Initialize Choices.js when the page loads
+        let conf = {classNames: {containerInner: ["form-select", "filter-select", "rounded-pill"]}}
+
+        var programSelect = new Choices('#program-select', conf);
+
+        // Listen for Livewire update event
+        Livewire.hook('element.updated', (el, component) => {
+            // Check if the updated element is one of your select inputs
+            if (el.id === 'program-select' || el.id === 'courses-select') {
+                // Destroy the old Choices instance
+                if (el.id === 'program-select') {
+                    programSelect.destroy();
+                }
+
+                // Re-initialize Choices on the updated select element
+                new Choices(el, conf);
+            }
+        });
+    });
+</script>--}}
+
 @stack('js_after')
 
 </body>

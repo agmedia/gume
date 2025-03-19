@@ -6,6 +6,8 @@ use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\Front\Catalog\Category;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ProductHelper
@@ -176,5 +178,64 @@ class ProductHelper
         }
 
         return true;
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    /**
+     * @return Collection
+     */
+    public static function getSezoneList(): Collection
+    {
+        return Cache::remember('products.sezone', config('cache.life'), function () {
+            return collect(config('settings.sezone'));
+        });
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public static function getSirineList(): Collection
+    {
+        return Cache::remember('products.sirine', config('cache.life'), function () {
+            return Product::query()->groupBy('sirina')->orderBy('sirina')->pluck('sirina');
+        });
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public static function getVisineList(): Collection
+    {
+        return Cache::remember('products.visine', config('cache.life'), function () {
+            return Product::query()->groupBy('visina')->orderBy('visina')->pluck('visina');
+        });
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public static function getPromjeriList(): Collection
+    {
+        return Cache::remember('products.promjeri', config('cache.life'), function () {
+            return Product::query()->groupBy('promjer')->orderBy('promjer')->pluck('promjer');
+        });
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public static function getSortingList(): Collection
+    {
+        return Cache::remember('products.sort', config('cache.life'), function () {
+            return collect(config('settings.sorting_list'))->sortBy('sort_order');
+        });
     }
 }

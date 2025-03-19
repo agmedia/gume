@@ -96,7 +96,7 @@ class ProductsPlusSedder extends Seeder
                     'url'              => '',
                     'category_string'  => '',
                     'price'            => rand(70, 150),
-                    'quantity'         => rand(10, 50),
+                    'quantity'         => rand(0, 50),
                     'decrease'         => 1,
                     'tax_id'           => 2,
                     'special'          => 0,

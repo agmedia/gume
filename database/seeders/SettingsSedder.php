@@ -17,17 +17,18 @@ class SettingsSedder extends Seeder
     public function run()
     {
         // create settings
-        //DB::statement(Storage::get(base_path('/database/seeders/settings.txt')));
+
+        DB::unprepared(file_get_contents(base_path('/database/seeders/settings.sql')));
         
-        $items = file_get_contents(base_path('/database/seeders/settings.json'));
+        /*$items = file_get_contents(base_path('/database/seeders/settings.json'));
         
         if ($items) {
             $items = json_decode($items, true);
             
             foreach ($items as $item) {
-                //DB::table('settings')->insert($item);
+                DB::table('settings')->insert($item);
             }
-        }
+        }*/
         
     }
 }

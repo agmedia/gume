@@ -34,24 +34,49 @@ return [
 
     'sorting_list' => [
         0 => [
-            'title' => 'Najnovije',
-            'value' => 'novi'
+            'title' => 'Zadnje dodano',
+            'value' => 'created_at_desc',
+            'sort_order' => 1
         ],
         1 => [
-            'title' => 'Najmanja cijena',
-            'value' => 'price_up'
+            'title' => 'Najpopularnije',
+            'value' => 'viewed_desc',
+            'sort_order' => 2
         ],
         2 => [
-            'title' => 'Najveća cijena',
-            'value' => 'price_down'
+            'title' => 'Cijena (niža - viša)',
+            'value' => 'price_asc',
+            'sort_order' => 3
         ],
         3 => [
-            'title' => 'A - Ž',
-            'value' => 'naziv_up'
+            'title' => 'Cijena (viša - niža)',
+            'value' => 'price_desc',
+            'sort_order' => 4
         ],
         4 => [
+            'title' => 'A - Ž',
+            'value' => 'name_asc',
+            'sort_order' => 5
+        ],
+        5 => [
             'title' => 'Ž - A',
-            'value' => 'naziv_down'
+            'value' => 'name_desc',
+            'sort_order' => 6
+        ],
+    ],
+
+    'sezone' => [
+        0 => [
+            'title' => 'Ljetne gume',
+            'key' => 'Ljeto'
+        ],
+        1 => [
+            'title' => 'Zimske gume',
+            'key' => 'Zima'
+        ],
+        2 => [
+            'title' => 'Cjelogodišnje gume',
+            'key' => 'Sve'
         ],
     ],
 
