@@ -103,193 +103,109 @@
                 <!-- Category filter -->
                 <div class="accordion-item">
                     <h6 class="accordion-header" id="headingCategory">
-                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#categoryFilter" aria-expanded="false" aria-controls="categoryFilter">
-                <span class="d-flex align-items-end">
-                  Kategorija
-                  <span class="text-body fs-sm fw-normal ms-1" id="categoryCount-2"></span>
-                </span>
+                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#sezonaFilter" aria-expanded="false" aria-controls="sezonaFilter">
+                            <span class="d-flex align-items-end">Sezona<span class="text-body fs-sm fw-normal ms-1" id="sezonaFilter-drawer"></span></span>
                         </button>
                     </h6>
-                    <div class="accordion-collapse collapse" id="categoryFilter" aria-labelledby="headingCategory" data-bs-parent="#filters">
+                    <div class="accordion-collapse collapse" id="sezonaFilter" aria-labelledby="headingCategory" data-bs-parent="#filters">
                         <div class="accordion-body d-flex flex-column gap-2 px-1">
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="living-room-2" checked onclick="updateFilterCount('categoryCount-2')" data-count-id="categoryCount-2">
-                                <label for="living-room-2" class="form-check-label d-flex align-items-end">
-                                    Ljetne gume
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="bedroom-2"  onclick="updateFilterCount('categoryCount-2')" data-count-id="categoryCount-2">
-                                <label for="bedroom-2" class="form-check-label d-flex align-items-end">
-                                    Zimske gume
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">528</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="kitchen-2" onclick="updateFilterCount('categoryCount-2')" data-count-id="categoryCount-2">
-                                <label for="kitchen-2" class="form-check-label d-flex align-items-end">
-                                    Cjelogodišnje gume
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">342</span>
-                                </label>
-                            </div>
-
+                            @foreach ($sezone as $item)
+                                <div class="form-check m-0">
+                                    <input type="radio" class="form-check-input fs-base" @if($item['key'] == $sezona) selected @endif wire:model="sezona" value="{{ $item['key'] }}" data-count-id="sezonaFilter-drawer">
+                                    <label for="living-room-2" class="form-check-label d-flex align-items-end">
+                                        {{ $item['title'] }}
+                                        {{--<span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>--}}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
 
                 <!-- Brand filter -->
                 <div class="accordion-item">
-                    <h6 class="accordion-header" id="headingBrand">
-                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#BrandFilter" aria-expanded="false" aria-controls="BrandFilter">
-                <span class="d-flex align-items-end">
-                  Brand
-                  <span class="text-body fs-sm fw-normal ms-1" id="BrandCount-2"></span>
-                </span>
+                    <h6 class="accordion-header" id="brandCategory">
+                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#brandFilter" aria-expanded="false" aria-controls="brandFilter">
+                            <span class="d-flex align-items-end">Brand<span class="text-body fs-sm fw-normal ms-1" id="brandFilter-drawer"></span></span>
                         </button>
                     </h6>
-                    <div class="accordion-collapse collapse" id="BrandFilter" aria-labelledby="BrandCategory" data-bs-parent="#filters">
+                    <div class="accordion-collapse collapse" id="brandFilter" aria-labelledby="brandCategory" data-bs-parent="#filters">
                         <div class="accordion-body d-flex flex-column gap-2 px-1">
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="living-room-2" checked onclick="updateFilterCount('categoryCount-2')" data-count-id="categoryCount-2">
-                                <label for="living-room-2" class="form-check-label d-flex align-items-end">
-                                    Barum
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="bedroom-2"  onclick="updateFilterCount('categoryCount-2')" data-count-id="categoryCount-2">
-                                <label for="bedroom-2" class="form-check-label d-flex align-items-end">
-                                    Bridgestone
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">528</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="kitchen-2" onclick="updateFilterCount('categoryCount-2')" data-count-id="categoryCount-2">
-                                <label for="kitchen-2" class="form-check-label d-flex align-items-end">
-                                    Continental
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">342</span>
-                                </label>
-                            </div>
-
+                            @foreach ($brands as $slug => $title)
+                                <div class="form-check m-0">
+                                    <input type="radio" class="form-check-input fs-base" @if($slug == $brand) selected @endif wire:model="brand" value="{{ $slug }}" data-count-id="brandFilter-drawer">
+                                    <label for="living-room-2" class="form-check-label d-flex align-items-end">
+                                        {{ $title }}
+                                        {{--<span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>--}}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
 
                 <!-- Širina filter -->
                 <div class="accordion-item">
-                    <h6 class="accordion-header" id="headingType">
-                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#typeFilter" aria-expanded="false" aria-controls="typeFilter">
-                <span class="d-flex align-items-end">
-                  Širina
-                  <span class="text-body fs-sm fw-normal ms-1" id="typeCount-2"></span>
-                </span>
+                    <h6 class="accordion-header" id="sirinaCategory">
+                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#sirinaFilter" aria-expanded="false" aria-controls="sirinaFilter">
+                            <span class="d-flex align-items-end">Širina<span class="text-body fs-sm fw-normal ms-1" id="sirinaFilter-drawer"></span></span>
                         </button>
                     </h6>
-                    <div class="accordion-collapse collapse" id="typeFilter" aria-labelledby="headingType" data-bs-parent="#filters">
+                    <div class="accordion-collapse collapse" id="sirinaFilter" aria-labelledby="sirinaCategory" data-bs-parent="#filters">
                         <div class="accordion-body d-flex flex-column gap-2 px-1">
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="armchair-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="armchair-2" class="form-check-label d-flex align-items-end">
-                                    145
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">324</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="sofa-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="sofa-2" class="form-check-label d-flex align-items-end">
-                                    155
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">275</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="ottoman-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="ottoman-2" class="form-check-label d-flex align-items-end">
-                                    165
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">117</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="bench-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="bench-2" class="form-check-label d-flex align-items-end">
-                                    175
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">86</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="bed-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="bed-2" class="form-check-label d-flex align-items-end">
-                                    185
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">263</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="lamp-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="lamp-2" class="form-check-label d-flex align-items-end">
-                                    195
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">415</span>
-                                </label>
-                            </div>
-
+                            @foreach ($sirine as $item)
+                                <div class="form-check m-0">
+                                    <input type="radio" class="form-check-input fs-base" @if($item == $sirina) selected @endif wire:model="sirina" value="{{ $item }}" data-count-id="sirinaFilter-drawer">
+                                    <label for="living-room-2" class="form-check-label d-flex align-items-end">
+                                        {{ $item }}
+                                        {{--<span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>--}}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
 
                 <!-- Visina filter -->
                 <div class="accordion-item">
-                    <h6 class="accordion-header" id="headingVisina">
-                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#typeVisina" aria-expanded="false" aria-controls="typeVisina">
-                <span class="d-flex align-items-end">
-                  Visina
-                  <span class="text-body fs-sm fw-normal ms-1" id="typeVisina-2"></span>
-                </span>
+                    <h6 class="accordion-header" id="visinaCategory">
+                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#visinaFilter" aria-expanded="false" aria-controls="visinaFilter">
+                            <span class="d-flex align-items-end">Širina<span class="text-body fs-sm fw-normal ms-1" id="visinaFilter-drawer"></span></span>
                         </button>
                     </h6>
-                    <div class="accordion-collapse collapse" id="typeVisina" aria-labelledby="headingVisina" data-bs-parent="#filters">
+                    <div class="accordion-collapse collapse" id="visinaFilter" aria-labelledby="visinaCategory" data-bs-parent="#filters">
                         <div class="accordion-body d-flex flex-column gap-2 px-1">
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="armchair-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="armchair-2" class="form-check-label d-flex align-items-end">
-                                    35
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">324</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="sofa-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="sofa-2" class="form-check-label d-flex align-items-end">
-                                    40
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">275</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="ottoman-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="ottoman-2" class="form-check-label d-flex align-items-end">
-                                    45
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">117</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="bench-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="bench-2" class="form-check-label d-flex align-items-end">
-                                    50
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">86</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="bed-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="bed-2" class="form-check-label d-flex align-items-end">
-                                    55
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">263</span>
-                                </label>
-                            </div>
-                            <div class="form-check m-0">
-                                <input type="checkbox" class="form-check-input fs-base" id="lamp-2" onclick="updateFilterCount('typeCount-2')" data-count-id="typeCount-2">
-                                <label for="lamp-2" class="form-check-label d-flex align-items-end">
-                                    60
-                                    <span class="fs-xs text-body-secondary ps-2 ms-auto">415</span>
-                                </label>
-                            </div>
+                            @foreach ($visine as $item)
+                                <div class="form-check m-0">
+                                    <input type="radio" class="form-check-input fs-base" @if($item == $visina) selected @endif wire:model="visina" value="{{ $item }}" data-count-id="visinaFilter-drawer">
+                                    <label for="living-room-2" class="form-check-label d-flex align-items-end">
+                                        {{ $item }}
+                                        {{--<span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>--}}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Promjer filter -->
+                <div class="accordion-item">
+                    <h6 class="accordion-header" id="promjerCategory">
+                        <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#promjerFilter" aria-expanded="false" aria-controls="promjerFilter">
+                            <span class="d-flex align-items-end">Širina<span class="text-body fs-sm fw-normal ms-1" id="promjerFilter-drawer"></span></span>
+                        </button>
+                    </h6>
+                    <div class="accordion-collapse collapse" id="promjerFilter" aria-labelledby="promjerCategory" data-bs-parent="#filters">
+                        <div class="accordion-body d-flex flex-column gap-2 px-1">
+                            @foreach ($promjeri as $item)
+                                <div class="form-check m-0">
+                                    <input type="radio" class="form-check-input fs-base" @if($item == $promjer) selected @endif wire:model="promjer" value="{{ $item }}" data-count-id="promjerFilter-drawer">
+                                    <label for="living-room-2" class="form-check-label d-flex align-items-end">
+                                        {{ $item }}
+                                        {{--<span class="fs-xs text-body-secondary ps-2 ms-auto">657</span>--}}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -351,6 +267,11 @@
                         </div>
                     </div>
                 </div>
+
+                <a class="btn btn-primary btn-block mt-4" wire:click="cleanFilter()">
+                    <i class="ci-trash-empty me-1"></i>
+                    <span class="animate-target text-nowrap">Očisti</span>
+                </a>
             </div>
         </div>
     </div>

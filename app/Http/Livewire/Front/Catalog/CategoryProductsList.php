@@ -103,13 +103,10 @@ class CategoryProductsList extends Component
 
     public function dropdownFilterSelected(string $target, string $value)
     {
+        //dd($target, $value);
         $this->{$target} = $value;
-        //$this->page = 1;
+
         $this->resetPage();
-
-        //dd(request()->all());
-
-        //return redirect(request()->header('Referer'));
     }
 
 
@@ -165,10 +162,11 @@ class CategoryProductsList extends Component
         $category    = $this->resolveCategoryId($data);
         $filter_data = $this->resolveData();
 
-        return Cache::remember($filter_data->cacheHash, config('cache.life'), function () use ($category, $filter_data) {
+        //return Cache::remember($filter_data->cacheHash, config('cache.life'), function () use ($category, $filter_data) {
 
             $products = Product::query()->where('status', 1)
                                ->where('quantity', '>', 0);
+
             if ($category->id) {
                 if ( ! $category->parent_id) {
                     $cats = $category->subcategories()->pluck('id');
@@ -177,6 +175,17 @@ class CategoryProductsList extends Component
                     $products->whereHas('categories', function (Builder $query) use ($cats) {
                         $query->whereIn('category_id', $cats);
                     });
+                }
+            }
+
+            // Brand
+            if ($filter_data->brand != '') {
+                $brand = Brand::getBySlug($filter_data->brand);
+
+
+                if ($brand) {
+                    $products->where('brand_id', $brand->id);
+                    //dd($brand->id, $products->count());
                 }
             }
 
@@ -200,9 +209,9 @@ class CategoryProductsList extends Component
                 $products->orderBy($sort[0], $sort[1]);
             }
 
-            return $products->paginate(5);
+            return $products->paginate(15);
 
-        });
+        //});
     }
 
 

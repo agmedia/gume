@@ -221,4 +221,17 @@ class Brand extends Model
             return Brand::query()->find($id);
         });
     }
+
+
+    /**
+     * @param string $slug
+     *
+     * @return Brand|null
+     */
+    public static function getBySlug(string $slug): Brand|null
+    {
+        return Helper::resolveCache('brand')->remember($slug, config('cache.life'), function () use ($slug) {
+            return Brand::query()->where('slug', $slug)->first();
+        });
+    }
 }

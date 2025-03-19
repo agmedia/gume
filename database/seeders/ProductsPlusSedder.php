@@ -85,9 +85,10 @@ class ProductsPlusSedder extends Seeder
 
                 $name        = $brand->title . ' ' . $sirina . '/' . $visina . ' ' . $promjer . ' ' . $names . ' ' . $nosivost;
                 $description = "<p><strong>Učinkovitosti potrošnje goriva - C; kl. učinkovitosti na mokroj podlozi - A; mjerenje buke i otpora kotrljanja</strong></p><p>Najvažniji datum NIJE onaj proizvodnje pneumatika (DOT), već datum montaže pneumatika na vozilo.</p><p>Pravilno skladištene i nekorištene gume mogu prodavati kao nove do njihove 5 godine starosti, a voziti se mogu do njihove 10 godine starosti</p><p>Gume stare zbog toga što se u njima stalno odvijaju kemijski i fizikalni procesi. U svakom slučaju, navedeni procesi odvijaju se vrlo sporo u gumama koje su pravilno skladištene. Starenje počinje nakon montaže pneumatika na vozilo. Kraće razdoblje prije toga je zanemarivo.</p><p>Prije montaže na vaš automobil pneumatik nije napuhan, nije opterećen te je podvrgnut samo manjim temperaturnim promjenama na mjestu skladištenja – dakle ne oštećuje se. Budući da su pneumatici dizajnirani za osiguranje pouzdane upotrebe na vozilima dugi niz godina i pod brojnim različitim uvjetima upotrebe, kraće starenje do kojeg dolazi tijekom njihova skladištenja, a prije montaže, nema većeg značaja.</p><p>&nbsp;</p>";
+                $quantity = rand(0, 50);
 
                 $id = DB::table('products')->insertGetId([
-                    'brand_id'         => rand(1, 2),
+                    'brand_id'         => $brand->id,
                     'action_id'        => 0,
                     'name'             => $name,
                     'sku'              => '000' . $count,
@@ -96,7 +97,7 @@ class ProductsPlusSedder extends Seeder
                     'url'              => '',
                     'category_string'  => '',
                     'price'            => rand(70, 150),
-                    'quantity'         => rand(0, 50),
+                    'quantity'         => $quantity,
                     'decrease'         => 1,
                     'tax_id'           => 2,
                     'special'          => 0,
@@ -117,7 +118,7 @@ class ProductsPlusSedder extends Seeder
                     'viewed'           => 0,
                     'sort_order'       => $count,
                     'featured'         => 0,
-                    'status'           => 1,
+                    'status'           => $quantity ? 1 : 0,
                     'created_at'       => now(),
                     'updated_at'       => now()
                 ]);
