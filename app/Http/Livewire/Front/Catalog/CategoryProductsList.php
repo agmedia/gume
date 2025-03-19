@@ -16,6 +16,7 @@ use Livewire\WithPagination;
  */
 class CategoryProductsList extends Component
 {
+
     use WithPagination;
 
     /**
@@ -29,33 +30,46 @@ class CategoryProductsList extends Component
     public $route_data;
 
     public $sezone = [];
+
     public $sirine = [];
+
     public $visine = [];
+
     public $promjeri = [];
+
     public $sorting_list = [];
 
     public $sezona = '';
+
     public $sirina = '';
+
     public $visina = '';
+
     public $promjer = '';
+
     public $sort = '';
 
     public $brands = [];
+
     public $brand = '';
 
     public $prices = [];
+
     public $price = '';
+
+    public $page = 1;
 
     public $show_additional_filters = false;
 
     protected $queryString = [
-        'sezona' => ['except' => ''],
-        'sirina' => ['except' => ''],
-        'visina' => ['except' => ''],
+        'sezona'  => ['except' => ''],
+        'sirina'  => ['except' => ''],
+        'visina'  => ['except' => ''],
         'promjer' => ['except' => ''],
-        'brand' => ['except' => ''],
-        'price' => ['except' => ''],
-        'sort' => ['except' => ''],
+        'brand'   => ['except' => ''],
+        'price'   => ['except' => ''],
+        'sort'    => ['except' => ''],
+        'page'    => ['except' => 1],
     ];
 
 
@@ -64,10 +78,10 @@ class CategoryProductsList extends Component
      */
     public function mount()
     {
-        $this->sezone = ProductHelper::getSezoneList();
-        $this->sirine = ProductHelper::getSirineList();
-        $this->visine = ProductHelper::getVisineList();
-        $this->promjeri = ProductHelper::getPromjeriList();
+        $this->sezone       = ProductHelper::getSezoneList();
+        $this->sirine       = ProductHelper::getSirineList();
+        $this->visine       = ProductHelper::getVisineList();
+        $this->promjeri     = ProductHelper::getPromjeriList();
         $this->sorting_list = ProductHelper::getSortingList();
         //
         $this->brands = Brand::getSelectList('slug');
@@ -90,21 +104,12 @@ class CategoryProductsList extends Component
     public function dropdownFilterSelected(string $target, string $value)
     {
         $this->{$target} = $value;
+        //$this->page = 1;
+        $this->resetPage();
 
         //dd(request()->all());
 
         //return redirect(request()->header('Referer'));
-    }
-
-
-    public function btnFilterDeleted(string $target)
-    {
-        $this->{$target} = '';
-
-        //$this->reset(['sezone', 'sirine', 'visine', 'promjeri']);
-        //return redirect(request()->header('Referer'));
-
-        return $this->render();
     }
 
 
@@ -126,6 +131,7 @@ class CategoryProductsList extends Component
     public function render()
     {
         $products = $this->resolveProducts(json_decode($this->route_data));
+
         //dd($sezone, $products);
         return view('livewire.front.catalog.category-products-list', compact('products'));
     }
@@ -142,7 +148,7 @@ class CategoryProductsList extends Component
             return Category::getById($data->category->id);
         }
 
-        $category = new \stdClass();
+        $category     = new \stdClass();
         $category->id = 0;
 
         return $category;
@@ -156,51 +162,61 @@ class CategoryProductsList extends Component
      */
     private function resolveProducts($data)
     {
-        $category = $this->resolveCategoryId($data);
+        $category    = $this->resolveCategoryId($data);
         $filter_data = $this->resolveData();
 
-        //return Cache::remember('products.category.' . $category->id, config('cache.life'), function () use ($category) {
+        return Cache::remember($filter_data->cacheHash, config('cache.life'), function () use ($category, $filter_data) {
+
+            $products = Product::query()->where('status', 1)
+                               ->where('quantity', '>', 0);
             if ($category->id) {
                 if ( ! $category->parent_id) {
                     $cats = $category->subcategories()->pluck('id');
                     $cats->push($category->id);
 
-                    $products = Product::query()->where('status', 1)
-                                                ->where('quantity', '>', 0)
-                                                ->whereHas('categories', function (Builder $query) use ($cats) {
-                                                    $query->whereIn('category_id', $cats);
-                                                });
-
-                    if ($filter_data->sezona != '') {
-                        $products->where('sezona', $filter_data->sezona);
-                    }
-                    if ($filter_data->sirina != '') {
-                        $products->where('sirina', $filter_data->sirina);
-                    }
-                    if ($filter_data->visina != '') {
-                        $products->where('visina', $filter_data->visina);
-                    }
-                    if ($filter_data->promjer != '') {
-                        $products->where('promjer', $filter_data->promjer);
-                    }
+                    $products->whereHas('categories', function (Builder $query) use ($cats) {
+                        $query->whereIn('category_id', $cats);
+                    });
                 }
-
-                //dd($cats->toArray());
-                return $products->paginate(5);
             }
 
-            return Product::query()->get();
-        //});
+            if ($filter_data->sezona != '') {
+                $products->where('sezona', $filter_data->sezona);
+            }
+            if ($filter_data->sirina != '') {
+                $products->where('sirina', $filter_data->sirina);
+            }
+            if ($filter_data->visina != '') {
+                $products->where('visina', $filter_data->visina);
+            }
+            if ($filter_data->promjer != '') {
+                $products->where('promjer', $filter_data->promjer);
+            }
+
+            // Sort
+            if ($filter_data->sort != '') {
+                $sort = explode('_', $filter_data->sort);
+
+                $products->orderBy($sort[0], $sort[1]);
+            }
+
+            return $products->paginate(5);
+
+        });
     }
 
 
     private function resolveData(): \stdClass
     {
-        $data = json_decode($this->route_data);
-        $data->sezona = $this->sezona;
-        $data->sirina = $this->sirina;
-        $data->visina = $this->visina;
+        $data          = json_decode($this->route_data);
+        $data->sezona  = $this->sezona;
+        $data->sirina  = $this->sirina;
+        $data->visina  = $this->visina;
         $data->promjer = $this->promjer;
+        $data->sort    = $this->sort;
+        $data->brand   = $this->brand;
+        $data->price   = $this->price;
+        $data->page    = $this->page;
 
         $cache_hash = 'products.list' . $data->group
                       . ($data->category ? $data->category->id : 0)
@@ -209,7 +225,10 @@ class CategoryProductsList extends Component
                       . $data->sirina
                       . $data->visina
                       . $data->promjer
-                      . $this->page;
+                      . $data->brand
+                      . $data->sort
+                      . $data->price
+                      . $data->page;
 
         $data->cacheHash = hash('crc32', $cache_hash);
 
