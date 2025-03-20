@@ -91,9 +91,9 @@ class Special
      */
     public function resolveAction(): ?ProductAction
     {
-        if (Auth::check() && $this->userHasGroupDiscount()) {
+        /*if (Auth::check() && $this->userHasGroupDiscount()) {
             return $this->getUserGroupAction();
-        }
+        }*/
 
         return $this->setupAvailableActions()->getAction();
     }
@@ -301,7 +301,7 @@ class Special
      */
     private function setupAvailableActions(): Special
     {
-        $this->active_actions = ProductAction::query()->where('user_group_id', null)->active()->get();
+        $this->active_actions = ProductAction::query()->active()->get();
 
         if ($this->active_actions->count()) {
             $this->action = $this->getBestAction();

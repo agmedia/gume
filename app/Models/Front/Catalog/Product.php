@@ -3,6 +3,7 @@
 namespace App\Models\Front\Catalog;
 
 use App\Helpers\Currency;
+use App\Helpers\Special;
 use App\Models\Back\Catalog\Product\ProductAction;
 use App\Models\Back\Catalog\Product\ProductAttribute;
 use App\Models\Back\Settings\Settings;
@@ -470,67 +471,32 @@ class Product extends Model
     *                              email: filip@agmedia.hr                         *
     *******************************************************************************/
 
-
     /**
-     * @return false|float|int|mixed
+     * @param bool $return_action
+     *
+     * @return array|float|int|null
      */
-    public function special()
+    public function special(bool $return_action = false)
     {
-        $action = $this->action;
-        $coupon_session_key = config('session.cart') . '_coupon';
-        $coupon_ok = false;
 
-        if ( ! $action || ($action && ! $action->coupon)) {
-            $coupon_ok = true;
-        }
+        $special = new Special($this);
+        $action = $special->resolveAction();
 
-        if (isset($action->status) && $action->status) {
-            if ((isset($action->coupon) && $action->coupon) && session()->has($coupon_session_key) && session($coupon_session_key) == $action->coupon) {
-                $coupon_ok = true;
+        if ($action) {
+            $coupon_ok = $special->checkCoupon($action);
+            $dates_ok  = $special->checkDates($action);
+
+            if ($coupon_ok && $dates_ok) {
+                if ($return_action && $special->isProductOnAction($action)) {
+                    return $action->toArray();
+
+                } else {
+                    return $special->getDiscountPrice($action);
+                }
             }
         }
 
-        // If special is set, return special.
-        if ($this->special && $coupon_ok) {
-            $from = now()->subDay();
-            $to = now()->addDay();
-
-            if ($this->special_from && $this->special_from != '0000-00-00 00:00:00') {
-                $from = Carbon::make($this->special_from);
-            }
-            if ($this->special_to && $this->special_to != '0000-00-00 00:00:00') {
-                $to = Carbon::make($this->special_to);
-            }
-
-            if ($from <= now() && now() <= $to) {
-                return $this->special;
-            }
-        }
-
-        return $this->price;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function coupon(): string
-    {
-        $action = $this->action;
-        $coupon_session_key = config('session.cart') . '_coupon';
-        $coupon_ok = '';
-
-        if ( ! $action || ($action && ! $action->coupon)) {
-            $coupon_ok = '';
-        }
-
-        if ($action && $action->status) {
-            if ((isset($action->coupon) && $action->coupon) && session()->has($coupon_session_key) && session($coupon_session_key) == $action->coupon) {
-                $coupon_ok = true;
-            }
-        }
-
-        return $coupon_ok;
+        return null;
     }
 
 }

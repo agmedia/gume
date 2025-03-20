@@ -158,7 +158,7 @@
 
 <script>
     Livewire.on('updateCartNavIcon', (quantity) => {
-        console.log(quantity)
+        //console.log(quantity)
         document.getElementById('cart-header-count').textContent = quantity;
     })
 </script>

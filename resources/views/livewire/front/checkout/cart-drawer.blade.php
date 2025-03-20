@@ -16,7 +16,7 @@
             <div class="d-flex align-items-center">
                 <a class="position-relative flex-shrink-0" href="shop-product-grocery.html">
                     <!--   <span class="badge text-bg-danger position-absolute top-0 start-0 z-2 mt-0 ms-0">-15%</span>-->
-                    <img src="{{ asset('assets/images/artikl-lista.jpg') }}" width="110" alt="Thumbnail">
+                    <img src="{{ asset($item->associatedModel->image) }}" width="110" alt="Thumbnail">
                 </a>
                 <div class="w-100 ps-3">
                     <h5 class="fs-sm fw-medium lh-base mb-2">
@@ -25,11 +25,11 @@
                     <div class="h6 pb-1 mb-2">{{ $item->price }} €</div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="count-input rounded-pill">
-                            <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
+                            <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity" wire:click="changeQuantity({{ $item->id }}, -1)">
                                 <i class="ci-minus"></i>
                             </button>
                             <input type="number" class="form-control form-control-sm" value="{{ $item->quantity }}" readonly>
-                            <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
+                            <button type="button" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity" wire:click="changeQuantity({{ $item->id }}, 1)">
                                 <i class="ci-plus"></i>
                             </button>
                         </div>
@@ -47,7 +47,7 @@
             <span class="h6 mb-0">{{ $cart->get()['total'] }} €</span>
         </div>
         <div class="d-flex w-100 gap-3">
-            <a class="btn btn-lg btn-secondary w-100 rounded-pill" href="checkout-v2-cart.html">Pogledajte košaricu</a>
+            <a class="btn btn-lg btn-secondary w-100 rounded-pill" href="{{ route('kosarica') }}">Pogledajte košaricu</a>
             <a class="btn btn-lg btn-primary w-100 rounded-pill" href="checkout-v1-delivery-1.html">Na naplatu</a>
         </div>
     </div>

@@ -62,6 +62,27 @@ class Cart
     }
 
 
+    /*public function getItems()
+    {
+        return $this->cart->getContent();
+    }*/
+
+    /*public function getSubtotal()
+    {
+        return $this->cart->getSubTotal();
+    }
+
+    public function getTotal()
+    {
+        return $this->cart->getTotal();
+    }*/
+
+    /*public function getCount()
+    {
+        return $this->cart->getTotalQuantity();
+    }*/
+
+
     public function add(Product $product, int $quantity)
     {
         $this->product = $product;
@@ -161,8 +182,10 @@ class Cart
     private function structureCartItemAttributes()
     {
         return [
+            'thumb' => $this->product->thumb,
             'path' => $this->product->url,
-            'tax'  => 0,
+            'tax'  => [],
+            'tax_amount' => 0,
         ];
     }
 
@@ -176,7 +199,8 @@ class Cart
     private function structureCartItemConditions()
     {
         // Ako artikl ima akciju.
-        if ($this->product->special()) {
+        //dd($this->product->special());
+        /*if ($this->product->special()) {
             $coupon = $this->product->coupon();
 
             if ($coupon != '') {
@@ -194,7 +218,7 @@ class Cart
                 'target' => '',
                 'value'  => -($this->product->price - $this->product->special())
             ]);
-        }
+        }*/
 
         // Ako nema akcije na artiklu.
         // Ako nije ispravan kupon.

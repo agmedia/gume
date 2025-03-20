@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Front\Checkout;
 use App\Models\Front\Cart\CartSession;
 use App\Models\Front\Catalog\Product;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 /**
  *
@@ -12,6 +13,7 @@ use Livewire\Component;
 class CartDrawer extends Component
 {
 
+    use WithPagination;
     /**
      * @var
      */
@@ -29,7 +31,7 @@ class CartDrawer extends Component
     public function mount() {
         $this->setCart();
 
-
+        //dd($this->cart->get());
     }
 
 
@@ -45,7 +47,21 @@ class CartDrawer extends Component
 
         $this->cart->add($product, $quantity);
 
-        $this->updateNacIcon();
+        $this->updateNavIcon();
+    }
+
+
+    public function changeQuantity(int $id, int $quantity)
+    {
+        //dd($id, $quantity);
+        $this->setCart();
+        $product = Product::query()->find($id);
+
+        $this->cart->add($product, $quantity);
+
+        $this->updateNavIcon();
+
+        return redirect()->to(request()->server('HTTP_REFERER'));
     }
 
 
@@ -60,7 +76,9 @@ class CartDrawer extends Component
 
         $this->cart->remove($product_id);
 
-        $this->updateNacIcon();
+        $this->updateNavIcon();
+
+        return redirect()->to(request()->server('HTTP_REFERER'));
     }
 
 
@@ -82,7 +100,7 @@ class CartDrawer extends Component
     }
 
 
-    private function updateNacIcon()
+    private function updateNavIcon()
     {
         $this->emit('updateCartNavIcon', $this->cart->get()['count']);
     }

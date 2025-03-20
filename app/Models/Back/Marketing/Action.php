@@ -108,9 +108,9 @@ class Action extends Model
         $id   = $this->insertGetId($this->getModelArray());
 
         if ($id) {
-            if ($this->shouldUpdateProducts($data)) {
+            /*if ($this->shouldUpdateProducts($data)) {
                 $this->updateProducts($this->resolveTarget($data['links']), $id, $data);
-            }
+            }*/
 
             return $this->find($id);
         }
@@ -130,13 +130,13 @@ class Action extends Model
         $updated = $this->update($this->getModelArray(false));
 
         if ($updated) {
-            if ($this->shouldUpdateProducts($data)) {
+            /*if ($this->shouldUpdateProducts($data)) {
                 $this->updateProducts($this->resolveTarget($data['links']), $this->id, $data);
             }
 
             if ($this->shouldRemoveActions($data)) {
                 $this->deleteProductActions();
-            }
+            }*/
 
             return $this;
         }

@@ -309,7 +309,7 @@
                             </a>
                         </h3>
                         <div class="d-flex align-items-center justify-content-between">
-                            @if ($product->special() != '0.0000')
+                            @if ($product->special())
                                 <div class="h5 lh-1 mb-0">{{ $product->main_special_text }} <del class="text-body-tertiary fs-sm fw-normal">{{ $product->main_price_text }}</del></div>
                             @else
                                 <div class="h5 lh-1 mb-0"> {{ $product->main_price_text }}</div>

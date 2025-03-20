@@ -29,15 +29,23 @@ class CartSession extends Model
 
 
     /**
-     * @return AgCart
+     * @return Cart
      */
     public static function resolve(): Cart
     {
+        if (auth()->user()) {
+            return new Cart(auth()->user()->id);
+        }
+
         if (session()->has(config('session.cart'))) {
             return new Cart(session(config('session.cart')));
         }
 
-        return new Cart(config('session.cart'));
+        $session_id = self::getSessionId();
+
+        session([config('session.cart') => $session_id]);
+
+        return new Cart($session_id);
     }
 
 
@@ -75,7 +83,7 @@ class CartSession extends Model
 
 
     /**
-     * @param AgCart $cart
+     * @param Cart $cart
      * @param        $session_id
      *
      * @return string
@@ -117,6 +125,12 @@ class CartSession extends Model
             }
         }
 
-        return Str::random(8);
+        return self::getSessionId();
+    }
+
+
+    private static function getSessionId(int $length = 8)
+    {
+        return Str::random($length);
     }
 }

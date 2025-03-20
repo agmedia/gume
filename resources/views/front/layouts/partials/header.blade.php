@@ -216,8 +216,21 @@
               </span>
                     <span class="d-block animate-target fw-bolder text-nowrap ms-1">DODATNA OPREMA</span>
                 </a>
-
             </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed end-0 p-3" style="margin-top: -80px;">
+        <div class="toast border-success" id="add-cart-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header mt-2">
+                <i class="ci-check text-primary fs-base mt-1 me-2"></i>
+                <strong class="">Proizvod je uspješno dodan u košaricu.</strong>
+                {{--<small class="text-body-secondary">5 mins ago</small>--}}
+                <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            {{--<div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>--}}
         </div>
     </div>
 </section>
@@ -225,8 +238,12 @@
 @push('js_after')
     <script>
         Livewire.on('updateCartNavIcon', () => {
-            console.log(111)
-            //document.getElementById('cart-header-count').textContent = quantity;
+            //console.log(111)
+            let addCartToast = document.getElementById('add-cart-toast');
+
+            if (addCartToast) {
+                bootstrap.Toast.getOrCreateInstance(addCartToast).show();
+            }
         })
     </script>
 @endpush
