@@ -32,7 +32,7 @@
                 <span class="text-primary fs-base ms-1">6.64€</span>
             </div>
         </div>
-        <a href="https://www.zuzi.hr/kosarica" class="btn btn-primary btn-sm d-block px-3  w-100"><i class="ci-card me-2 fs-base align-middle"></i>Dovrši kupnju</a>
+        <a href="#" class="btn btn-primary btn-sm d-block px-3  w-100"><i class="ci-card me-2 fs-base align-middle"></i>Dovrši kupnju</a>
 
         </div>
 </div>
