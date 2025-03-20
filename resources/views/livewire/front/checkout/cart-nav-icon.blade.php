@@ -7,7 +7,7 @@
     </button>
     <div class="dropdown-menu dropdown-menu-end">
 
-        <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 24rem;">
+        <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;">
 
 
                 <div class="widget-cart-item pb-2 border-bottom">
@@ -17,7 +17,7 @@
                         <a href="#" class="d-block flex-shrink-0 pt-2">
                             <img src="{{ asset('assets/images/auto-gume.jpeg') }}" alt="Continental 195/60 R15 AVANT 140M" title="Continental 195/60 R15 AVANT 140M" style="width: 5rem;"></a>
                         <div class="ps-2">
-                            <h6 class="widget-product-title">
+                            <h6 class="widget-product-title fs-md">
                                 <a href="#">Continental 195/60 R15 AVANT 140M</a>
                             </h6>
                             <div class="widget-product-meta"><span class="text-primary me-2">120,00 €</span><span class="text-muted">x 1</span></div>
