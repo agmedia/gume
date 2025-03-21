@@ -14,7 +14,9 @@ use App\Models\Front\Checkout\Order;
 use App\Models\Back\Orders\Order as AdminOrderModel;
 use App\Models\Front\Checkout\ShippingMethod;
 use App\Models\TagManager;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -45,7 +47,16 @@ class CheckoutController extends FrontController
         $ship = new ShippingMethod();
         $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
 
-        //dd($shipping_methods);
+        $items = CarbonPeriod::create(now(), now()->addDays(14));
+        $days = [];
+        foreach ($items as $day) {
+            array_push($days, [
+                'date' => $day->format('Y-m-d'),
+                'day' => $day->format('d'),
+            ]);
+        }
+
+        dd($days, now());
 
         return view('front.checkout.checkout-shipping', compact('shipping_methods'));
     }

@@ -4,13 +4,13 @@
 @endpush
 
 @section('content')
-
+    <form action="{{ route('info-podaci') }}" method="POST" enctype="multipart/form-data" novalidate>
+        @csrf
 
 
         <!-- Delivery date and time offcanvas -->
         <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="deliveryDateTime" tabindex="-1" aria-labelledby="deliveryDateTimeLabel" style="width: 500px">
-            <form action="{{ route('info-podaci') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+
             <!-- Header with nav tabs -->
             <div class="offcanvas-header py-3 pt-lg-4">
                 <h4 class="offcanvas-title" id="deliveryDateTimeLabel">Odaberite termin montaže</h4>
@@ -58,7 +58,7 @@
                             <div class="swiper-slide text-center">
                                 <div class="text-center">
                                     <div class="fs-sm pb-1 mb-2">Pon</div>
-                                    <input type="radio" class="btn-check" name="day" id="mon">
+                                    <input type="radio" class="btn-check" name="day" id="mon" checked>
                                     <label class="btn btn-icon btn-lg btn-outline-secondary fs-sm rounded-circle" for="mon">24</label>
                                 </div>
 
@@ -73,7 +73,7 @@
                             <div class="swiper-slide text-center">
                                 <div class="text-center">
                                     <div class="fs-sm pb-1 mb-2">Sri</div>
-                                    <input type="radio" class="btn-check" name="day" id="wed" checked>
+                                    <input type="radio" class="btn-check" name="day" id="wed">
                                     <label class="btn btn-icon btn-lg btn-outline-secondary fs-sm rounded-circle" for="wed">26</label>
                                 </div>
                             </div>
@@ -173,13 +173,11 @@
 
             <!-- Footer -->
             <div class="offcanvas-header">
-                <button type="submit" class="btn btn-lg btn-primary w-100 rounded-pill" data-bs-dismiss="offcanvas">Potvrdi termin</button>
+                <button type="button" class="btn btn-lg btn-primary w-100 rounded-pill" data-bs-dismiss="offcanvas">Potvrdi termin</button>
             </div>
-            </form>
+
         </div>
 
-        <form action="{{ route('info-podaci') }}" method="POST" enctype="multipart/form-data">
-            @csrf
 
         <div class="container py-5">
             <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
@@ -201,7 +199,7 @@
                                             <div class="border-bottom">
                                                 <div class="form-check mb-4" role="listitem">
                                                     <label class="form-check-label d-flex align-items-center text-dark-emphasis fw-semibold pt-3">
-                                                        <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="payment-method" id="{{ $method->code }}">
+                                                        <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="payment-method" value="{{ $method->code }}">
                                                         {{ $method->title }}
                                                         @if ($method->code == 'pickup')
                                                             <div class="ms-auto">
@@ -238,11 +236,11 @@
                 </div>
 
                 <!-- Cart view aside -->
-                <!--@livewire('front.checkout.cart-view-aside')-->
+                @livewire('front.checkout.cart-view-aside')
             </div>
         </div>
 
-        </form>
+    </form>
 
 @endsection
 

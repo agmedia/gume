@@ -12,7 +12,7 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Rezervacije</h1>
-                <a class="btn btn-hero-success my-2" href="">
+                <a class="btn btn-hero-success my-2" href="{{ route('reservations.create') }}">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova rezervacija</span>
                 </a>
 
@@ -27,17 +27,7 @@
     <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Lista rezervacija <small class="font-weight-light">{{ $orders->total() }}</small></h3>
-                <div class="block-options d-none d-xl-block">
-                    <div class="form-group mb-0 mr-2">
-                        <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status rezervacije">
-                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                            @foreach ($statuses as $status)
-                                <option value="{{ $status->id }}">{{ $status->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                <h3 class="block-title">Lista rezervacija <small class="font-weight-light">{{ $reservations->total() }}</small></h3>
                 <div class="block-options">
                     <div class="dropdown">
                         <button type="button" class="btn btn-light" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,11 +49,11 @@
             </div>
             <div class="block-content bg-body-dark">
                 <!-- Search Form -->
-                <form action="{{ route('orders') }}" method="GET">
+                <form action="{{ route('reservations') }}" method="GET">
                     <div class="form-group">
                         <div class="form-group">
                             <div class="input-group flex-nowrap">
-                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...">
+                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju rezervacije, imenu, prezimenu ili emailu kupca...">
                                 <button type="submit" class="btn btn-primary fs-base" onclick="setPageURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                             </div>
                         </div>
@@ -77,13 +67,6 @@
                     <table class="table table-borderless table-striped table-vcenter font-size-sm">
                         <thead>
                         <tr>
-                            <th class="text-center" style="width: 30px;">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="checkAll" name="status">
-                                    </div>
-                                </div>
-                            </th>
                             <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-center">Termin rezervacije</th>
                             <th>Status</th>
@@ -92,41 +75,34 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse ($orders->sortByDesc('id') as $order)
+                        @forelse ($reservations->sortByDesc('id') as $reservation)
                             <tr>
                                 <td class="text-center">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $order->id }}" id="status[{{ $order->id }}]" name="status">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">
-                                        <strong>{{ $order->id }}</strong>
+                                    <a class="font-w600" href="{{ route('reservations.edit', ['reservations' => $reservation]) }}">
+                                        <strong>{{ $reservation->id }}</strong>
                                     </a>
                                 </td>
-                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->created_at)->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->format('d.m.Y H:i') }}</td>
                                 <td class="font-size-base">
-                                    <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
+                                    <span class="badge badge-pill badge-{{ $reservation->status->color }}">{{ $reservation->status->title }}</span>
                                 </td>
 
                                 <td>
-                                    <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
+                                    <a class="font-w600" href="{{ route('reservations.edit', ['reservations' => $reservation]) }}">{{ $reservation->order->payment_fname }} {{ $reservation->order->payment_lname }}</a>
                                 </td>
 
                                 <td class="text-right">
-                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $order]) }}">
+                                    {{--<a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $reservation]) }}">
                                         <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-info" href="{{ route('orders.edit', ['order' => $order]) }}">
+                                    </a>--}}
+                                    <a class="btn btn-sm btn-alt-info" href="{{ route('reservations.edit', ['reservation' => $reservation]) }}">
                                         <i class="fa fa-fw fa-edit"></i>
                                     </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center font-size-sm" colspan="8">
+                                <td class="text-center font-size-sm" colspan="5">
                                     <label>Nema rezervacija...</label>
                                 </td>
                             </tr>
@@ -135,7 +111,7 @@
                     </table>
                 </div>
                 <!-- Pagination -->
-                {{ $orders->links() }}
+                {{ $reservations->links() }}
             </div>
         </div>
         <!-- END All Orders -->
@@ -144,61 +120,5 @@
 @endsection
 
 @push('js_after')
-    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
-    <script>
-        $(() => {
-            $('#status-select').select2({
-                placeholder: 'Promjenite status'
-            });
-
-            $('#status-select').on('change', (e) => {
-                let selected = e.currentTarget.selectedOptions[0].value;
-                let orders = '[';
-                var checkedBoxes = document.querySelectorAll('input[name=status]:checked');
-
-                for (let i = 0; i < checkedBoxes.length; i++) {
-                    if (checkedBoxes.length - 1 == i) {
-                        orders += checkedBoxes[i].value + ']';
-                    } else {
-                        orders += checkedBoxes[i].value + ','
-                    }
-                }
-
-                axios.get('{{ route('api.order.status.change') }}' + '?selected=' + selected + '&orders=' + orders)
-                .then((r) => {
-                    location.reload();
-                })
-                .catch((e) => {
-                    return errorToast.fire();
-                })
-            });
-        });
-
-        /**
-         *
-         * @param order_id
-         */
-        function sendGLS(order_id) {
-            axios.post("{{ route('api.order.send.gls') }}", {order_id: order_id})
-                .then(response => {
-                    if (response.data.message) {
-                        successToast.fire({
-                            timer: 1500,
-                            text: response.data.message,
-                        }).then(() => {
-                            location.reload();
-                        })
-
-                    } else {
-                        return errorToast.fire(response.data.error);
-                    }
-                });
-        }
-    </script>
-    <script>
-        $("#checkAll").click(function () {
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
-    </script>
 
 @endpush
