@@ -339,8 +339,8 @@ Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->
 Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
 //
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
-Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
-Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
+Route::get('/dostava', [CheckoutController::class, 'checkoutShipping'])->name('dostava');
+Route::post('/info-podaci', [CheckoutController::class, 'customerInfoData'])->name('info-podaci');
 Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');

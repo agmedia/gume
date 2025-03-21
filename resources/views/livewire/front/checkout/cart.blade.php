@@ -31,41 +31,41 @@
                         <tr>
                             <td class="py-3 ps-0">
                                 <div class="d-flex align-items-center">
-                                    <a class="flex-shrink-0" href="{{ $item->attributes->path }}">
-                                        <img src="{{ asset($item->attributes->thumb) }}" width="110" alt="{{ $item->name }}">
+                                    <a class="flex-shrink-0" href="{{ $item['attributes']['path'] }}">
+                                        <img src="{{ asset($item['attributes']['thumb']) }}" width="110" alt="{{ $item['name'] }}">
                                     </a>
                                     <div class="w-100 min-w-0 ps-2 ps-xl-3">
                                         <h5 class="d-flex animate-underline mb-2">
-                                            <a class="d-block fs-sm fw-medium  animate-target" href="{{ $item->attributes->path }}">{{ $item->name }}</a>
+                                            <a class="d-block fs-sm fw-medium  animate-target" href="{{ $item['attributes']['path'] }}">{{ $item['name'] }}</a>
                                         </h5>
 
                                         <div class="count-input rounded-2 d-md-none mt-3">
-                                            <button type="button" class="btn btn-sm btn-icon" data-decrement aria-label="Decrement quantity">
+                                            <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-sm btn-icon" data-decrement aria-label="Decrement quantity">
                                                 <i class="ci-minus"></i>
                                             </button>
-                                            <input type="number" class="form-control form-control-sm" value="1" readonly>
-                                            <button type="button" class="btn btn-sm btn-icon" data-increment aria-label="Increment quantity">
+                                            <input type="number" class="form-control form-control-sm" value="{{ $item['quantity'] }}" readonly>
+                                            <button type="button" wire:click="changeItemQuantity('{{ $item['id'] }}', 1)" class="btn btn-sm btn-icon" data-increment aria-label="Increment quantity">
                                                 <i class="ci-plus"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="h6 py-3 d-none d-xl-table-cell">{{ $item->price }} €</td>
+                            <td class="h6 py-3 d-none d-xl-table-cell">{{ $item['price'] }} €</td>
                             <td class="py-3 d-none d-md-table-cell">
                                 <div class="count-input">
-                                    <button type="button" class="btn btn-icon" data-decrement aria-label="Decrement quantity">
+                                    <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-icon" data-decrement aria-label="Decrement quantity">
                                         <i class="ci-minus"></i>
                                     </button>
-                                    <input type="number" class="form-control" value="{{ $item->quantity }}" readonly>
-                                    <button type="button" class="btn btn-icon" data-increment aria-label="Increment quantity">
+                                    <input type="number" class="form-control" value="{{ $item['quantity'] }}" readonly>
+                                    <button type="button" wire:click="changeItemQuantity('{{ $item['id'] }}', 1)" class="btn btn-icon" data-increment aria-label="Increment quantity">
                                         <i class="ci-plus"></i>
                                     </button>
                                 </div>
                             </td>
-                            <td class="h6 py-3 d-none d-md-table-cell">{{ $item->price }} €</td>
+                            <td class="h6 py-3 d-none d-md-table-cell">{{ $item['price'] }} €</td>
                             <td class="text-end py-3 px-0">
-                                <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+                                <button type="button" class="btn-close fs-sm" wire:click="removeItemFromCart({{ $item['id'] }})" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
                             </td>
                         </tr>
                     @endforeach
@@ -109,7 +109,7 @@
                                 <span class="fs-sm">Sveukupno:</span>
                                 <span class="h5 mb-0">{{ $cart['total'] }} €</span>
                             </div>
-                            <a class="btn btn-lg btn-primary w-100" href="{{ route('naplata') }}">
+                            <a class="btn btn-lg btn-primary w-100" href="{{ route('dostava') }}">
                                 Dovrši kupnju
                                 <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
                             </a>

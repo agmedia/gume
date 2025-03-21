@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ShippingController extends Controller
@@ -40,6 +41,9 @@ class ShippingController extends Controller
         $updated = Settings::setListItem('shipping', 'list.' . $request->data['code'], $request->data);
 
         if ($updated) {
+            Cache::forget('shipping');
+            Cache::forget('shippinglist.' . $request->data['code']);
+
             return response()->json(['success' => 'Način dostave je uspješno snimljen.']);
         }
 

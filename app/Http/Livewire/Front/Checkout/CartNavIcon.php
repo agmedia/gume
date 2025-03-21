@@ -29,8 +29,8 @@ class CartNavIcon extends Component
      */
     public function mount()
     {
-        $this->cart = CartSession::resolve()->get();
-        $this->count = $this->cart['count'];
+        $this->setCart();
+        $this->count = $this->cart->get()['count'];
     }
 
 
@@ -54,6 +54,8 @@ class CartNavIcon extends Component
     {
         $this->setCart();
 
+        //dd($this->cart);
+
         $this->cart->remove($product_id);
 
         return redirect()->to(request()->server('HTTP_REFERER'));
@@ -65,15 +67,17 @@ class CartNavIcon extends Component
      */
     public function render()
     {
+        $this->setCart();
+
         return view('livewire.front.checkout.cart-nav-icon', ['cart' => $this->cart]);
     }
 
 
     /**
-     * @return array
+     * @return void
      */
-    private function setCart(): array
+    private function setCart()
     {
-        return CartSession::resolve()->get();
+        $this->cart = CartSession::resolve()/*->get()*/;
     }
 }

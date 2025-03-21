@@ -48,28 +48,6 @@
                     </a>
                 </nav>
             </div>
-
-            @if ($show_additional_filters)
-                <div class="col-12 d-md-flex d-block gap-2 mt-4">
-                    <div class="d-block w-100 mb-2 mb-md-0 me-1"></div>
-                    <div class="d-block w-100 mb-2 mb-md-0 me-1"></div>
-                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
-                        <select class="form-select rounded-pill" wire:model="brand" wire:change="dropdownFilterSelected('brand', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Proizvođači" data-placeholder="Proizvođači">
-                            @foreach ($brands as $slug => $title)
-                                <option value="{{ $slug }}" @if($slug == $brand) selected @endif>{{ $title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="d-block w-100 mb-2 mb-md-0 me-1"></div>
-                    <div class="d-block w-100 mb-2 mb-md-0 me-1"></div>
-                    <nav class="nav">
-                        <a class="nav-link animate-underline px-2" wire:click="cleanFilter()">
-                            <i class="ci-trash-empty me-1"></i>
-                            <span class="animate-target text-nowrap">Očisti</span>
-                        </a>
-                    </nav>
-                </div>
-            @endif
         </div>
     </div>
 
@@ -84,20 +62,6 @@
 
         <!-- Body -->
         <div class="offcanvas-body pt-0">
-
-            <!-- Sort by -->
-            {{--<select class="form-select form-select-lg form-select-flush text-body-emphasis fw-medium py-3 px-0" id="fil" data-select='{
-              "classNames": {
-                "containerInner": ["form-select", "form-select-lg", "form-select-flush", "text-body-emphasis", "fw-medium", "py-3", "px-0"]
-              }
-            }' aria-label="Sorting">
-                <option value="">Sortiraj</option>
-                <option value="popular">Najpopularnije</option>
-                <option value="match">Zadnje dodano</option>
-                <option value="price-asc">Cijena (viša - niža) </option>
-                <option value="price-desc">Cijena (niža - viša)</option>
-            </select>--}}
-
             <div class="accordion" id="filters">
 
                 <!-- Category filter -->
@@ -275,13 +239,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Selected filters -->
-    {{--<div class="d-flex flex-wrap align-items-center gap-2 text-nowrap mb-5 pb-4 border-bottom">
-        <div class="nav ps-1">
-            <a class="nav-link fs-xs text-decoration-underline px-0" href="#!">Očisti filtere</a>
-        </div>
-    </div>--}}
 
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 0 gy-5" id="productGrid">
         <!-- Toolbar-->

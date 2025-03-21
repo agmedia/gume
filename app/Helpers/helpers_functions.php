@@ -26,14 +26,24 @@ if ( ! function_exists('group')) {
 /**
  *
  */
+if ( ! function_exists('price')) {
+    /**
+     * @param float|int $price
+     * @param bool      $as_text
+     *
+     * @return float|int|string
+     */
+    function price(float|int $price, bool $as_text = false): float|int|string
+    {
+        return \App\Helpers\Currency::main($price, $as_text);
+    }
+}
+
+/**
+ *
+ */
 if ( ! function_exists('main_currency_symbol')) {
     /**
-     * Function that returns category group based on
-     * settings.php "group_path" key value. Returns it as is or
-     * as a slug if the $slug parameter is true.
-     *
-     * @param bool $slug
-     *
      * @return string
      */
     function main_currency_symbol(): string

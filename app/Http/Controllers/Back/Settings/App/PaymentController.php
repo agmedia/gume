@@ -41,7 +41,8 @@ class PaymentController extends Controller
         $updated = Settings::setListItem('payment', 'list.' . $request->data['code'], $request->data);
 
         if ($updated) {
-            Cache::forget('payment_list');
+            Cache::forget('payment');
+            Cache::forget('paymentlist.' . $request->data['code']);
 
             return response()->json(['success' => 'Način plaćanja je uspješno snimljen.']);
         }

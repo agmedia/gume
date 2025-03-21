@@ -200,8 +200,8 @@ class Cart
     {
         // Ako artikl ima akciju.
         //dd($this->product->special());
-        /*if ($this->product->special()) {
-            $coupon = $this->product->coupon();
+        if ($this->product->special()) {
+            /*$coupon = $this->product->coupon();
 
             if ($coupon != '') {
                 return new CartCondition([
@@ -210,7 +210,7 @@ class Cart
                     'target' => $coupon,
                     'value'  => -($this->product->price - $this->product->special())
                 ]);
-            }
+            }*/
 
             return new CartCondition([
                 'name'   => 'Akcija',
@@ -218,7 +218,7 @@ class Cart
                 'target' => '',
                 'value'  => -($this->product->price - $this->product->special())
             ]);
-        }*/
+        }
 
         // Ako nema akcije na artiklu.
         // Ako nije ispravan kupon.

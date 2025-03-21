@@ -5,7 +5,7 @@
     </button>
     <div class="dropdown-menu dropdown-menu-end">
         <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;">
-            @forelse ($cart['items'] as $item)
+            @forelse ($cart->get()['items'] as $item)
                 <div class="widget-cart-item pb-2 border-bottom">
                     <div class="d-flex align-items-center">
                         <button type="button" aria-label="Remove" wire:click="removeFromCart({{ $item->id }})" class="btn-close text-danger me-2"></button>
@@ -30,7 +30,7 @@
         <div class="d-flex flex-wrap justify-content-between px-3 align-items-center py-3">
             <div class="fs-sm me-2 py-2">
                 <span class="text-muted">Ukupno:</span>
-                <span class="text-primary fs-base ms-1">{{ $cart['subtotal'] }} €</span>
+                <span class="text-primary fs-base ms-1">{{ $cart->get()['subtotal'] }} €</span>
             </div>
         </div>
         <a href="{{ route('kosarica') }}" class="btn btn-primary btn-sm d-block px-3 w-100"><i class="ci-card me-2 fs-base align-middle"></i>Dovrši kupnju</a>

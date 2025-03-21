@@ -12,6 +12,7 @@ use App\Models\Back\Settings\Settings;
 use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Order;
 use App\Models\Back\Orders\Order as AdminOrderModel;
+use App\Models\Front\Checkout\ShippingMethod;
 use App\Models\TagManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -39,17 +40,24 @@ class CheckoutController extends FrontController
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function checkout(Request $request)
+    public function checkoutShipping(Request $request)
     {
-        $step = '';
+        $ship = new ShippingMethod();
+        $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
 
-        if ($request->has('step')) {
-            $step = $request->input('step');
-        }
+        //dd($shipping_methods);
 
-        $is_free_shipping = OrderHelper::isFreeShipping($this->shoppingCart()->get());
+        return view('front.checkout.checkout-shipping', compact('shipping_methods'));
+    }
 
-        return view('front.checkout.checkout', compact('step', 'is_free_shipping'));
+
+    public function customerInfoData(Request $request)
+    {
+        Log::info($request->all());
+
+        return redirect()->back()->with(['success' => 'Whoops..! There was an error saving the attribute.']);
+
+        return view('front.checkout.checkout-customer-info');
     }
 
 
