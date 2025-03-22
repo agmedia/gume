@@ -27,7 +27,7 @@
                     <tbody class="align-middle">
 
                     <!-- Item -->
-                    @foreach ($items as $item)
+                    @forelse ($items as $item)
                         <tr>
                             <td class="py-3 ps-0">
                                 <div class="d-flex align-items-center">
@@ -68,7 +68,13 @@
                                 <button type="button" class="btn-close fs-sm" wire:click="removeItemFromCart({{ $item['id'] }})" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td class="py-4 ps-0 text-center" colspan="5">
+                                <h4>Nažalost nemate ništa u košarici.</h4>
+                            </td>
+                        </tr>
+                    @endforelse
 
                     </tbody>
                 </table>
@@ -94,11 +100,6 @@
                                 Ukupno ({{ $cart['count'] }} artikla):
                                 <span class="text-dark-emphasis fw-medium">{{ $cart['subtotal'] }} €</span>
                             </li>
-
-                            {{--<li class="d-flex justify-content-between">
-                                PDV(25%):
-                                <span class="text-dark-emphasis fw-medium">40.00€</span>
-                            </li>--}}
                             <li class="d-flex justify-content-between">
                                 Dostava:
                                 <span class="text-dark-emphasis fw-medium">Obračun na sljedećem koraku</span>

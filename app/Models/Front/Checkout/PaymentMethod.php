@@ -201,7 +201,7 @@ class PaymentMethod
             return $payment->finishOrder($order, $request);
         }
 
-        return null;
+        return false;
     }
 
 

@@ -225,4 +225,14 @@ class User extends Authenticatable
 
         return false;
     }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    public static function get()
+    {
+
+    }
 }

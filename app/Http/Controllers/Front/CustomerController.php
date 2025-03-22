@@ -7,7 +7,7 @@ use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontController;
 use App\Models\Front\AgCart;
-use App\Models\Front\Checkout\Order;
+use App\Models\Front\Checkout\Checkout;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -48,7 +48,7 @@ class CustomerController extends FrontController
     public function orders(Request $request)
     {
         $user = auth()->user();
-        $orders = Order::where('user_id', $user->id)->orWhere('payment_email', $user->email)->paginate(config('settings.pagination.front'));
+        $orders = Checkout::where('user_id', $user->id)->orWhere('payment_email', $user->email)->paginate(config('settings.pagination.front'));
 
         return view('front.customer.moje-narudzbe', compact('user', 'orders'));
     }

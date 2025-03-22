@@ -40,8 +40,8 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_email');
             $table->string('shipping_method');
             $table->string('shipping_code')->nullable();
-            $table->string('company');
-            $table->string('oib');
+            $table->string('company')->nullable();
+            $table->string('oib')->nullable();
             $table->text('comment')->nullable();
             $table->string('tracking_code');
             $table->boolean('shipped')->default(false);

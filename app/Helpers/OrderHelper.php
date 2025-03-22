@@ -156,17 +156,6 @@ class OrderHelper
        // return $this;
     }
 
-
-    /**
-     * @return $this
-     */
-    public function forgetCheckoutCache()
-    {
-        CheckoutSession::forgetCheckout();
-
-        return $this;
-    }
-
     /*******************************************************************************
      *                                Copyright : AGmedia                           *
      *                              email: filip@agmedia.hr                         *
@@ -209,14 +198,4 @@ class OrderHelper
         return false;
     }
 
-
-    /**
-     * @param array $data
-     *
-     * @return bool
-     */
-    public static function isFreeShipping(array $data): bool
-    {
-        return (config('settings.free_shipping') < $data['total']) ? true : false;
-    }
 }

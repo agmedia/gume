@@ -2,6 +2,8 @@
 
 namespace App\Models\Front\Cart;
 
+use App\Helpers\Helper;
+use App\Models\Back\Marketing\Action;
 use App\Models\Front\Catalog\Product;
 use App\Models\TagManager;
 use Darryldecode\Cart\CartCondition;
@@ -115,6 +117,14 @@ class Cart
         return $this->get();
     }
 
+
+    public function flush(): static
+    {
+        $this->cart->clear();
+
+        return $this;
+    }
+
     /*******************************************************************************
     *                                Copyright : AGmedia                           *
     *                              email: filip@agmedia.hr                         *
@@ -184,6 +194,7 @@ class Cart
         return [
             'thumb' => $this->product->thumb,
             'path' => $this->product->url,
+            'org_price' => $this->product->price,
             'tax'  => [],
             'tax_amount' => 0,
         ];

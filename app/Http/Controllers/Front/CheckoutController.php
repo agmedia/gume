@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Front;
 
 use App\Helpers\OrderHelper;
-use App\Helpers\Session\CheckoutSession;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontController;
-use App\Mail\OrderReceived;
-use App\Mail\OrderSent;
 use App\Models\Back\Settings\Settings;
-use App\Models\Front\AgCart;
-use App\Models\Front\Checkout\Order;
-use App\Models\Back\Orders\Order as AdminOrderModel;
+use App\Models\Front\Cart\CartSession;
+use App\Models\Front\Checkout\Checkout;
+use App\Models\Front\Checkout\PaymentMethod;
 use App\Models\Front\Checkout\ShippingMethod;
 use App\Models\TagManager;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
+/**
+ *
+ */
 class CheckoutController extends FrontController
 {
 
@@ -38,37 +33,137 @@ class CheckoutController extends FrontController
 
     /**
      * @param Request $request
-     * @param string  $step
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function checkoutShipping(Request $request)
     {
-        $ship = new ShippingMethod();
-        $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
-
-        $items = CarbonPeriod::create(now(), now()->addDays(14));
-        $days = [];
-        foreach ($items as $day) {
-            array_push($days, [
-                'date' => $day->format('Y-m-d'),
-                'day' => $day->format('d'),
-            ]);
+        if ($this->isCartEmpty()) {
+            return redirect()->route('kosarica');
         }
 
-        dd($days, now());
+        $ship             = new ShippingMethod();
+        $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
 
         return view('front.checkout.checkout-shipping', compact('shipping_methods'));
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function customerInfoData(Request $request)
     {
-        Log::info($request->all());
+        if ($this->isCartEmpty()) {
+            return redirect()->route('kosarica');
+        }
 
-        return redirect()->back()->with(['success' => 'Whoops..! There was an error saving the attribute.']);
+        $request->validate([
+            'shipping_method' => 'required',
+        ]);
 
-        return view('front.checkout.checkout-customer-info');
+        $selected_reservation = null;
+
+        if (session()->has('selected_reservation')) {
+            $selected_reservation = session()->get('selected_reservation');
+        }
+
+        $selected_shipping = Settings::get('shipping', 'list.' . $request->input('shipping_method'))->first();
+        session()->put('selected_shipping', $selected_shipping);
+
+        //dd($selected_shipping);
+
+        return view('front.checkout.checkout-customer-info', compact('selected_shipping', 'selected_reservation'));
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function checkoutPayment(Request $request)
+    {
+        if ($this->isCartEmpty()) {
+            return redirect()->route('kosarica');
+        }
+
+        $request->validate([
+            'fname'   => 'required',
+            'lname'   => 'required',
+            'email'   => 'required|email',
+            'phone'   => 'required',
+            'city'    => 'required',
+            'zip'     => 'required',
+            'address' => 'required'
+        ]);
+
+        if ( ! session()->has('selected_reservation') || ! session()->has('selected_shipping')) {
+            return redirect()->route('kosarica');
+        }
+
+        session()->put('customer_info', $request->all());
+
+        //
+        $selected_reservation = session()->get('selected_reservation');
+        $selected_shipping    = session()->get('selected_shipping');
+        $user                 = $request->all();
+        $payment_methods      = (new PaymentMethod())->findGeo(1)->resolve()->sortBy('sort_order');
+
+        //dd($payment_methods);
+
+        return view('front.checkout.checkout-payment', compact('selected_shipping', 'selected_reservation', 'user', 'payment_methods'));
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function checkoutFinalView(Request $request)
+    {
+        if ($this->isCartEmpty()) {
+            return redirect()->route('kosarica');
+        }
+
+        $request->validate([
+            'payment_method'   => 'required',
+            'terms_conditions' => 'required',
+        ]);
+
+        if ( ! session()->has('selected_reservation') || ! session()->has('selected_shipping') || ! session()->has('customer_info')) {
+            return redirect()->route('kosarica');
+        }
+
+        $selected_reservation = session()->get('selected_reservation');
+        $selected_shipping    = session()->get('selected_shipping');
+        $user                 = session()->get('customer_info');
+        $selected_payment     = Settings::get('payment', 'list.' . $request->input('payment_method'))->first();
+        $cart                 = CartSession::resolve()->get();
+
+        $checkout = new Checkout($selected_payment, $selected_shipping, $user, $selected_reservation, $request->input('comment'), $cart);
+
+        $payment_form = $checkout->recordUnfinishedOrder()
+                                 ->resolvePaymentForm();
+
+        if ( ! $payment_form) {
+            return redirect()->route('kosarica');
+        }
+
+        session()->put('order_id', $checkout->getOrderId());
+
+        //dd($selected_payment);
+
+        return view('front.checkout.checkout-final-view', compact('selected_shipping', 'selected_reservation', 'user', 'selected_payment', 'cart', 'payment_form'));
     }
 
 
@@ -77,109 +172,26 @@ class CheckoutController extends FrontController
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function view(Request $request)
+    public function checkoutResponseVerification(Request $request)
     {
-        $data = $this->checkSession();
+        $checkout = new Checkout();
 
-        if (empty($data)) {
-            if ( ! session()->has(config('session.cart'))) {
-                return redirect()->route('kosarica');
+        $checkout->resolveResponseBody($request)->setOrder();
+
+        if ($checkout->isApproved()) {
+            $order = OrderHelper::get($checkout->getOrderId());
+
+            if ($order->isValid()) {
+                $data['order'] = $order->sendEmails()
+                                       ->decreaseCartItems()
+                                       ->getOrder();
+
+                $checkout->flush();
+
+                return view('front.checkout.success', compact('data'));
             }
-
-            return redirect()->route('naplata', ['step' => 'podaci']);
         }
 
-        $data = $this->collectData($data, config('settings.order.status.unfinished'));
-
-        $order = new Order();
-
-        if (CheckoutSession::hasOrder()) {
-            $data['id'] = CheckoutSession::getOrder()['id'];
-
-            $order->updateData($data)
-                  ->setData($data['id']);
-        } else {
-            $order->createFrom($data);
-        }
-
-        if ($order->isCreated()) {
-            CheckoutSession::setOrder($order->getData());
-        }
-
-        if ( ! isset($data['id'])) {
-            $data['id'] = CheckoutSession::getOrder()['id'];
-        }
-
-        $data['payment_form'] = $order->resolvePaymentForm();
-
-        return view('front.checkout.view', compact('data'));
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function order(Request $request)
-    {
-        $order = new Order();
-
-        ag_log($request->toArray(), title: 'Response ORDER ::::::::::::::::::::::::::::::::::::::');
-
-        if ($request->has('provjera')) {
-            $order->setData($request->input('provjera'));
-        }
-
-        if ($request->has('order_number')) {
-            $order->setData($request->input('order_number'));
-        }
-
-        if ($order->finish($request)) {
-            return redirect()->route('checkout.success');
-        }
-
-        return redirect()->route('checkout.error');
-    }
-
-
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function success(Request $request)
-    {
-        $data['order'] = CheckoutSession::getOrder();
-
-        if ( ! $data['order']) {
-            return redirect()->route('index');
-        }
-
-        $order = OrderHelper::get($data['order']['id']);
-
-        if ($order->isValid()) {
-            $order->sendEmails()
-                  ->decreaseCartItems()
-                 // ->addCustomerToMailchimp()
-                  ->forgetCheckoutCache();
-
-            $this->shoppingCart()
-                 ->flush()
-                 ->resolveDB();
-
-            $data['google_tag_manager'] = TagManager::getGoogleSuccessDataLayer($order->getOrder());
-
-            return view('front.checkout.success', compact('data'));
-        }
-
-        return redirect()->route('front.checkout.checkout', ['step' => '']);
-    }
-
-
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function error()
-    {
         return view('front.checkout.error');
     }
 
@@ -189,56 +201,17 @@ class CheckoutController extends FrontController
      *******************************************************************************/
 
     /**
-     * @return AgCart
+     * @return bool
      */
-    private function shoppingCart(): AgCart
+    private function isCartEmpty(): bool
     {
-        if (session()->has(config('session.cart'))) {
-            return new AgCart(session(config('session.cart')));
+        $cart = CartSession::resolve()->get();
+
+        if ( ! $cart['count']) {
+            return true;
         }
 
-        return new AgCart(config('session.cart'));
-    }
-
-
-    /**
-     * @return array
-     */
-    private function checkSession(): array
-    {
-        if (CheckoutSession::hasAddress() && CheckoutSession::hasShipping() && CheckoutSession::hasPayment()) {
-            return [
-                'address'  => CheckoutSession::getAddress(),
-                'shipping' => CheckoutSession::getShipping(),
-                'payment'  => CheckoutSession::getPayment(),
-                'comment'  => CheckoutSession::getComment()
-            ];
-        }
-
-        return [];
-    }
-
-
-    /**
-     * @param array $data
-     * @param int   $order_status_id
-     *
-     * @return array
-     */
-    private function collectData(array $data, int $order_status_id): array
-    {
-        $shipping = Settings::getList('shipping')->where('code', $data['shipping'])->first();
-        $payment  = Settings::getList('payment')->where('code', $data['payment'])->first();
-
-        $response                    = [];
-        $response['address']         = $data['address'];
-        $response['shipping']        = $shipping;
-        $response['comment']         = isset($data['comment']) ? $data['comment'] : '';
-        $response['payment']         = $payment;
-        $response['cart']            = $this->shoppingCart()->get();
-        $response['order_status_id'] = $order_status_id;
-
-        return $response;
+        return false;
     }
 
 }
