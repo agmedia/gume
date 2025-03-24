@@ -24,10 +24,14 @@
                         Ukupno ({{ $cart['count'] }} artikla):
                         <span class="text-dark-emphasis fw-medium">{{ $cart['subtotal'] }} €</span>
                     </li>
-                    <li class="d-flex justify-content-between">
-                        Dostava:
-                        <span class="text-dark-emphasis fw-medium">{{ $shipping }}</span>
-                    </li>
+                    @foreach ($cart['conditions'] as $condition)
+                        @if ($condition->getValue() > 0)
+                            <li class="d-flex justify-content-between">
+                                {{ $condition->getName() }}:
+                                <span class="text-dark-emphasis fw-medium">{{ price($condition->getValue(), true) }}</span>
+                            </li>
+                        @endif
+                    @endforeach
                 </ul>
                 <div class="border-top pt-4 mt-4">
                     <div class="d-flex justify-content-between mb-3">

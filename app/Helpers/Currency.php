@@ -70,7 +70,7 @@ class Currency
     private static function resolveCurrency($currency, $price, bool $text_price = false)
     {
         if ($currency) {
-            if ($price) {
+            if ($price || $price == '0') {
                 return static::resolvePrice($currency, $price, $text_price);
             }
 

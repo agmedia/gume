@@ -6,11 +6,12 @@
 @section('content')
     <form action="{{ route('checkout') }}" method="GET" enctype="multipart/form-data" novalidate>
         {{--@csrf--}}
-        @include('front.layouts.partials.session')
-
+        
         <div class="container py-5">
             <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
                 <div class="col-lg-8 col-xl-7 position-relative z-2 mb-5 mb-lg-0">
+                    @include('front.layouts.partials.session')
+
                     <div class="accordion d-flex flex-column gap-5 pe-lg-4 pe-xl-0" id="checkout">
                         <!-- Delivery info overview + Edit button -->
                         <div class="accordion-item d-flex align-items-start border-0">
@@ -60,8 +61,10 @@
                                         <div class="mt-4">
                                             <div class="form-check mb-0" role="listitem">
                                                 <label class="form-check-label w-100 text-dark-emphasis fw-semibold">
-                                                    <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="payment_method" value="{{ $method->code }}">
+                                                    <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="payment_method" onclick="paymentChange(this);" value="{{ $method->code }}"
+                                                           @if( ! empty(session()->get('selected_payment')) && session()->get('selected_payment')->code == $method->code) checked @endif>
                                                     {{ $method->title }}
+                                                    <span class="fw-normal ms-auto">{{ ($method->data->price) ? price($method->data->price, true) : '' }}</span>
                                                 </label>
                                                 <p class="fw-lighter fs-sm" style="margin-left: 9px;">{{ $method->data->short_description }}</p>
                                             </div>
@@ -97,4 +100,9 @@
 @endsection
 
 @push('js_after')
+    <script>
+        function paymentChange(radio) {
+            Livewire.emit('paymentUpdated', radio.value);
+        }
+    </script>
 @endpush

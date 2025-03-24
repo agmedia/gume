@@ -123,7 +123,7 @@ class CheckoutController extends FrontController
             'address' => 'required'
         ]);
 
-        if ( ! session()->has('selected_reservation') || ! session()->has('selected_shipping')) {
+        if ( ! session()->has('selected_shipping')) {
             return redirect()->route('kosarica');
         }
 
@@ -159,7 +159,7 @@ class CheckoutController extends FrontController
             'terms_conditions' => 'required',
         ]);
 
-        if ( ! session()->has('selected_reservation') || ! session()->has('selected_shipping') || ! session()->has('customer_info')) {
+        if ( ! session()->has('selected_shipping') || ! session()->has('customer_info')) {
             return redirect()->route('kosarica');
         }
 
