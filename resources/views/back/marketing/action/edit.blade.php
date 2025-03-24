@@ -37,10 +37,10 @@
                                 <i class="fa fa-arrow-left mr-1"></i> Povratak
                             </a>
                             <div class="block-options">
-                                <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
+                                {{--<div class="custom-control custom-switch custom-control-info block-options-item ml-4">
                                     <input type="checkbox" class="custom-control-input" id="lock-switch" name="lock" @if (isset($action) and $action->lock) checked @endif>
                                     <label class="custom-control-label pt-1" for="lock-switch">Zaključaj</label>
-                                </div>
+                                </div>--}}
                                 <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
                                     <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($action) and $action->status) checked @endif>
                                     <label class="custom-control-label pt-1" for="status-switch">Aktiviraj</label>
@@ -102,7 +102,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row items-push mb-2">
+                                    {{--<div class="form-group row items-push mb-2">
                                         <div class="col-md-6">
                                             <label for="min-input">Obuhvati artikle u rasponu cijene</label>
                                             <input type="text" class="form-control" id="min-input" name="min" placeholder="Cijena od" value="{{ isset($action->data['min']) ? $action->data['min'] : old('min') }}">
@@ -111,7 +111,7 @@
                                             <label for="max-input">&nbsp;</label>
                                             <input type="text" class="form-control" id="max-input" name="max" placeholder="Cijena do" value="{{ isset($action->data['max']) ? $action->data['max'] : old('max') }}">
                                         </div>
-                                    </div>
+                                    </div>--}}
                                     <div class="form-group row items-push mb-0 mt-4">
                                         <div class="col-md-4 pt-2">
                                             <label>Zahtjeva Kupon kod @include('back.layouts.partials.popover', ['title' => 'Ako upišete Kupon Kod', 'content' => 'Smatrat će se da ga zahtjevate prilikom kupnje za ostvarivanje akcije i pripadajučeg popusta...'])</label>
@@ -120,7 +120,7 @@
                                             <input type="text" class="form-control" name="coupon" placeholder="Upišite kupon kod..." value="{{ isset($action) ? $action->coupon : old('coupon') }}">
                                         </div>
                                     </div>
-                                    <div class="form-group row items-push mb-2">
+                                    {{--<div class="form-group row items-push mb-2">
                                         <div class="col-md-4 pt-2"></div>
                                         <div class="col-md-8">
                                             <div class="custom-control custom-switch custom-control-success">
@@ -128,7 +128,7 @@
                                                 <label class="custom-control-label" for="coupon-quantity">Koristi kupon samo jednom</label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                         </div>

@@ -42,6 +42,21 @@ if ( ! function_exists('price')) {
 /**
  *
  */
+if ( ! function_exists('carbon')) {
+    /**
+     * @param string|null $date
+     *
+     * @return mixed
+     */
+    function carbon(string $date): \Illuminate\Support\Carbon
+    {
+        return new \Illuminate\Support\Carbon($date);
+    }
+}
+
+/**
+ *
+ */
 if ( ! function_exists('main_currency_symbol')) {
     /**
      * @return string

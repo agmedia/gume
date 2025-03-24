@@ -1,10 +1,8 @@
 @extends('back.layouts.backend')
-@push('css_before')
 
+@push('css_before')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
-
-
 @endpush
 
 @section('content')
@@ -23,7 +21,6 @@
     <!-- Page Content -->
     <div class="content">
     @include('back.layouts.partials.session')
-
 
         <!-- All Products -->
         <div class="block block-rounded">
@@ -46,7 +43,6 @@
                 </div>
             </div>
 
-
             <div class="block-content">
                 <!-- All Products Table -->
                 <div class="table-responsive">
@@ -60,7 +56,7 @@
                             <th>Popust</th>
                             <th>Kupon</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Lock</th>
+                            {{--<th class="text-center">Lock</th>--}}
                             <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
@@ -80,13 +76,13 @@
                                 <td class="text-center font-size-sm">
                                     @include('back.layouts.partials.status', ['status' => $action->status, 'simple' => true])
                                 </td>
-                                <td class="text-center font-size-sm">
+                                {{--<td class="text-center font-size-sm">
                                     @if($action->lock)
                                         <i class="fa fa-lock text-danger-light"></i>
                                     @else
                                         <i class="fa fa-lock-open text-success-light"></i>
                                     @endif
-                                </td>
+                                </td>--}}
                                 <td class="text-right font-size-sm">
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.edit', ['action' => $action]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
@@ -114,8 +110,6 @@
 @endsection
 
 @push('js_after')
-
-
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 

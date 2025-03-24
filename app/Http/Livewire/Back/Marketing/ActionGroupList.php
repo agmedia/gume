@@ -120,9 +120,6 @@ class ActionGroupList extends Component
             case 'category':
                 $this->title = 'Kategorije koje želite uključiti' . $this->requiredSymbol();
                 break;
-            case 'publisher':
-                $this->title = 'Nakladnici koje želite uključiti' . $this->requiredSymbol();
-                break;
             case 'brand':
                 $this->title = 'Brandovi koje želite uključiti' . $this->requiredSymbol();
                 break;
@@ -152,14 +149,8 @@ class ActionGroupList extends Component
                 case 'product':
                     $this->search_results = Product::where('name', 'like', '%' . $this->search . '%')->orWhere('sku', 'like', '%' . $this->search . '%')->limit($this->dropdown_limit)->get();
                     break;
-                case 'single':
-                    $this->search_results = Product::where('name', 'like', '%' . $this->search . '%')->orWhere('sku', 'like', '%' . $this->search . '%')->limit($this->dropdown_limit)->get();
-                    break;
                 case 'category':
                     $this->search_results = Category::where('title', 'like', '%' . $this->search . '%')->limit($this->dropdown_limit)->get();
-                    break;
-                case 'publisher':
-                    $this->search_results = Publisher::where('title', 'like', '%' . $this->search . '%')->limit($this->dropdown_limit)->get();
                     break;
                 case 'brand':
                     $this->search_results = Brand::where('title', 'like', '%' . $this->search . '%')->limit($this->dropdown_limit)->get();
@@ -188,15 +179,8 @@ class ActionGroupList extends Component
                 case 'product':
                     $this->list[$id] = Product::where('id', $id)->first();
                     break;
-                case 'single':
-                    $this->list[$id] = Product::where('id', $id)->first();
-                    $this->disabled = true;
-                    break;
                 case 'category':
                     $this->list[$id] = Category::where('id', $id)->first();
-                    break;
-                case 'publisher':
-                    $this->list[$id] = Publisher::where('id', $id)->first();
                     break;
                 case 'brand':
                     $this->list[$id] = Brand::where('id', $id)->first();

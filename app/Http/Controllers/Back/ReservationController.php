@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
@@ -17,8 +18,26 @@ class ReservationController extends Controller
      */
     public function index(Request $request, Reservation $reservation)
     {
-        $reservations   = $reservation->filter($request)->paginate(config('settings.pagination.back'));
+        $page = 1;
 
+        if ($request->has('page')) {
+            $page = $request->input('page');
+        }
+
+        $reservations = $reservation->filter($request)->get()->groupBy(function ($item) {
+            return sprintf(
+                '%s-%s-%s',
+                $item->year,
+                $item->month,
+                $item->day,
+            );
+        });
+
+        $reservations = Helper::paginateColl($reservations, config('settings.pagination.back'), $page)->appends(request()->query());
+
+        //dd($reservations);
+
+        //$reservations = $reservation->filter($request)->paginate(config('settings.pagination.back'));
 
         $statuses = Settings::get('order', 'statuses');
 
