@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                <div class="row justify-content-center push">
+                 <div class="row justify-content-center push">
                     <div class="col-md-12">
                         <div class="form-group row items-push mb-3">
                             <div class="col-md-4">
@@ -79,6 +79,7 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
                 <div class="block">
                     <div class="block-content">
@@ -91,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
         </form>
 
     <!-- END Page Content -->
