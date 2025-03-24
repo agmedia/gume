@@ -68,7 +68,9 @@
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 36px;">Br.</th>
-                            <th class="text-center">Termin rezervacije</th>
+                            <th class="text-center">Datum </th>
+                            <th class="text-center">Vrijeme</th>
+
                             <th>Status</th>
                             <th>Kupac</th>
                             <th class="text-right font-size-sm" style="width: 100px;">Detalji</th>
@@ -82,7 +84,9 @@
                                         <strong>{{ $reservation->id }}</strong>
                                     </a>
                                 </td>
-                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->format('d.m.Y H:i') }}</td>
+                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->format('d.m.Y ') }}</td>
+                                <td class="text-center">{{ $reservation->time}}</td>
+
                                 <td class="font-size-base">
                                     <span class="badge badge-pill badge-{{ $reservation->status }}">{{ $reservation->status }}</span>
                                 </td>

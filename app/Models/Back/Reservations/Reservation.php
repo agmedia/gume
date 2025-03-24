@@ -146,7 +146,7 @@ class Reservation extends Model
 
     private function resolveDateFields()
     {
-        
+
     }
 
 

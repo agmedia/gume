@@ -33,7 +33,6 @@
             @if (isset($product))
                 {{ method_field('PATCH') }}
             @endif
-
             <div class="block">
                 <div class="block-header block-header-default">
                     <a class="btn btn-light" href="{{ route('products') }}">
@@ -50,6 +49,7 @@
                 </div>
 
             </div>
+
 
             <div class="block block-rounded">
                 <ul class="nav nav-tabs nav-tabs-block" data-toggle="tabs" role="tablist">
