@@ -75,7 +75,7 @@
                                 <textarea id="message-editor" name="message">{!! isset($reservation) ? $reservation->message : old('message') !!}</textarea>
                             </div>
                             </div>
-                            <input type="hidden" name="order_id" value="{{$reservation->order_id}}"/>
+
                         </div>
                     </div>
                 </div>
