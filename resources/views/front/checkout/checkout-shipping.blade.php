@@ -10,11 +10,9 @@
         @livewire('front.checkout.reservation-selection')
 
         <div class="container py-5">
-
             @include('front.layouts.partials.session')
 
             <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
-
 
                 <!-- Delivery info (Step 1) -->
                 <div class="col-lg-8 col-xl-7 mb-5 mb-lg-0">
@@ -31,11 +29,11 @@
                                             <div class="border-bottom">
                                                 <div class="form-check mb-4" role="listitem">
                                                     <label class="form-check-label d-flex align-items-center text-dark-emphasis fw-semibold pt-3">
-                                                        <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="shipping_method" value="{{ $method->code }}">
+                                                        <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="shipping_method" onclick="shippingChange(this);" value="{{ $method->code }}">
                                                         {{ $method->title }}
                                                         @if ($method->code == 'pickup')
                                                             <div class="ms-auto">
-                                                                <label class="btn btn-dark " for="other-date" data-bs-toggle="offcanvas" data-bs-target="#deliveryDateTime" aria-controls="deliveryDateTime"><i class="ci-schedule me-2"></i> Odaberite slobodan termin</label>
+                                                                <label class="btn btn-dark" for="other-date" data-bs-toggle="offcanvas" data-bs-target="#deliveryDateTime" aria-controls="deliveryDateTime"><i class="ci-schedule me-2"></i> Odaberite slobodan termin</label>
                                                             </div>
                                                         @endif
                                                         <span class="fw-normal ms-auto">{{ $method->data->price != '0' ? price($method->data->price, true) : '' }}</span>
@@ -78,4 +76,9 @@
 @endsection
 
 @push('js_after')
+    <script>
+        function shippingChange(radio) {
+            console.log(radio.value);
+        }
+    </script>
 @endpush

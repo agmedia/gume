@@ -1,5 +1,5 @@
 <!-- Shopping cart offcanvas -->
-@livewire('front.checkout.cart-drawer')
+{{--@livewire('front.checkout.cart-drawer')--}}
 
 <!-- Site menu offcanvas -->
 <nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel">
@@ -237,7 +237,7 @@
 
 @push('js_after')
     <script>
-        Livewire.on('updateCartNavIcon', () => {
+        Livewire.on('addCartItem', () => {
             //console.log(111)
             let addCartToast = document.getElementById('add-cart-toast');
 

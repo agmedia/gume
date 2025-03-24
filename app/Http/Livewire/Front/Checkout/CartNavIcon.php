@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Front\Checkout;
 
 use App\Models\Front\Cart\CartSession;
+use App\Models\Front\Catalog\Product;
 use Livewire\Component;
 
 /**
@@ -11,6 +12,9 @@ use Livewire\Component;
 class CartNavIcon extends Component
 {
 
+    /**
+     * @var
+     */
     protected $cart;
 
     /**
@@ -21,7 +25,7 @@ class CartNavIcon extends Component
     /**
      * @var string[]
      */
-    protected $listeners = ['updateCartNavIcon'];
+    protected $listeners = ['addCartItem'];
 
 
     /**
@@ -35,13 +39,18 @@ class CartNavIcon extends Component
 
 
     /**
-     * @param int $count
+     * @param Product $product
+     * @param int     $quantity
      *
      * @return void
      */
-    public function updateCartNavIcon(int $count)
+    public function addCartItem(Product $product, int $quantity)
     {
-        $this->count = $count;
+        $this->setCart();
+
+        $this->cart->add($product, $quantity);
+
+        $this->count = $this->cart->get()['count'];
     }
 
 
@@ -53,8 +62,6 @@ class CartNavIcon extends Component
     public function removeFromCart(int $product_id)
     {
         $this->setCart();
-
-        //dd($this->cart);
 
         $this->cart->remove($product_id);
 
@@ -69,7 +76,9 @@ class CartNavIcon extends Component
     {
         $this->setCart();
 
-        return view('livewire.front.checkout.cart-nav-icon', ['cart' => $this->cart]);
+        return view('livewire.front.checkout.cart-nav-icon', [
+            'cart' => $this->cart
+        ]);
     }
 
 
@@ -78,6 +87,6 @@ class CartNavIcon extends Component
      */
     private function setCart()
     {
-        $this->cart = CartSession::resolve()/*->get()*/;
+        $this->cart = CartSession::resolve();
     }
 }

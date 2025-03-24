@@ -34,10 +34,10 @@ class Reservation extends Model
     /**
      * @return mixed
      */
-    public function getStatusAttribute()
+   /* public function getStatusAttribute()
     {
         return $this->status($this->order_status_id);
-    }
+    }*/
 
 
     /**
@@ -45,12 +45,12 @@ class Reservation extends Model
      *
      * @return mixed
      */
-    public function status(int $id)
+    /*public function status(int $id)
     {
         $statuses = Settings::get('order', 'statuses');
 
         return $statuses->where('id', $id)->first();
-    }
+    }*/
 
 
     /**

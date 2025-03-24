@@ -156,13 +156,6 @@
 
 @endif
 
-<script>
-    Livewire.on('updateCartNavIcon', (quantity) => {
-        //console.log(quantity)
-        document.getElementById('cart-header-count').textContent = quantity;
-    })
-</script>
-
 {{--<script>
     document.addEventListener('livewire:load', function () {
         // Initialize Choices.js when the page loads

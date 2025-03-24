@@ -78,17 +78,17 @@
                         @forelse ($reservations->sortByDesc('id') as $reservation)
                             <tr>
                                 <td class="text-center">
-                                    <a class="font-w600" href="{{ route('reservations.edit', ['reservations' => $reservation]) }}">
+                                    <a class="font-w600" href="{{ route('reservations.edit', ['reservation' => $reservation]) }}">
                                         <strong>{{ $reservation->id }}</strong>
                                     </a>
                                 </td>
                                 <td class="text-center">{{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->format('d.m.Y H:i') }}</td>
                                 <td class="font-size-base">
-                                    <span class="badge badge-pill badge-{{ $reservation->status->color }}">{{ $reservation->status->title }}</span>
+                                    <span class="badge badge-pill badge-{{ $reservation->status }}">{{ $reservation->status }}</span>
                                 </td>
 
                                 <td>
-                                    <a class="font-w600" href="{{ route('reservations.edit', ['reservations' => $reservation]) }}">{{ $reservation->order->payment_fname }} {{ $reservation->order->payment_lname }}</a>
+                                    <a class="font-w600" href="{{ route('reservations.edit', ['reservation' => $reservation]) }}">{{ $reservation->order->payment_fname }} {{ $reservation->order->payment_lname }}</a>
                                 </td>
 
                                 <td class="text-right">

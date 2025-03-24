@@ -1,8 +1,8 @@
 <div class="dropdown">
-    <button type="button" class="btn btn-icon fs-xl btn-outline-secondary position-relative border-0 rounded-circle animate-scale " data-bs-toggle="dropdown" data-bs-trigger="hover" aria-haspopup="true" aria-expanded="false">
+    <a href="{{ route('kosarica') }}" type="button" class="btn btn-icon fs-xl btn-outline-secondary position-relative border-0 rounded-circle animate-scale " data-bs-toggle="dropdown" data-bs-trigger="hover" aria-haspopup="true" aria-expanded="false">
         <span id="cart-header-count" class="position-absolute top-0 start-100 badge fs-xs text-bg-primary rounded-pill ms-n3 z-2" style="--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em">{{ $count }}</span>
         <i class="ci-shopping-cart animate-target"></i>
-    </button>
+    </a>
     <div class="dropdown-menu dropdown-menu-end">
         <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;">
             @forelse ($cart->get()['items'] as $item)

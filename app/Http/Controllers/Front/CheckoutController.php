@@ -29,6 +29,11 @@ class CheckoutController extends FrontController
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function coupon(Request $request)
     {
         $request->validate([
