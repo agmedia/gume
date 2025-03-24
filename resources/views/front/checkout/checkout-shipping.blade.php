@@ -29,7 +29,8 @@
                                             <div class="border-bottom">
                                                 <div class="form-check mb-4" role="listitem">
                                                     <label class="form-check-label d-flex align-items-center text-dark-emphasis fw-semibold pt-3">
-                                                        <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="shipping_method" onclick="shippingChange(this);" value="{{ $method->code }}">
+                                                        <input type="radio" class="form-check-input fs-base me-2 me-sm-3" name="shipping_method" onclick="shippingChange(this);" value="{{ $method->code }}"
+                                                               @if( ! empty(session()->get('selected_shipping')) && session()->get('selected_shipping')->code == $method->code) checked @endif>
                                                         {{ $method->title }}
                                                         @if ($method->code == 'pickup')
                                                             <div class="ms-auto">
@@ -78,7 +79,7 @@
 @push('js_after')
     <script>
         function shippingChange(radio) {
-            console.log(radio.value);
+            Livewire.emit('shippingUpdated', radio.value);
         }
     </script>
 @endpush

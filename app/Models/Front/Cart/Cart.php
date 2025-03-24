@@ -4,6 +4,8 @@ namespace App\Models\Front\Cart;
 
 use App\Helpers\Helper;
 use App\Models\Front\Catalog\Product;
+use App\Models\Front\Checkout\PaymentMethod;
+use App\Models\Front\Checkout\ShippingMethod;
 use Darryldecode\Cart\CartCondition;
 use Darryldecode\Cart\Facades\CartFacade;
 
@@ -19,7 +21,7 @@ class Cart
     private $cart_id;
 
     /**
-     * @var
+     * @var CartFacade
      */
     private $cart;
 
@@ -111,6 +113,80 @@ class Cart
         $this->cart->remove($id);
 
         return $this->get();
+    }
+
+
+    /**
+     * @param object|string $shipping
+     *
+     * @return void
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
+    public function setShippingMethod(object|string $shipping_method): self
+    {
+        if (is_string($shipping_method)) {
+            $shipping_method = (new ShippingMethod())->find($shipping_method);
+        }
+
+        if ($shipping_method) {
+            $value = $shipping_method->data->price;
+
+            if ($this->cart->getTotal() > config('settings.free_shipping')) {
+                $value = 0;
+            }
+
+            $shipping_condition = new CartCondition(array(
+                'name' => $shipping_method->title,
+                'type' => 'shipping',
+                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => $value,
+                'attributes' => [
+                    'description' => $shipping_method->data->short_description,
+                    'geo_zone' => $shipping_method->geo_zone
+                ]
+            ));
+
+            $this->cart->removeConditionsByType('shipping');
+
+            $this->cart->condition($shipping_condition);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param object|string $payment_method
+     *
+     * @return $this
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
+    public function setPaymentMethod(object|string $payment_method): self
+    {
+        if (is_string($payment_method)) {
+            $payment_method = (new PaymentMethod())->find($payment_method);
+        }
+
+        if ($payment_method) {
+            $value = $payment_method->data->price ?: 0;
+
+            $payment_condition = new CartCondition(array(
+                'name' => $payment_method->title,
+                'type' => 'payment',
+                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => $value,
+                'attributes' => [
+                    'description' => $payment_method->data->short_description,
+                    'geo_zone' => $payment_method->geo_zone
+                ]
+            ));
+
+            $this->cart->removeConditionsByType('payment');
+
+            $this->cart->condition($payment_condition);
+        }
+
+        return $this;
     }
 
 
