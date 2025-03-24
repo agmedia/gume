@@ -85,6 +85,8 @@ class Cart extends Component
     {
         $this->setCart();
 
+        //dd(Product::query()->find(3)->coupon());
+
         return view('livewire.front.checkout.cart', [
             'cart' => $this->cart->get(),
             'items' => $this->getItems()

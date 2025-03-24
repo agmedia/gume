@@ -43,6 +43,8 @@ class CheckoutController extends FrontController
         session()->put(config('session.cart') . '_coupon', $request->input('coupon'));
 
         if (session()->has(config('session.cart') . '_coupon')) {
+            CartSession::resolve()->setCoupon($request->input('coupon'));
+
             return back()->with('success', 'Kupon je uspješno dodan u košaricu.');
         }
 

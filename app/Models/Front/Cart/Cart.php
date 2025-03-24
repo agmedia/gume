@@ -85,8 +85,7 @@ class Cart
      */
     public function add(Product $product, int $quantity)
     {
-        $this->product          = $product;
-        $this->product_quantity = $quantity;
+        $this->setProduct($product, $quantity);
 
         foreach ($this->cart->getContent() as $item) {
             if ($item->id == $this->product->id) {
@@ -124,34 +123,7 @@ class Cart
      */
     public function setShippingMethod(object|string $shipping_method): self
     {
-        if (is_string($shipping_method)) {
-            $shipping_method = (new ShippingMethod())->find($shipping_method);
-        }
-
-        if ($shipping_method) {
-            $value = $shipping_method->data->price;
-
-            if ($this->cart->getTotal() > config('settings.free_shipping')) {
-                $value = 0;
-            }
-
-            $shipping_condition = new CartCondition(array(
-                'name' => $shipping_method->title,
-                'type' => 'shipping',
-                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $value,
-                'attributes' => [
-                    'description' => $shipping_method->data->short_description,
-                    'geo_zone' => $shipping_method->geo_zone
-                ]
-            ));
-
-            $this->cart->removeConditionsByType('shipping');
-
-            $this->cart->condition($shipping_condition);
-        }
-
-        return $this;
+        return $this->setConditionMethod('shipping', 'total', $shipping_method);
     }
 
 
@@ -163,27 +135,23 @@ class Cart
      */
     public function setPaymentMethod(object|string $payment_method): self
     {
-        if (is_string($payment_method)) {
-            $payment_method = (new PaymentMethod())->find($payment_method);
-        }
+        return $this->setConditionMethod('payment', 'total', $payment_method);
+    }
 
-        if ($payment_method) {
-            $value = $payment_method->data->price ?: 0;
 
-            $payment_condition = new CartCondition(array(
-                'name' => $payment_method->title,
-                'type' => 'payment',
-                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $value,
-                'attributes' => [
-                    'description' => $payment_method->data->short_description,
-                    'geo_zone' => $payment_method->geo_zone
-                ]
-            ));
+    public function setCoupon(string $coupon): self
+    {
+        $this->coupon = $coupon;
 
-            $this->cart->removeConditionsByType('payment');
+        foreach ($this->cart->getContent() as $item) {
+            $this->remove($item->id);
 
-            $this->cart->condition($payment_condition);
+            $this->setProduct(
+                Product::query()->find($item->id),
+                $item->quantity
+            );
+
+            $this->store();
         }
 
         return $this;
@@ -253,7 +221,6 @@ class Cart
             'name'            => $this->product->name,
             'price'           => $this->product->price,
             'quantity'        => $this->product_quantity,
-            //'associatedModel' => $this->product,
             'conditions'      => $condition,
             'attributes'      => $attributes
         ];
@@ -311,35 +278,29 @@ class Cart
 
         if ($action_price) {
             $action = $this->product->special(true);
-            /*$coupon = $this->product->coupon();
-
-            if ($coupon != '') {
-                return new CartCondition([
-                    'name'   => 'Kupon akcija',
-                    'type'   => 'coupon',
-                    'target' => $coupon,
-                    'value'  => -($this->product->price - $this->product->special())
-                ]);
-            }*/
 
             if ($action) {
-                $value = '-' . $action['discount'] . '%';
+                $type = 'action';
+                $value = '-' . intval($action['discount']) . '%';
 
-                if ($action['type'] == 'P') {
-                    $value = '-' . $action['discount'];
+                if ($action['type'] == 'F') {
+                    $value = '-' . intval($action['discount']);
+                }
+
+                if ($action['coupon'] || $action['coupon'] != '') {
+                    $type = 'coupon';
                 }
 
                 return new CartCondition([
                     'name'       => $action['title'],
-                    'type'       => 'action',
-                    'target'     => 'product',
+                    'type'       => $type,
+                    'value'      => $value,
                     'attributes' => [
                         'discount'   => $action['discount'],
                         'price'      => $action_price,
                         'price_text' => price($action_price, true),
                         'diff'       => $this->product->price - $action_price,
-                    ],
-                    'value'      => $value
+                    ]
                 ]);
             }
         }
@@ -347,5 +308,59 @@ class Cart
         // Ako nema akcije na artiklu.
         // Ako nije ispravan kupon.
         return null;
+    }
+
+
+    /**
+     * @param string        $type
+     * @param string        $target
+     * @param object|string $method
+     *
+     * @return self
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
+    private function setConditionMethod(string $type, string $target, object|string $method): self
+    {
+        if (is_string($method)) {
+            if ($type == 'payment') {
+                $method = (new PaymentMethod())->find($method);
+            } elseif ($type == 'shipping') {
+                $method = (new ShippingMethod())->find($method);
+            }
+        }
+
+        if ($method) {
+            $value = $method->data->price ?: 0;
+
+            $condition = new CartCondition([
+                'name' => $method->title,
+                'type' => $type, // payment, shipping, action, sale...
+                'target' => $target, // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => $value,
+                'attributes' => [
+                    'description' => $method->data->short_description,
+                    'geo_zone' => $method->geo_zone
+                ]
+            ]);
+
+            $this->cart->removeConditionsByType($type);
+
+            $this->cart->condition($condition);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param Product|int $product
+     * @param int         $quantity
+     *
+     * @return void
+     */
+    private function setProduct(Product $product, int $quantity): void
+    {
+        $this->product = $product;
+        $this->product_quantity = $quantity;
     }
 }

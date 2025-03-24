@@ -129,6 +129,11 @@ class CartSession extends Model
     }
 
 
+    /**
+     * @param int $length
+     *
+     * @return string
+     */
     private static function getSessionId(int $length = 8)
     {
         return Str::random($length);

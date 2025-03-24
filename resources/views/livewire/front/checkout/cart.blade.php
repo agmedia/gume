@@ -15,11 +15,12 @@
             <table class="table position-relative z-2 mb-4">
                 <thead>
                 <tr>
+                    <th scope="col" class="fs-sm py-3 ps-0"></th>
                     <th scope="col" class="fs-sm fw-normal py-3 ps-0"><span class="text-body">Artikl</span></th>
                     <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-xl-table-cell"><span class="text-body">Cijena</span></th>
                     <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span class="text-body">Količina</span></th>
+                    <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span class="text-body">Rabat</span></th>
                     <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span class="text-body">Ukupno</span></th>
-                    <th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell"><span class="text-body">Izbriši</span></th>
                 </tr>
                 </thead>
                 <tbody class="align-middle">
@@ -27,16 +28,21 @@
                 <!-- Item -->
                 @forelse ($items as $item)
                     <tr>
+                        <td class="text-end py-3 px-0">
+                            <button type="button" class="btn-close fs-sm" wire:click="removeItemFromCart({{ $item['id'] }})" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+                        </td>
                         <td class="py-3 ps-0">
                             <div class="d-flex align-items-center">
-                                <a class="flex-shrink-0" href="{{ $item['attributes']['path'] }}">
-                                    <img src="{{ asset($item['attributes']['thumb']) }}" width="110" alt="{{ $item['name'] }}">
+                                <a class="flex-shrink-0" href="{{ $item->attributes['path'] }}">
+                                    <img src="{{ asset($item->attributes['thumb']) }}" width="110" alt="{{ $item['name'] }}">
                                 </a>
                                 <div class="w-100 min-w-0 ps-2 ps-xl-3">
                                     <h5 class="d-flex animate-underline mb-2">
-                                        <a class="d-block fs-sm fw-medium  animate-target" href="{{ $item['attributes']['path'] }}">{{ $item['name'] }}</a>
-                                        <span class="fs-sm"></span>
+                                        <a class="d-block fs-sm fw-medium animate-target" href="{{ $item->attributes['path'] }}">{{ $item['name'] }}</a>
                                     </h5>
+                                    @if ($item->attributes->action)
+                                        <span class="fs-sm fw-light">{{ $item->attributes->action['title'] }} {{ $item->attributes->action['discount'] }}</span>
+                                    @endif
 
                                     <div class="count-input rounded-2 d-md-none mt-3">
                                         <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-sm btn-icon" data-decrement aria-label="Decrement quantity">
@@ -62,14 +68,16 @@
                                 </button>
                             </div>
                         </td>
-                        <td class="h6 py-3 d-none d-md-table-cell">{{ $item['price'] }} €</td>
-                        <td class="text-end py-3 px-0">
-                            <button type="button" class="btn-close fs-sm" wire:click="removeItemFromCart({{ $item['id'] }})" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
-                        </td>
+                        @if ($item->hasConditions())
+                            <td class="py-3 d-none d-md-table-cell">{{ $item->conditions->getValue() }}</td>
+                        @else
+                            <td class="py-3 d-none d-md-table-cell"></td>
+                        @endif
+                        <td class="h6 py-3 d-none d-md-table-cell">{{ $item->getPriceSumWithConditions() }} €</td>
                     </tr>
                 @empty
                     <tr>
-                        <td class="py-4 ps-0 text-center" colspan="5">
+                        <td class="py-4 ps-0 text-center" colspan="6">
                             <h4>Nažalost nemate ništa u košarici.</h4>
                         </td>
                     </tr>

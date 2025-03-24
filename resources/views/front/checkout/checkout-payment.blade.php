@@ -6,7 +6,7 @@
 @section('content')
     <form action="{{ route('checkout') }}" method="GET" enctype="multipart/form-data" novalidate>
         {{--@csrf--}}
-        
+
         <div class="container py-5">
             <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
                 <div class="col-lg-8 col-xl-7 position-relative z-2 mb-5 mb-lg-0">
