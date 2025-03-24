@@ -25,9 +25,23 @@ class CheckoutController extends FrontController
      */
     public function cart(Request $request)
     {
-        $gdl = TagManager::getGoogleCartDataLayer($this->shoppingCart()->get());
+        return view('front.checkout.cart');
+    }
 
-        return view('front.checkout.cart', compact('gdl'));
+
+    public function coupon(Request $request)
+    {
+        $request->validate([
+            'coupon' => 'required',
+        ]);
+
+        session()->put(config('session.cart') . '_coupon', $request->input('coupon'));
+
+        if (session()->has(config('session.cart') . '_coupon')) {
+            return back()->with('success', 'Kupon je uspješno dodan u košaricu.');
+        }
+
+        return back()->with('error', 'Greška sa ubacivanjem kupona u košaricu.');
     }
 
 
@@ -154,6 +168,8 @@ class CheckoutController extends FrontController
 
         $payment_form = $checkout->recordUnfinishedOrder()
                                  ->resolvePaymentForm();
+
+        //dd($request->all(), session()->all(), $payment_form);
 
         if ( ! $payment_form) {
             return redirect()->route('kosarica');

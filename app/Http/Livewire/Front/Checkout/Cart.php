@@ -6,6 +6,9 @@ use App\Models\Front\Cart\CartSession;
 use App\Models\Front\Catalog\Product;
 use Livewire\Component;
 
+/**
+ *
+ */
 class Cart extends Component
 {
 
@@ -14,20 +17,32 @@ class Cart extends Component
      */
     protected $cart;
 
+    /**
+     * @var
+     */
     protected $items;
+
+    /**
+     * @var
+     */
     public $subtotal;
+
+    /**
+     * @var
+     */
     public $total;
+
+    /**
+     * @var
+     */
     public $count;
 
 
+    /**
+     * @return void
+     */
     public function mount()
-    {
-        //$this->setCart();
-
-        //$this->items = $this->cart->get()['items']->toArray();
-
-        //dd($this->items);
-    }
+    {}
 
 
     /**
@@ -45,6 +60,12 @@ class Cart extends Component
     }
 
 
+    /**
+     * @param int $product_id
+     * @param int $quantity
+     *
+     * @return void
+     */
     public function changeItemQuantity(int $product_id, int $quantity)
     {
         $this->setCart();
@@ -63,7 +84,6 @@ class Cart extends Component
     public function render()
     {
         $this->setCart();
-        //$this->items = $this->cart->get()['items']->toArray();
 
         return view('livewire.front.checkout.cart', [
             'cart' => $this->cart->get(),
@@ -85,14 +105,20 @@ class Cart extends Component
     }
 
 
+    /**
+     * @return void
+     */
     private function updateNavIcon()
     {
         $this->emit('updateCartNavIcon', $this->cart->get()['count']);
     }
 
 
+    /**
+     * @return mixed
+     */
     private function getItems()
     {
-        return $this->cart->get()['items']->sortBy('name')->toArray();
+        return $this->cart->get()['items']->sortBy('name')/*->toArray()*/;
     }
 }

@@ -15,6 +15,8 @@
 
 @section('content')
     <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
+        @include('front.layouts.partials.session')
+
         <!-- Breadcrumb -->
         <nav class="position-relative my-3" aria-label="breadcrumb" style="z-index: 1021">
             <ol class="breadcrumb">

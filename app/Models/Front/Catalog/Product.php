@@ -3,6 +3,7 @@
 namespace App\Models\Front\Catalog;
 
 use App\Helpers\Currency;
+use App\Helpers\Helper;
 use App\Helpers\Special;
 use App\Models\Back\Catalog\Product\ProductAction;
 use App\Models\Back\Catalog\Product\ProductAttribute;
@@ -478,7 +479,6 @@ class Product extends Model
      */
     public function special(bool $return_action = false)
     {
-
         $special = new Special($this);
         $action = $special->resolveAction();
 
@@ -494,6 +494,34 @@ class Product extends Model
                     return $special->getDiscountPrice($action);
                 }
             }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function coupon(): bool
+    {
+        $special = new Special($this);
+        $action  = $special->resolveAction();
+
+        return $special->checkCoupon($action);
+    }
+
+
+    public function getTax(bool $return_tax_object = false)
+    {
+        $tax = Settings::get('tax', 'list')->where('id', $this->tax_id)->first();
+
+        if ($tax) {
+            if ($return_tax_object) {
+                return $tax;
+            }
+
+            return Helper::calculateTax($this->price, $tax->rate);
         }
 
         return null;

@@ -10,6 +10,7 @@ use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\Cart\CartSession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 /**
  *
@@ -104,7 +105,7 @@ class Checkout
         $this->order_id = Order::insertGetId([
             'user_id'             => $user_id,
             'affiliate_id'        => 0,
-            'order_status_id'     => config('order.status.unfinished'),
+            'order_status_id'     => config('settings.order.status.unfinished'),
             'invoice'             => '',
             'total'               => $this->cart['total'],
             'payment_fname'       => $this->customer_info['fname'],
@@ -112,7 +113,7 @@ class Checkout
             'payment_address'     => $this->customer_info['address'],
             'payment_zip'         => $this->customer_info['zip'],
             'payment_city'        => $this->customer_info['city'],
-            'payment_state'       => 'Croatia',
+            //'payment_state'       => 'Croatia',
             'payment_phone'       => $this->customer_info['phone'] ?: null,
             'payment_email'       => $this->customer_info['email'],
             'payment_method'      => $this->payment_method->title,
@@ -124,13 +125,13 @@ class Checkout
             'shipping_address'    => $this->customer_info['address'],
             'shipping_zip'        => $this->customer_info['zip'],
             'shipping_city'       => $this->customer_info['city'],
-            'shipping_state'      => 'Croatia',
+            //'shipping_state'      => 'Croatia',
             'shipping_phone'      => $this->customer_info['phone'] ?: null,
             'shipping_email'      => $this->customer_info['email'],
             'shipping_method'     => $this->shipping_method->title,
             'shipping_code'       => $this->shipping_method->code,
-            'company'             => $this->customer_info['company'] ?: null,
-            'oib'                 => $this->customer_info['oib'] ?: null,
+            'company'             => $this->customer_info['company'] ?: '',
+            'oib'                 => $this->customer_info['oib'] ?: '',
             'comment'             => $this->comment,
             'created_at'          => now(),
             'updated_at'          => now()
@@ -151,6 +152,22 @@ class Checkout
             $this->updateProducts();
             // Order totals
             $this->updateTotals();
+
+            if ( ! empty($this->reservation_data)) {
+                $date = Carbon::make($this->reservation_data['day']);
+
+                Reservation::query()->insertGetId([
+                    'order_id'         => $this->order_id,
+                    'status_id'        => 1,
+                    'reservation_date' => $date,
+                    'day'              => $date->day,
+                    'month'            => $date->month,
+                    'year'             => $date->year,
+                    'time'             => $this->reservation_data['hour'],
+                    'message'          => '',
+                    'status'           => 1,
+                ]);
+            }
         }
 
         return $this;
@@ -388,7 +405,7 @@ class Checkout
      *
      * @return object|mixed|string|null
      */
-    private function resolveMethod(string $target, string|object $method): object|null
+    private function resolveMethod(string $target, string|object $method = null): object|null
     {
         if (is_string($method)) {
             $method = Settings::get($target, 'list.' . $method)->first();
@@ -408,9 +425,9 @@ class Checkout
     private function methodsNotSet(): bool
     {
         if ( ! isset($this->payment_method->title) || ! isset($this->shipping_method->title)) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

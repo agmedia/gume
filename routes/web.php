@@ -339,6 +339,7 @@ Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->
 Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
 //
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
+Route::post('/kupon', [CheckoutController::class, 'coupon'])->name('checkout.coupon');
 Route::get('/odabir-dostave', [CheckoutController::class, 'checkoutShipping'])->name('dostava');
 Route::get('/upis-info-podataka', [CheckoutController::class, 'customerInfoData'])->name('info-podaci');
 Route::get('/odabir-naplate', [CheckoutController::class, 'checkoutPayment'])->name('naplata');

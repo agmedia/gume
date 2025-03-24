@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Front\Checkout;
 
-use App\Models\Front\Reservation;
+use App\Models\Front\Checkout\Reservation;
 use Livewire\Component;
 
 class ReservationSelection extends Component

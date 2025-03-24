@@ -65,6 +65,18 @@ class Helper
 
 
     /**
+     * @param float|int $gross_price
+     * @param int       $tax_rate
+     *
+     * @return float
+     */
+    public static function calculateTax(float|int|string $gross_price, int|string $tax_rate): float
+    {
+        return $gross_price - (($tax_rate / 100) * $gross_price);
+    }
+
+
+    /**
      * @return string[]
      */
     public static function abc()

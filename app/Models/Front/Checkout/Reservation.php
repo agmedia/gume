@@ -1,15 +1,10 @@
 <?php
 
-namespace App\Models\Front;
+namespace App\Models\Front\Checkout;
 
-use Illuminate\Support\Carbon;
 use Carbon\CarbonPeriod;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class Reservation extends Model
 {

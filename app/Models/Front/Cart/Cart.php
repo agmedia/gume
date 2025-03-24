@@ -3,12 +3,13 @@
 namespace App\Models\Front\Cart;
 
 use App\Helpers\Helper;
-use App\Models\Back\Marketing\Action;
 use App\Models\Front\Catalog\Product;
-use App\Models\TagManager;
 use Darryldecode\Cart\CartCondition;
 use Darryldecode\Cart\Facades\CartFacade;
 
+/**
+ *
+ */
 class Cart
 {
 
@@ -32,15 +33,25 @@ class Cart
      */
     private $coupon;
 
+    /**
+     * @var Product
+     */
     private $product;
+
+    /**
+     * @var
+     */
     private $product_quantity;
 
 
+    /**
+     * @param string $id
+     */
     public function __construct(string $id)
     {
         $this->cart_id     = $id;
         $this->cart        = CartFacade::session($id);
-        $this->session_key = config('session.cart') ?: 'agm';
+        $this->session_key = config('session.cart');
         $this->coupon      = session()->has($this->session_key . '_coupon') ? session($this->session_key . '_coupon') : '';
     }
 
@@ -64,30 +75,15 @@ class Cart
     }
 
 
-    /*public function getItems()
-    {
-        return $this->cart->getContent();
-    }*/
-
-    /*public function getSubtotal()
-    {
-        return $this->cart->getSubTotal();
-    }
-
-    public function getTotal()
-    {
-        return $this->cart->getTotal();
-    }*/
-
-    /*public function getCount()
-    {
-        return $this->cart->getTotalQuantity();
-    }*/
-
-
+    /**
+     * @param Product $product
+     * @param int     $quantity
+     *
+     * @return array|string[]
+     */
     public function add(Product $product, int $quantity)
     {
-        $this->product = $product;
+        $this->product          = $product;
         $this->product_quantity = $quantity;
 
         foreach ($this->cart->getContent() as $item) {
@@ -118,6 +114,9 @@ class Cart
     }
 
 
+    /**
+     * @return $this
+     */
     public function flush(): static
     {
         $this->cart->clear();
@@ -126,9 +125,9 @@ class Cart
     }
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param $request
@@ -170,14 +169,17 @@ class Cart
      */
     private function structureCartItem()
     {
+        $condition = $this->structureCartItemConditions();
+        $attributes = $this->structureCartItemAttributes($condition);
+
         $response = [
             'id'              => $this->product->id,
             'name'            => $this->product->name,
             'price'           => $this->product->price,
             'quantity'        => $this->product_quantity,
-            'associatedModel' => $this->product,
-            'conditions'      => $this->structureCartItemConditions(),
-            'attributes'      => $this->structureCartItemAttributes()
+            //'associatedModel' => $this->product,
+            'conditions'      => $condition,
+            'attributes'      => $attributes
         ];
 
         return $response;
@@ -185,19 +187,38 @@ class Cart
 
 
     /**
-     * @param $product
+     * @param CartCondition|null $condition
      *
-     * @return string[]
+     * @return array
      */
-    private function structureCartItemAttributes()
+    private function structureCartItemAttributes(CartCondition $condition = null)
     {
-        return [
-            'thumb' => $this->product->thumb,
-            'path' => $this->product->url,
-            'org_price' => $this->product->price,
-            'tax'  => [],
-            'tax_amount' => 0,
+        $tax = $this->product->getTax(true);
+
+        $attr = [
+            'thumb'      => $this->product->thumb,
+            'path'       => $this->product->url,
+            'org_price'  => price($this->product->price, true),
+            'tax'        => [
+                'title' => $tax->title,
+                'rate'  => $tax->rate,
+            ],
+            'tax_amount' => $this->product->getTax(),
+            'action'     => []
         ];
+
+        if ( ! empty($condition)) {
+            $attr['action'] = [
+                'title'      => $condition->getName(),
+                'discount'   => $condition->getValue(),
+                'price'      => $condition->getAttributes()['price'],
+                'price_text' => $condition->getAttributes()['price_text'],
+            ];
+
+            $attr['tax_amount'] = Helper::calculateTax($condition->getAttributes()['price'], $tax->rate);
+        }
+
+        return $attr;
     }
 
 
@@ -210,8 +231,10 @@ class Cart
     private function structureCartItemConditions()
     {
         // Ako artikl ima akciju.
-        //dd($this->product->special());
-        if ($this->product->special()) {
+        $action_price = $this->product->special();
+
+        if ($action_price) {
+            $action = $this->product->special(true);
             /*$coupon = $this->product->coupon();
 
             if ($coupon != '') {
@@ -223,16 +246,30 @@ class Cart
                 ]);
             }*/
 
-            return new CartCondition([
-                'name'   => 'Akcija',
-                'type'   => 'promo',
-                'target' => '',
-                'value'  => -($this->product->price - $this->product->special())
-            ]);
+            if ($action) {
+                $value = '-' . $action['discount'] . '%';
+
+                if ($action['type'] == 'P') {
+                    $value = '-' . $action['discount'];
+                }
+
+                return new CartCondition([
+                    'name'       => $action['title'],
+                    'type'       => 'action',
+                    'target'     => 'product',
+                    'attributes' => [
+                        'discount'   => $action['discount'],
+                        'price'      => $action_price,
+                        'price_text' => price($action_price, true),
+                        'diff'       => $this->product->price - $action_price,
+                    ],
+                    'value'      => $value
+                ]);
+            }
         }
 
         // Ako nema akcije na artiklu.
         // Ako nije ispravan kupon.
-        return false;
+        return null;
     }
 }
