@@ -185,7 +185,7 @@ class Reservation extends Model
             });
         }
 
-        return $query->orderBy('created_at', 'desc');
+        return $query->orderBy('reservation_date', 'DESC');
     }
 
 }

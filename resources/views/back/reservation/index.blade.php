@@ -47,6 +47,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="block-content bg-body-dark">
                 <!-- Search Form -->
                 <form action="{{ route('reservations') }}" method="GET">
@@ -68,7 +70,8 @@
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 36px;">Br.</th>
-                            <th class="text-center">Datum </th>
+
+
                             <th class="text-center">Vrijeme</th>
 
                             <th>Status</th>
@@ -77,14 +80,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse ($reservations->sortByDesc('id') as $reservation)
+
+                       @php
+                           $last_date = null;
+                       @endphp
+                        @forelse ($reservations as $reservation)
+                            @if ( $last_date != $reservation->reservation_date )
+                                <tr><td class="text-center" colspan="7"><strong>{{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->locale('hr')->translatedFormat('l') }} - {{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->format('d.m.Y ') }}</strong></td></tr>
+                             @endif
+                            @php
+                                $last_date = $reservation->reservation_date;
+                            @endphp
                             <tr>
                                 <td class="text-center">
                                     <a class="font-w600" href="{{ route('reservations.edit', ['reservation' => $reservation]) }}">
                                         <strong>{{ $reservation->id }}</strong>
                                     </a>
                                 </td>
-                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($reservation->reservation_date)->format('d.m.Y ') }}</td>
+
+
                                 <td class="text-center">{{ $reservation->time}}</td>
 
                                 <td class="font-size-base">

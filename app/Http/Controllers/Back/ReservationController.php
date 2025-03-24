@@ -18,6 +18,8 @@ class ReservationController extends Controller
     public function index(Request $request, Reservation $reservation)
     {
         $reservations   = $reservation->filter($request)->paginate(config('settings.pagination.back'));
+
+
         $statuses = Settings::get('order', 'statuses');
 
         return view('back.reservation.index', compact('reservations', 'statuses'));
