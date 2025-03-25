@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <div class="form-group">
                             <div class="input-group flex-nowrap">
-                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju hotela, imenu, telefonu ili emailu kupca...">
+                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju dokumenta, korisniku ili registarskom broju...">
                                 <button type="submit" class="btn btn-primary fs-base" onclick="setPageURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <th class="text-center">Količina</th>
                             <th>Status</th>
                             <th>Kupac</th>
-                            <th class="text-right font-size-sm" style="width: 100px;">Detalji</th>
+                            <th class="text-right font-size-sm" style="width: 100px;">Akcije</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -86,7 +86,7 @@
                                     <span class="badge badge-pill badge-{{ $hotel->status->color }}">{{ $hotel->status->title }}</span>
                                 </td>
                                 <td>
-                                    <a class="font-w600" href="{{ route('hotels.edit', ['hotel' => $hotel]) }}">{{ $hotel->name }} - {{ $hotel->email }}</a>
+                                    <a class="font-w600" href="{{ route('users.edit', ['user' => $hotel->user]) }}">{{ $hotel->username }}</a>
                                 </td>
                                 <td class="text-right">
                                     {{--<a class="btn btn-sm btn-alt-secondary" href="{{ route('hotels.show', ['hotel' => $hotel]) }}">

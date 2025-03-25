@@ -24,7 +24,7 @@ class CreateReservationsTable extends Migration
             $table->string('year')->nullable();
             $table->string('time')->nullable();
             $table->text('message')->nullable();
-            $table->boolean('status')->default(false);
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

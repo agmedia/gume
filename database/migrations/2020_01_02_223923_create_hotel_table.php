@@ -17,11 +17,8 @@ class CreateHotelTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned()->default(0);
             $table->integer('status_id')->unsigned()->default(0);
+            $table->string('brand_id')->nullable();
             $table->string('invoice')->nullable();
-            $table->string('name');
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->string('brand')->nullable();
             $table->string('dimension')->nullable();
             $table->string('type')->nullable();
             $table->integer('quantity')->nullable();
@@ -35,7 +32,7 @@ class CreateHotelTable extends Migration
             $table->string('condition_dz')->nullable();
             $table->text('comment')->nullable();
             $table->boolean('paid')->default(false);
-            $table->boolean('status')->default(false);
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
 

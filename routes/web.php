@@ -121,9 +121,9 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('hotels', [HotelController::class, 'index'])->name('hotels');
     Route::get('hotel/create', [HotelController::class, 'create'])->name('hotels.create');
     Route::post('hotel', [HotelController::class, 'store'])->name('hotels.store');
-    Route::get('hotel/{order}', [HotelController::class, 'show'])->name('hotels.show');
-    Route::get('hotel/{order}/edit', [HotelController::class, 'edit'])->name('hotels.edit');
-    Route::patch('hotel/{order}', [HotelController::class, 'update'])->name('hotels.update');
+    Route::get('hotel/{hotel}', [HotelController::class, 'show'])->name('hotels.show');
+    Route::get('hotel/{hotel}/edit', [HotelController::class, 'edit'])->name('hotels.edit');
+    Route::patch('hotel/{hotel}', [HotelController::class, 'update'])->name('hotels.update');
 
     // MARKETING
     Route::prefix('marketing')->group(function () {

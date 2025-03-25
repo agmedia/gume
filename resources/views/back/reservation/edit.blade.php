@@ -39,7 +39,7 @@
                     <div class="block-options">
                         <div class="dropdown">
                             <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
-                                <input type="checkbox" class="custom-control-input" id="product-switch" name="status"{{ (isset($reservation->status) and $reservation->status) ? 'checked' : '' }}>
+                                <input type="checkbox" class="custom-control-input" id="product-switch" name="active"{{ (isset($reservation->active) and $reservation->active) ? 'checked' : '' }}>
                                 <label class="custom-control-label pt-1" for="product-switch">Aktiviraj</label>
                             </div>
                         </div>

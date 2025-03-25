@@ -13,7 +13,6 @@
                 <a class="btn btn-hero-success my-2" href="{{ route('reservations.create') }}">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova rezervacija</span>
                 </a>
-
             </div>
         </div>
     </div>
@@ -71,7 +70,7 @@
                     </tr>
                     </thead>
                     @forelse ($reservations as $date => $items)
-                        <tbody class="js-table-sections-header">
+                        <tbody class="js-table-sections-header @if(carbon($date)->format('dmY') == now()->format('dmY')) show @endif">
                         <tr>
                             <td class="text-center"><i class="fa fa-angle-right text-muted"></i></td>
                             <td class="fw-semibold">
@@ -89,12 +88,12 @@
                             <tr>
                                 <td class="text-center"></td>
                                 <td class="fw-semibold">
-                                    @include('back.layouts.partials.status', ['status' => $reservation->status, 'simple' => true])
+                                    @include('back.layouts.partials.status', ['status' => $reservation->active, 'simple' => true])
                                     <span class="fw-bold ml-3">{{ $reservation->time }}</span>
                                 </td>
                                 <td><a href="#">{{ $reservation->username }}</a></td>
                                 <td class="d-none d-sm-table-cell">
-                                    <span class="badge badge-pill badge-{{ $reservation->reservation_status->color }}">{{ $reservation->reservation_status->title }}</span>
+                                    <span class="badge badge-pill badge-{{ $reservation->status->color }}">{{ $reservation->status->title }}</span>
                                 </td>
                                 <td class="text-right">
                                     {{--<a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $reservation]) }}">

@@ -139,6 +139,8 @@ return [
         'canceled_status' => [7, 5],
     ],
 
+    'reservation_statuses' => [2, 3, 5, 9],
+
     'special_action' => [
         'title' => 'Količinski popust',
         'start' => null,

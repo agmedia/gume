@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use Bouncer;
 use Illuminate\Support\Facades\Log;
 
+/**
+ *
+ */
 class Reservation extends Model
 {
 
@@ -25,7 +28,10 @@ class Reservation extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected $appends = ['username', 'reservation_status'];
+    /**
+     * @var string[]
+     */
+    protected $appends = ['username', 'status'];
 
     /**
      * @var Request
@@ -36,10 +42,10 @@ class Reservation extends Model
     /**
      * @return mixed
      */
-     public function getReservationStatusAttribute()
-     {
-         return $this->getStatus($this->status_id);
-     }
+    public function getStatusAttribute()
+    {
+        return $this->getStatus($this->status_id);
+    }
 
 
     /**
@@ -53,6 +59,7 @@ class Reservation extends Model
 
         return $statuses->where('id', $id)->first();
     }
+
 
     /**
      * @param $value
@@ -159,7 +166,7 @@ class Reservation extends Model
             'year'             => $date->year,
             'time'             => $this->request->time,
             'message'          => $this->request->message,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'active'           => (isset($this->request->active) and $this->request->active == 'on') ? 1 : 0,
             'updated_at'       => now()
         ];
 
@@ -168,12 +175,6 @@ class Reservation extends Model
         }
 
         return $response;
-    }
-
-
-    private function resolveDateFields()
-    {
-
     }
 
 
@@ -208,6 +209,10 @@ class Reservation extends Model
                                  $query->where('payment_fname', 'like', '%' . $request->input('search') . '%')
                                        ->orWhere('payment_lname', 'like', '%' . $request->input('search') . '%')
                                        ->orWhere('payment_email', 'like', '%' . $request->input('search') . '%');
+                             })
+                             ->orWhereHas('user', function ($query) use ($request) {
+                                 $query->where('username', 'like', '%' . $request->input('search') . '%')
+                                       ->orWhere('email', 'like', '%' . $request->input('search') . '%');
                              });
             });
         }

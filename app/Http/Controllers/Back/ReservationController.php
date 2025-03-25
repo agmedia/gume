@@ -37,7 +37,7 @@ class ReservationController extends Controller
 
         $reservations = Helper::paginateColl($reservations, config('settings.pagination.back'), $page)->appends(request()->query());
 
-        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9]);
+        $statuses = $this->settings()->all();
 
         return view('back.reservation.index', compact('reservations', 'statuses', 'total_count'));
     }
@@ -50,7 +50,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9])->pluck('title', 'id');
+        $statuses = $this->settings()->pluck('title', 'id')->all();
 
         return view('back.reservation.edit', compact('statuses'));
     }
@@ -86,7 +86,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
-        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9])->pluck('title', 'id');
+        $statuses = $this->settings()->pluck('title', 'id')->all();
 
         return view('back.reservation.show', compact('reservation', 'statuses'));
     }
@@ -101,7 +101,7 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9])->pluck('title', 'id');
+        $statuses = $this->settings()->pluck('title', 'id')->all();
 
         return view('back.reservation.edit', compact('reservation', 'statuses'));
     }
@@ -136,6 +136,17 @@ class ReservationController extends Controller
      */
     public function destroy(Request $request)
     {
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    private function settings()
+    {
+        return Settings::get('order', 'statuses')
+                       ->whereIn('id', config('settings.reservation_statuses'));
     }
 
 }

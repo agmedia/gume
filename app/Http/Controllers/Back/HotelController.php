@@ -20,7 +20,7 @@ class HotelController extends Controller
     public function index(Request $request, Hotel $hotel)
     {
         $hotels   = $hotel->filter($request)->paginate(config('settings.pagination.back'));
-        $statuses = Settings::get('order', 'statuses');
+        $statuses = $this->settings()->all();
 
         return view('back.hotel.index', compact('hotels', 'statuses'));
     }
@@ -33,7 +33,10 @@ class HotelController extends Controller
      */
     public function create()
     {
-        return view('back.hotel.edit');
+        $statuses = $this->settings()->pluck('title', 'id')->all();
+        $conditions = Hotel::conditionSelectList();
+
+        return view('back.hotel.edit', compact('statuses', 'conditions'));
     }
 
 
@@ -46,6 +49,7 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $hotel = new Hotel();
 
         $stored = $hotel->validateRequest($request)->create();
@@ -67,7 +71,7 @@ class HotelController extends Controller
      */
     public function show(Hotel $hotel)
     {
-        $statuses = Settings::get('order', 'statuses');
+        $statuses = $this->settings()->pluck('title', 'id')->all();
 
         return view('back.hotel.show', compact('hotel', 'statuses'));
     }
@@ -82,9 +86,10 @@ class HotelController extends Controller
      */
     public function edit(Hotel $hotel)
     {
-        $statuses  = Settings::get('order', 'statuses');
+        $statuses = $this->settings()->pluck('title', 'id')->all();
+        $conditions = Hotel::conditionSelectList();
 
-        return view('back.hotel.edit', compact('hotel', 'statuses'));
+        return view('back.hotel.edit', compact('hotel', 'statuses', 'conditions'));
     }
 
 
@@ -117,5 +122,16 @@ class HotelController extends Controller
      */
     public function destroy(Request $request)
     {}
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    private function settings()
+    {
+        return Settings::get('order', 'statuses')
+                       ->whereIn('id', config('settings.reservation_statuses'));
+    }
 
 }
