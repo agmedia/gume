@@ -24,7 +24,9 @@ class ReservationController extends Controller
             $page = $request->input('page');
         }
 
-        $reservations = $reservation->filter($request)->get()->groupBy(function ($item) {
+        $reservations = $reservation->filter($request)->get();
+        $total_count  = $reservations->count();
+        $reservations = $reservations->groupBy(function ($item) {
             return sprintf(
                 '%s-%s-%s',
                 $item->year,
@@ -35,13 +37,9 @@ class ReservationController extends Controller
 
         $reservations = Helper::paginateColl($reservations, config('settings.pagination.back'), $page)->appends(request()->query());
 
-        //dd($reservations);
+        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9]);
 
-        //$reservations = $reservation->filter($request)->paginate(config('settings.pagination.back'));
-
-        $statuses = Settings::get('order', 'statuses');
-
-        return view('back.reservation.index', compact('reservations', 'statuses'));
+        return view('back.reservation.index', compact('reservations', 'statuses', 'total_count'));
     }
 
 
@@ -52,7 +50,9 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        return view('back.reservation.edit');
+        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9])->pluck('title', 'id');
+
+        return view('back.reservation.edit', compact('statuses'));
     }
 
 
@@ -70,7 +70,7 @@ class ReservationController extends Controller
         $stored = $reservation->validateRequest($request)->create();
 
         if ($stored) {
-            return redirect()->route('reservation.edit', ['reservation' => $stored])->with(['success' => 'Rezervacija je snimljena!']);
+            return redirect()->route('reservations.edit', ['reservation' => $stored])->with(['success' => 'Rezervacija je snimljena!']);
         }
 
         return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
@@ -86,7 +86,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
-        $statuses = Settings::get('order', 'statuses');
+        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9])->pluck('title', 'id');
 
         return view('back.reservation.show', compact('reservation', 'statuses'));
     }
@@ -101,7 +101,7 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        $statuses = Settings::get('order', 'statuses');
+        $statuses = Settings::get('order', 'statuses')->whereIn('id', [2, 3, 5, 9])->pluck('title', 'id');
 
         return view('back.reservation.edit', compact('reservation', 'statuses'));
     }
@@ -135,6 +135,7 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
-    {}
+    {
+    }
 
 }

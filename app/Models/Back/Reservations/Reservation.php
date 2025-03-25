@@ -4,7 +4,7 @@ namespace App\Models\Back\Reservations;
 
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Settings\Settings;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +25,8 @@ class Reservation extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected $appends = ['username', 'reservation_status'];
+
     /**
      * @var Request
      */
@@ -34,10 +36,10 @@ class Reservation extends Model
     /**
      * @return mixed
      */
-   /* public function getStatusAttribute()
-    {
-        return $this->status($this->order_status_id);
-    }*/
+     public function getReservationStatusAttribute()
+     {
+         return $this->getStatus($this->status_id);
+     }
 
 
     /**
@@ -45,12 +47,26 @@ class Reservation extends Model
      *
      * @return mixed
      */
-    /*public function status(int $id)
+    public function getStatus(int $id)
     {
         $statuses = Settings::get('order', 'statuses');
 
         return $statuses->where('id', $id)->first();
-    }*/
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    public function getUsernameAttribute($value)
+    {
+        if ($this->order_id) {
+            return $this->order->payment_fname . ' ' . $this->order->payment_lname;
+        }
+
+        return $this->user->name;
+    }
 
 
     /**
@@ -63,6 +79,15 @@ class Reservation extends Model
 
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+
+    /**
      * @param Request $request
      *
      * @return $this
@@ -70,8 +95,9 @@ class Reservation extends Model
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'order_id'         => 'required',
+            'user_id'          => 'required',
             'reservation_date' => 'required',
+            'time'             => 'required'
         ]);
 
         $this->setRequest($request);
@@ -81,7 +107,7 @@ class Reservation extends Model
 
 
     /**
-     * Create and return new Product Model.
+     * Create and return new Reservation Model.
      *
      * @return mixed
      */
@@ -98,7 +124,7 @@ class Reservation extends Model
 
 
     /**
-     * Update and return new Product Model.
+     * Update and return new Reservation Model.
      *
      * @return mixed
      */
@@ -125,7 +151,8 @@ class Reservation extends Model
 
         $response = [
             'order_id'         => $this->request->order_id,
-            'status_id'        => 1,
+            'user_id'          => $this->request->user_id,
+            'status_id'        => $this->request->reservation_status ?: 3,
             'reservation_date' => $date,
             'day'              => $date->day,
             'month'            => $date->month,
@@ -168,7 +195,7 @@ class Reservation extends Model
      */
     public function filter(Request $request): Builder
     {
-        $query = $this->newQuery()->with('order');
+        $query = $this->newQuery();
 
         if ($request->has('status')) {
             $query->where('status_id', '=', $request->input('status'));
@@ -185,7 +212,9 @@ class Reservation extends Model
             });
         }
 
-        return $query->orderBy('reservation_date', 'DESC');
+        return $query->orderBy('reservation_date', 'DESC')
+                     ->orderBy('time', 'ASC')
+                     ->with(['order', 'user']);
     }
 
 }

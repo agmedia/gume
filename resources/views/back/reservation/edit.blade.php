@@ -25,10 +25,10 @@
         @include('back.layouts.partials.session')
 
         <form action="{{ isset($reservation) ? route('reservations.update', ['reservation' => $reservation]) : route('reservations.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @if (isset($reservation))
-            {{ method_field('PATCH') }}
-        @endif
+            @csrf
+            @if (isset($reservation))
+                {{ method_field('PATCH') }}
+            @endif
 
             <!-- Log Messages -->
             <div class="block">
@@ -46,55 +46,63 @@
                     </div>
                 </div>
                 <div class="block-content">
-                 <div class="row justify-content-center push">
-                    <div class="col-md-12">
-                        <div class="form-group row items-push mb-3">
-                            <div class="col-md-4">
-                                <label for="title-input">Datum termina</label>
+                    <div class="row justify-content-center push">
+                        <div class="col-md-12">
+                            <div class="form-group row items-push mb-3">
+                                <div class="col-md-3">
+                                    <label for="title-input">Datum termina</label>
                                     <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                    <input type="text" class="form-control" id="reservation_date_input" name="reservation_date" placeholder="do" value="{{ (isset($reservation->reservation_date) && $reservation->reservation_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($reservation->reservation_date)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="reservation_date_input" name="reservation_date" placeholder="do" value="{{ (isset($reservation->reservation_date) && $reservation->reservation_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($reservation->reservation_date)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                     </div>
-                            </div>
-                            <div class="col-md-4">
-                                 <label for="title-input">Vrijeme termina</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="title-input">Vrijeme termina</label>
                                     <select class="js-select2 form-control" id="vrijeme-select" name="time" style="width: 100%;">
                                         @foreach (config('settings.vrijeme_termina') as $vrijeme)
-                                            <option value="{{ $vrijeme }}">{{ $vrijeme }} </option>
+                                            <option value="{{ $vrijeme }}" @if(isset($reservation) && $reservation->time == $vrijeme) selected @endif>{{ $vrijeme }} </option>
                                         @endforeach
                                     </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="title-input">Korisnik</label>
-                                <select class="js-select2 form-control" id="user-select" name="user" style="width: 100%;">
-                                   <option value="Tomislav Jureša">Tomislav Jureša </option>
-                                </select>
-                            </div>
-                            <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="dm-post-edit-slug">Napomena</label>
-                                <textarea id="message-editor" name="message">{!! isset($reservation) ? $reservation->message : old('message') !!}</textarea>
-                            </div>
-                            </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="title-input">Korisnik</label>
+                                    @livewire('back.catalog.user-search-input', ['user_id' => isset($reservation) ? $reservation->user_id : 0])
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="title-input">Status rezervacije</label>
+                                    <select class="js-select2 form-control" id="status-select" name="reservation_status" style="width: 100%;">
+                                        <option></option>
+                                        @foreach ($statuses as $id => $status)
+                                            <option value="{{ $id }}" @if(isset($reservation) && $reservation->status_id == $id) selected @endif>{{ $status }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="dm-post-edit-slug">Napomena</label>
+                                        <textarea id="message-editor" name="message">{!! isset($reservation) ? $reservation->message : old('message') !!}</textarea>
+                                    </div>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
-                <div class="block">
-                    <div class="block-content">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-hero-success mb-3">
-                                    <i class="fas fa-save mr-1"></i> Snimi
-                                </button>
-                            </div>
+            <div class="block">
+                <div class="block-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-hero-success mb-3">
+                                <i class="fas fa-save mr-1"></i> Snimi
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
 
         </form>
 
+    </div>
     <!-- END Page Content -->
 
 @endsection
@@ -109,36 +117,48 @@
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
     <script>jQuery(function(){Dashmix.helpers(['datepicker']);});</script>
+
     <script>
         $(() => {
-            $('#status-select').select2({});
-        });
+            $('#vrijeme-select').select2({
+                placeholder: 'Odaberite termin',
+                tags: true
+            });
+
+            $('#status-select').select2({
+                placeholder: 'Odaberite status',
+                minimumResultsForSearch: Infinity,
+                /*templateResult: formatColorOption,
+                templateSelection: formatColorOption*/
+            });
+
+            ClassicEditor
+            .create( document.querySelector('#message-editor'))
+            .then( editor => {
+                console.log(editor);
+            } )
+            .catch( error => {
+                console.error(error);
+            } );
+
+
+
+        })
     </script>
 
-            <script>
-                $(() => {
-                    $('#vrijeme-select').select2({
-                        placeholder: 'Odaberite termin',
-                        tags: true
-                    });
+    <script>
+        /**
+         *
+         * @param state
+         * @return string
+         */
+        function formatColorOption(state) {
+            if (!state.id) { return state.text; }
 
-                    $('#user-select').select2({
-                        placeholder: 'Odaberite korisnika',
-                        tags: true
-                    });
-
-                    ClassicEditor
-                        .create( document.querySelector('#message-editor'))
-                        .then( editor => {
-                            console.log(editor);
-                        } )
-                        .catch( error => {
-                            console.error(error);
-                        } );
-
-
-
-                })
-            </script>
-
+            let html = $(
+                '<span class="badge badge-pill badge-' + state.element.value + '"> ' + state.text + ' </span>'
+            );
+            return html;
+        }
+    </script>
 @endpush
