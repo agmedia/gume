@@ -45,15 +45,28 @@ class Reservation extends Model
     /**
      * @return array
      */
-    public static function getHoursList(): array
+    public static function getHoursList(string $day = null): array
     {
+        $day = Carbon::parse($day);
+
+        $from = Carbon::parse('08:00');
+        $to = Carbon::parse('17:00');
+
+        if ($day->isSunday()) {
+            return [];
+        }
+
+        if ($day->isSaturday()) {
+            $to = Carbon::parse('12:00');
+        }
+
         $hours = [];
-        $items = CarbonPeriod::create(Carbon::parse('08:00'), '1 hour', Carbon::parse('15:00'));
+        $items = CarbonPeriod::create($from, '30 minutes', $to);
 
         foreach ($items as $hour) {
             array_push($hours, [
                 'from' => $hour->format('H:i'),
-                'to' => $hour->addHour()->format('H:i'),
+                'to' => $hour->addMinutes(30)->format('H:i'),
             ]);
         }
 

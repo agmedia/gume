@@ -30,7 +30,9 @@ class ReservationSelection extends Component
     {
         $this->selected_day = $value;
 
-        $this->hours = Reservation::getHoursList();
+        //dd($this->selected_day);
+
+        $this->hours = Reservation::getHoursList($this->selected_day);
     }
 
 

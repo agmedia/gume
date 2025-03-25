@@ -8,6 +8,7 @@ use App\Models\Back\Settings\Settings;
 use App\Models\Front\Cart\CartSession;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\PaymentMethod;
+use App\Models\Front\Checkout\Reservation;
 use App\Models\Front\Checkout\ShippingMethod;
 use App\Models\TagManager;
 use Illuminate\Http\Request;
@@ -65,6 +66,8 @@ class CheckoutController extends FrontController
 
         $ship             = new ShippingMethod();
         $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
+
+        //dd(Reservation::getHoursList());
 
         return view('front.checkout.checkout-shipping', compact('shipping_methods'));
     }
