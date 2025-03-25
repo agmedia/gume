@@ -2,7 +2,7 @@
 
 <div class="swiper-slide">
     <div class="animate-underline">
-        <a class=" ratio ratio-1x1 d-block mb-3" href="{{ url($product->url) }}">
+        <a class="  d-block mb-3" href="{{ url($product->url) }}">
             <img src="{{ $product->thumb }}"  class="rounded-4" alt="Product">
 
         </a>

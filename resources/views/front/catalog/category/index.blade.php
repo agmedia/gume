@@ -2,13 +2,13 @@
 
 @if (isset($data->group) && $data->group)
     @if ($data->group && ! $data->category && ! $data->subcategory)
-        @section ( 'title',  \Illuminate\Support\Str::ucfirst($data->group). ' - ZuZi Shop' )
+        @section ( 'title',  \Illuminate\Support\Str::ucfirst($data->group). ' - PNEU-MAX' )
     @endif
     @if ($data->category && ! $data->subcategory)
-        @section ( 'title',  $data->category->title . ' - ZuZi Shop' )
+        @section ( 'title',  $data->category->title . ' - PNEU-MAX' )
         @section ( 'description', $data->category->meta_description )
     @elseif ($data->category && $data->subcategory)
-        @section ( 'title', $data->subcategory->title . ' - ZuZi Shop' )
+        @section ( 'title', $data->subcategory->title . ' - PNEU-MAX' )
         @section ( 'description', $data->category->meta_description )
     @endif
 @endif
