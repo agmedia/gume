@@ -246,11 +246,11 @@
             {{--{{ dd($product->toArray()) }}--}}
             <div class="col">
                 <div class="animate-underline">
-                    <a class="ratio ratio-1x1 d-block mb-3" href="{{ $product->url }}">
+                    <a class=" d-block mb-3" href="{{ $product->url }}">
                         <img loading="lazy" src="{{ $product->thumb }}" width="300" height="300" alt="{{ $product->name }}" class="rounded-4">
                     </a>
                     <div class="w-100 min-w-0 px-0 pb-2 pb-sm-3">
-                        <div class="d-flex align-items-center gap-2 mb-2">
+                      <!-- <div class="d-flex align-items-center gap-2 mb-2">
                             <div class="d-flex gap-1 fs-xs">
                                 <i class="ci-star-filled text-warning"></i>
                                 <i class="ci-star-filled text-warning"></i>
@@ -259,7 +259,7 @@
                                 <i class="ci-star text-body-tertiary opacity-75"></i>
                             </div>
                             <span class="text-body-tertiary fs-xs">(2)</span>
-                        </div>
+                        </div> -->
                         <h3 class="pb-1 mb-2">
                             <a class="d-block fs-sm fw-medium" href="{{ $product->url }}">
                                 <span class="animate-target">{{ $product->name }}</span>

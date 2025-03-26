@@ -68,14 +68,14 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="reg-input">Registarska oznaka</label>
+                                                <label for="reg-input">Registracija</label>
                                                 <input type="text" class="form-control" name="reg" value="{{ isset($hotel) ? $hotel->reg : old('reg') }}">
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="brand-input">Proizvođač gume/naplatka</label>
+                                                <label for="brand-input">Proizvođač </label>
                                                 @livewire('back.catalog.brand-search-input', ['user_id' => isset($hotel) ? $hotel->brand_id : 0])
                                             </div>
                                         </div>
@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="quantity-input">Broj komada</label>
+                                                <label for="quantity-input">Br. komada</label>
                                                 <input type="text" class="form-control" name="quantity" value="{{ isset($hotel) ? $hotel->quantity : old('quantity') }}">
                                             </div>
                                         </div>
