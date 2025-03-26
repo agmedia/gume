@@ -79,7 +79,15 @@
                             </td>
                             <td></td>
                             <td class="d-none d-sm-table-cell"></td>
-                            <td class="text-right mr-3 fw-bold">{{ $items->count() }} montaža</td>
+
+                            <td class="text-right mr-3 fw-bold">
+                                @if(\Illuminate\Support\Str::ucfirst(carbon($date)->locale('hr')->getTranslatedDayName()) == 'Subota')
+                                {{ $items->count() }} od 9 montaža
+                                @else
+                                    {{ $items->count() }} od 19 montaža
+                                @endif
+
+                            </td>
                         </tr>
                         </tbody>
                         <tbody class="fs-sm">

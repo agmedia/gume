@@ -205,8 +205,7 @@ class Hotel extends Model
                              ->orWhere('invoice', 'like', '%' . $request->input('search') . '%')
                              ->orWhere('reg', 'like', '%' . $request->input('search') . '%')
                              ->orWhereHas('user', function ($query) use ($request) {
-                                 $query->where('username', 'like', '%' . $request->input('search') . '%')
-                                       ->orWhere('email', 'like', '%' . $request->input('search') . '%');
+                                 $query->where('email', 'like', '%' . $request->input('search') . '%');
                              });
             });
         }

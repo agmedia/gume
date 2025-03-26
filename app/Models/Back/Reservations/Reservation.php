@@ -211,8 +211,7 @@ class Reservation extends Model
                                        ->orWhere('payment_email', 'like', '%' . $request->input('search') . '%');
                              })
                              ->orWhereHas('user', function ($query) use ($request) {
-                                 $query->where('username', 'like', '%' . $request->input('search') . '%')
-                                       ->orWhere('email', 'like', '%' . $request->input('search') . '%');
+                                 $query->where('email', 'like', '%' . $request->input('search') . '%');
                              });
             });
         }
