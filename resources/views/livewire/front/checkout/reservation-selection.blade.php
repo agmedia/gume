@@ -64,9 +64,10 @@
         <div class="row">
             @foreach ($hours as $hour)
                 <div class="form-check text-center col-6 border-bottom py-4 m-0">
-                    <label for="time-{{ $hour['from'] }}" class="form-check-label text-dark-emphasis fw-semibold me-0">{{ $hour['from'] }} - {{ $hour['to'] }}
+                    <!--   text-dark-emphasis crno ili  text-success-emphasis zeleno -->
+                    <label for="time-{{ $hour['from'] }}" class="form-check-label  fw-semibold me-0 text-danger-emphasis"> <s>{{ $hour['from'] }} - {{ $hour['to'] }}
                     <input type="radio" class="form-check-input" id="time-{{ $hour['from'] }}" value="{{ $hour['from'] }} - {{ $hour['to'] }}" name="time" wire:model="selected_hour">
-                    </label>
+                        </s></label>
                 </div>
             @endforeach
         </div>
