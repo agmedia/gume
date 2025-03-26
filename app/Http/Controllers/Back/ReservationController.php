@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReservationController extends Controller
 {
@@ -136,6 +137,26 @@ class ReservationController extends Controller
      */
     public function destroy(Request $request)
     {
+    }
+
+
+    public function getDays()
+    {
+        $days = \App\Models\Front\Checkout\Reservation::getUpcomingDays();
+
+        return response()->json($days);
+    }
+
+
+    public function getHours(Request $request)
+    {
+        $hours = [];
+
+        if ($request->has('day')) {
+            $hours = \App\Models\Front\Checkout\Reservation::getHoursList($request->input('day'));
+        }
+
+        return response()->json($hours);
     }
 
     /*******************************************************************************

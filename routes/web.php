@@ -76,7 +76,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
         Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
-
         // ARTIKLI
         Route::get('products', [ProductController::class, 'index'])->name('products');
         Route::get('product/create', [ProductController::class, 'create'])->name('products.create');
@@ -84,7 +83,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
         Route::patch('product/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-
         // AUTORI
         Route::get('brands', [BrandController::class, 'index'])->name('brands');
         Route::get('brand/create', [BrandController::class, 'create'])->name('brands.create');
@@ -92,7 +90,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('brand/{brand}/edit', [BrandController::class, 'edit'])->name('brands.edit');
         Route::patch('brand/{brand}', [BrandController::class, 'update'])->name('brands.update');
         Route::delete('brand/{brand}', [BrandController::class, 'destroy'])->name('brands.destroy');
-
         // Atttributes
         Route::get('attributes', [AttributesController::class, 'index'])->name('attributes');
         Route::get('attribute/create', [AttributesController::class, 'create'])->name('attributes.create');
@@ -116,7 +113,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('reservation/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::get('reservation/{reservation}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
     Route::patch('reservation/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
-
     // Hotel
     Route::get('hotels', [HotelController::class, 'index'])->name('hotels');
     Route::get('hotel/create', [HotelController::class, 'create'])->name('hotels.create');
@@ -134,7 +130,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
         Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
         Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
-
         // BLOG
         Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
         Route::get('blog/create', [BlogController::class, 'create'])->name('blogs.create');
@@ -169,11 +164,8 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
 
     // POSTAVKE
     Route::prefix('settings')->group(function () {
-
         // API
         Route::get('api', [ApiController::class, 'index'])->name('api.index');
-
-
         // INFO PAGES
         Route::get('pages', [PageController::class, 'index'])->name('pages');
         Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
@@ -181,7 +173,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
         Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
         Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
-
         // FAQ
         Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
         Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
@@ -189,9 +180,7 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
         Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
         Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
-
-        //Route::get('application', [SettingsController::class, 'index'])->name('settings');
-
+        //
         Route::prefix('application')->group(function () {
             // GEO ZONES
             Route::get('geo-zones', [GeoZoneController::class, 'index'])->name('geozones');
@@ -208,17 +197,17 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
             Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
             Route::get('currencies', [CurrencyController::class, 'index'])->name('currencies');
         });
-
         // HISTORY
         Route::get('history', [HistoryController::class, 'index'])->name('history');
         Route::get('history/log/{history}', [HistoryController::class, 'show'])->name('history.show');
     });
 
-    // SETTINGS
+    // QUICK-MENU
     Route::get('/clean/cache', [QuickMenuController::class, 'cache'])->name('cache');
     Route::get('maintenance/on', [QuickMenuController::class, 'maintenanceModeON'])->name('maintenance.on');
     Route::get('maintenance/off', [QuickMenuController::class, 'maintenanceModeOFF'])->name('maintenance.off');
 });
+
 
 /**
  * CUSTOMER BACK ROUTES
@@ -235,6 +224,9 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('moj-racun')->group(func
 Route::prefix('api/v2')->group(function () {
     // SEARCH
     Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('api.front.search');
+    // RESERVATIONS
+    Route::get('rezervacije/dani', [ReservationController::class, 'getDays'])->name('api.reservations.days');
+    Route::get('rezervacije/sati', [ReservationController::class, 'getHours'])->name('api.reservations.hours');
     // CART
     Route::prefix('cart')->group(function () {
         Route::get('/get', [CartController::class, 'get']);

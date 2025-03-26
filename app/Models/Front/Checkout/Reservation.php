@@ -34,7 +34,7 @@ class Reservation extends Model
             array_push($days, [
                 'date' => $day->format('Y-m-d'),
                 'day' => $day->format('d'),
-                'title' => $day->locale('hr')->format('D'),
+                'title' => $day->locale('hr')->translatedFormat('D'),
             ]);
         }
 
@@ -64,9 +64,15 @@ class Reservation extends Model
         $items = CarbonPeriod::create($from, '30 minutes', $to);
 
         foreach ($items as $hour) {
+            $reservation = Reservation::query()->where('reservation_date', '=', $day->format('Y-m-d'))
+                                               ->where('time', '=', $hour->format('H:i') . ' - ' . $hour->addMinutes(30)->format('H:i'))
+                                               ->exists();
+
+
             array_push($hours, [
                 'from' => $hour->format('H:i'),
                 'to' => $hour->addMinutes(30)->format('H:i'),
+                'available' => $reservation ? 0 : 1
             ]);
         }
 
