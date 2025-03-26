@@ -61,16 +61,15 @@
             </button>
         </div>
         <!-- Time -->
-        @foreach ($hours as $hour)
-            <div class="form-check border-bottom py-4 m-0">
-                <input type="radio" class="form-check-input" id="time-{{ $hour['from'] }}" value="{{ $hour['from'] }} - {{ $hour['to'] }}" name="time" wire:model="selected_hour">
-                <div class="d-flex w-100">
-                    <label for="time-{{ $hour['from'] }}" class="form-check-label text-dark-emphasis fw-semibold me-3">{{ $hour['from'] }} - {{ $hour['to'] }}</label>
-                    <span class="fs-sm ms-auto">Dostupno</span>
+        <div class="row">
+            @foreach ($hours as $hour)
+                <div class="form-check text-center col-6 border-bottom py-4 m-0">
+                    <label for="time-{{ $hour['from'] }}" class="form-check-label text-dark-emphasis fw-semibold me-0">{{ $hour['from'] }} - {{ $hour['to'] }}
+                    <input type="radio" class="form-check-input" id="time-{{ $hour['from'] }}" value="{{ $hour['from'] }} - {{ $hour['to'] }}" name="time" wire:model="selected_hour">
+                    </label>
                 </div>
-            </div>
-        @endforeach
-
+            @endforeach
+        </div>
     </div>
 
     <!-- Footer -->
