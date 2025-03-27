@@ -22,7 +22,7 @@
                         <i class="ci-shopping-bag fs-base opacity-75 me-2"></i> Narudžbe
                     </a>
 
-                <a class="list-group-item list-group-item-action d-flex align-items-center " href="#">
+                <a class="list-group-item list-group-item-action d-flex align-items-center {{ request()->routeIs('hoteli') ? 'active' : '' }}" href="{{ route('hoteli') }}">
                     <i class="ci-box fs-base opacity-75 me-2"></i> Hotel za gume
                 </a>
 

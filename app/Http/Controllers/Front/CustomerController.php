@@ -56,11 +56,11 @@ class CustomerController extends FrontController
 
     public function hotels(Request $request)
     {
-        $user = auth()->user()->with('user', 'orders');
+        $user = auth()->user();
 
+        $orders = Order::where('user_id', $user->id)->orWhere('payment_email', $user->email)->paginate(config('settings.pagination.front'));
 
-
-        return view('front.customer.hoteli-za-gume', compact('user'));
+        return view('front.customer.hoteli-za-gume', compact('user','orders'));
     }
 
 
