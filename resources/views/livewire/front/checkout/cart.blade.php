@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="h6 py-3 d-none d-xl-table-cell">{{ $item['price'] }} €</td>
+                        <td class="h6 py-3 d-none d-xl-table-cell">{{ price($item['price'], true) }}</td>
                         <td class="py-3 d-none d-md-table-cell">
                             <div class="count-input">
                                 <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
@@ -73,7 +73,7 @@
                         @else
                             <td class="py-3 d-none d-md-table-cell"></td>
                         @endif
-                        <td class="h6 py-3 d-none d-md-table-cell">{{ $item->getPriceSumWithConditions() }} €</td>
+                        <td class="h6 py-3 d-none d-md-table-cell">{{ price($item->getPriceSumWithConditions(), true) }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -104,7 +104,7 @@
                     <ul class="list-unstyled fs-sm gap-3 mb-0">
                         <li class="d-flex justify-content-between">
                             Ukupno ({{ $cart['count'] }} artikla):
-                            <span class="text-dark-emphasis fw-medium">{{ $cart['subtotal'] }} €</span>
+                            <span class="text-dark-emphasis fw-medium">{{ price($cart['subtotal'], true) }}</span>
                         </li>
                         <li class="d-flex justify-content-between">
                             Dostava:
@@ -114,7 +114,7 @@
                     <div class="border-top pt-4 mt-4">
                         <div class="d-flex justify-content-between mb-3">
                             <span class="fs-sm">Sveukupno:</span>
-                            <span class="h5 mb-0">{{ $cart['total'] }} €</span>
+                            <span class="h5 mb-0">{{ price($cart['total'], true) }}</span>
                         </div>
                         <a class="btn btn-lg btn-primary w-100" href="{{ route('dostava') }}">
                             Dovrši kupnju

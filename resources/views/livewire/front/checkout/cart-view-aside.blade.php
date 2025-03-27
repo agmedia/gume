@@ -22,7 +22,7 @@
                 <ul class="list-unstyled fs-sm gap-3 mb-0">
                     <li class="d-flex justify-content-between">
                         Ukupno ({{ $cart['count'] }} artikla):
-                        <span class="text-dark-emphasis fw-medium">{{ $cart['subtotal'] }} €</span>
+                        <span class="text-dark-emphasis fw-medium">{{ price($cart['subtotal'], true) }}</span>
                     </li>
                     @foreach ($cart['conditions'] as $condition)
                         @if ($condition->getValue() > 0)
@@ -36,7 +36,7 @@
                 <div class="border-top pt-4 mt-4">
                     <div class="d-flex justify-content-between mb-3">
                         <span class="fs-sm">Sveukupno:</span>
-                        <span class="h5 mb-0">{{ $cart['total'] }} €</span>
+                        <span class="h5 mb-0">{{ price($cart['total'], true) }}</span>
                     </div>
                 </div>
             </div>
