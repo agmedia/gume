@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Back\Orders\Order;
+
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -89,6 +91,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Hotel::class, 'user_id');
     }
+
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
 
 
     /**

@@ -6,6 +6,7 @@ use App\Helpers\Country;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontController;
+Use App\Models\Back\Orders\Order;
 use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\User;
@@ -48,9 +49,18 @@ class CustomerController extends FrontController
     public function orders(Request $request)
     {
         $user = auth()->user();
-        $orders = Checkout::where('user_id', $user->id)->orWhere('payment_email', $user->email)->paginate(config('settings.pagination.front'));
+        $orders = Order::where('user_id', $user->id)->orWhere('payment_email', $user->email)->paginate(config('settings.pagination.front'));
 
         return view('front.customer.moje-narudzbe', compact('user', 'orders'));
+    }
+
+    public function hotels(Request $request)
+    {
+        $user = auth()->user()->with('user', 'orders');
+
+
+
+        return view('front.customer.hoteli-za-gume', compact('user'));
     }
 
 
