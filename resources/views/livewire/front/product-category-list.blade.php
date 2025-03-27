@@ -13,9 +13,9 @@
                 </select>
             </div>
         </div>
-      <!--  <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i class="ci-arrow-left"></i></a><span class="fs-md text-light">{{ $products->currentPage() }} / {{ $products->lastPage() }}</span><a class="nav-link-style nav-link-light ms-3" href="#"><i class="ci-arrow-right"></i></a></div>-->
+        <!--  <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i class="ci-arrow-left"></i></a><span class="fs-md text-light">{{ $products->currentPage() }} / {{ $products->lastPage() }}</span><a class="nav-link-style nav-link-light ms-3" href="#"><i class="ci-arrow-right"></i></a></div>-->
 
-        <div class="d-flex pb-3">  <span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ $products->total() }} artikala</span></div>
+        <div class="d-flex pb-3"><span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ $products->total() }} artikala</span></div>
 
 
     </div>
@@ -28,15 +28,16 @@
         @empty
             <div class="col-md-12 px-2 mb-4">
                 @php
-                   $name = Route::currentRouteName()
+                    $name = Route::currentRouteName()
                 @endphp
                 @if ($name == 'pretrazi')
 
-
-
                     <h2>Nema rezultata pretrage</h2>
 
-                    <p> Vaša pretraga za  <mark>"{{ $searchterm = request()->input('pojam') }}"</mark> pronašla je 0 rezultata.</p>
+                    <p> Vaša pretraga za
+                        <mark>"{{ $searchterm = request()->input('pojam') }}"</mark>
+                        pronašla je 0 rezultata.
+                    </p>
 
                     <h4 class="h5">Savjeti i smjernica</h4>
 
@@ -47,13 +48,11 @@
                     </ul>
                     <hr class="d-sm-none">
 
-
                 @elseif ($name == 'catalog.route.actions')
 
                     <h2>Trenutno nema artikala na sniženju</h2>
 
                     <p> Navratite nek drugi put :-)</p>
-
 
                 @else
 
@@ -71,8 +70,6 @@
     </div>
 
     {{ $products->onEachSide(1)->links() }}
-
-
 
 
 </section>

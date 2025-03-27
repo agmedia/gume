@@ -279,7 +279,7 @@ class Cart
         if ($action_price) {
             $action = $this->product->special(true);
 
-            if ($action) {
+            if ($action && is_array($action)) {
                 $type = 'action';
                 $value = '-' . intval($action['discount']) . '%';
 
