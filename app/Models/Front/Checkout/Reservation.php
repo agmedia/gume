@@ -3,6 +3,7 @@
 namespace App\Models\Front\Checkout;
 
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -27,13 +28,13 @@ class Reservation extends Model
      */
     public static function getUpcomingDays(int $range = 14): array
     {
-        $days = [];
+        $days  = [];
         $items = CarbonPeriod::create(now(), now()->addDays(14));
 
         foreach ($items as $day) {
             array_push($days, [
-                'date' => $day->format('Y-m-d'),
-                'day' => $day->format('d'),
+                'date'  => $day->format('Y-m-d'),
+                'day'   => $day->format('d'),
                 'title' => $day->locale('hr')->translatedFormat('D'),
             ]);
         }
@@ -50,7 +51,7 @@ class Reservation extends Model
         $day = Carbon::parse($day);
 
         $from = Carbon::parse('08:00');
-        $to = Carbon::parse('17:00');
+        $to   = Carbon::parse('17:00');
 
         if ($day->isSunday()) {
             return [];
@@ -65,16 +66,19 @@ class Reservation extends Model
 
         foreach ($items as $hour) {
             array_push($hours, [
-                'from' => $hour->format('H:i'),
-                'to' => $hour->addMinutes(30)->format('H:i'),
+                'from'      => $hour->format('H:i'),
+                'to'        => $hour->addMinutes(30)->format('H:i'),
                 'available' => 1
             ]);
         }
 
         for ($i = 0; $i < count($hours); $i++) {
             $reservation = Reservation::query()->where('reservation_date', '=', $day->format('Y-m-d'))
-                                      ->where('time', '=', $hours[$i]['from'] . ' - ' . $hours[$i]['to'])
-                                      ->exists();
+                                               ->where(function (Builder $query) use ($hours, $i) {
+                                                   $query->where('time', '=', $hours[$i]['from'] . ' - ' . $hours[$i]['to'])
+                                                         ->orWhere('time', '=', $hours[$i]['from'] . '-' . $hours[$i]['to']);
+                                               })
+                                               ->exists();
 
             $hours[$i]['available'] = $reservation ? 0 : 1;
         }

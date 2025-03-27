@@ -166,6 +166,8 @@ class Checkout
                     'time'             => $this->reservation_data['hour'],
                     'message'          => '',
                     'active'           => 1,
+                    'created_at'       => now(),
+                    'updated_at'       => now()
                 ]);
             }
         }
