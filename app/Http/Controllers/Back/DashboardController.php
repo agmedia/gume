@@ -71,11 +71,17 @@ class DashboardController extends Controller
      */
     public function import(Request $request)
     {
-        $xml = simplexml_load_file(public_path('assets/laguna.xml'));
+        $xml = simplexml_load_file(public_path('assets/pneumax.xml'));
         $import = new Import();
         $count  = 0;
 
-        foreach ($xml->product as $item) {
+        //
+        $array = json_decode(json_encode($xml),TRUE);
+
+        dd(collect($array['Artikl'])->count(), collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->first());
+
+        foreach ($xml->Artikl as $item) {
+            dd($item);
             $exist = Product::query()->where('sku', $item->bar_kod)->first();
 
             if ( ! $exist) {

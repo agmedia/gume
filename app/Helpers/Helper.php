@@ -74,7 +74,9 @@ class Helper
      */
     public static function calculateTax(float|int|string $gross_price, int|string $tax_rate): float
     {
-        return (intval($tax_rate) / 100) * floatval($gross_price);
+        $nett = floatval($gross_price) / ((intval($tax_rate) / 100) + 1);
+
+        return floatval($gross_price - $nett);
     }
 
 
