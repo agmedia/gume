@@ -32,34 +32,34 @@
                                     <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4 mb-4">
                                         <div class="col">
                                             <label for="shipping-fn" class="form-label">Ime <span class="text-danger">*</span></label>
-                                            <input type="text" name="fname" value="{{ auth()->user() ? auth()->user()->details->fname : old('fname') }}" class="form-control form-control-lg" id="shipping-fn" required>
+                                            <input type="text" name="fname" value="{{ $user['fname'] }}" class="form-control form-control-lg" id="shipping-fn" required>
                                         </div>
                                         <div class="col">
                                             <label for="shipping-ln" class="form-label">Prezime <span class="text-danger">*</span></label>
-                                            <input type="text" name="lname" value="{{ auth()->user() ? auth()->user()->details->lname : old('lname') }}" class="form-control form-control-lg" id="shipping-ln" required>
+                                            <input type="text" name="lname" value="{{ $user['lname'] }}" class="form-control form-control-lg" id="shipping-ln" required>
                                         </div>
                                         <div class="col">
                                             <label for="shipping-email" class="form-label">Email adresa <span class="text-danger">*</span></label>
-                                            <input type="email" name="email" value="{{ auth()->user() ? auth()->user()->email : old('email') }}" class="form-control form-control-lg" id="shipping-email" required>
+                                            <input type="email" name="email" value="{{ $user['email'] }}" class="form-control form-control-lg" id="shipping-email" required>
                                         </div>
                                         <div class="col">
                                             <label for="shipping-mobile" class="form-label">Broj mobitela</label>
-                                            <input type="text" name="phone" value="{{ auth()->user() ? auth()->user()->details->phone : old('phone') }}" class="form-control form-control-lg" id="shipping-mobile">
+                                            <input type="text" name="phone" value="{{ $user['phone'] }}" class="form-control form-control-lg" id="shipping-mobile">
                                         </div>
                                         <div class="col">
                                             <label class="form-label">Grad <span class="text-danger">*</span></label>
-                                            <input type="text" name="city" value="{{ auth()->user() ? auth()->user()->details->city : old('city') }}" class="form-control form-control-lg" id="shipping-city" required>
+                                            <input type="text" name="city" value="{{ $user['city'] }}" class="form-control form-control-lg" id="shipping-city" required>
                                         </div>
                                         <div class="col">
                                             <label for="shipping-postcode" class="form-label">Poštanski broj <span class="text-danger">*</span></label>
-                                            <input type="text" name="zip" value="{{ auth()->user() ? auth()->user()->details->zip : old('zip') }}" class="form-control form-control-lg" id="shipping-postcode" required>
+                                            <input type="text" name="zip" value="{{ $user['zip'] }}" class="form-control form-control-lg" id="shipping-postcode" required>
                                         </div>
                                         <input type="hidden" name="company">
                                         <input type="hidden" name="oib">
                                     </div>
                                     <div class="mb-3">
                                         <label for="shipping-address" class="form-label">Adresa <span class="text-danger">*</span></label>
-                                        <input type="text" name="address" value="{{ auth()->user() ? auth()->user()->details->address : old('address') }}" class="form-control form-control-lg" id="shipping-address" required>
+                                        <input type="text" name="address" value="{{ $user['address'] }}" class="form-control form-control-lg" id="shipping-address" required>
                                     </div>
 
                                     <button class="btn btn-lg btn-primary w-100 d-none d-lg-flex" type="submit">

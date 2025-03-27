@@ -86,22 +86,34 @@ class CheckoutController extends FrontController
             return redirect()->route('kosarica');
         }
 
-        $request->validate([
-            'shipping_method' => 'required',
-        ]);
+        if ( ! session()->has('selected_shipping')) {
+            $request->validate([
+                'shipping_method' => 'required',
+            ]);
+        }
 
         $selected_reservation = null;
+        $selected_shipping    = session()->get('selected_shipping');
 
         if (session()->has('selected_reservation')) {
             $selected_reservation = session()->get('selected_reservation');
         }
 
-        $selected_shipping = Settings::get('shipping', 'list.' . $request->input('shipping_method'))->first();
-        session()->put('selected_shipping', $selected_shipping);
+        if ($request->has('day') && $request->has('time')) {
+            session()->put('selected_reservation', [
+                'day'  => $request->input('day'),
+                'hour' => $request->input('time'),
+            ]);
+        }
 
-        //dd($selected_shipping);
+        if ($request->has('shipping_method')) {
+            $selected_shipping = Settings::get('shipping', 'list.' . $request->input('shipping_method'))->first();
+            session()->put('selected_shipping', $selected_shipping);
+        }
 
-        return view('front.checkout.checkout-customer-info', compact('selected_shipping', 'selected_reservation'));
+        $user = $this->resolveUser();
+
+        return view('front.checkout.checkout-customer-info', compact('selected_shipping', 'selected_reservation', 'user'));
     }
 
 
@@ -118,26 +130,30 @@ class CheckoutController extends FrontController
             return redirect()->route('kosarica');
         }
 
-        $request->validate([
-            'fname'   => 'required',
-            'lname'   => 'required',
-            'email'   => 'required|email',
-            'phone'   => 'required',
-            'city'    => 'required',
-            'zip'     => 'required',
-            'address' => 'required'
-        ]);
+        if ( ! session()->has('customer_info')) {
+            $request->validate([
+                'fname'   => 'required',
+                'lname'   => 'required',
+                'email'   => 'required|email',
+                'phone'   => 'required',
+                'city'    => 'required',
+                'zip'     => 'required',
+                'address' => 'required'
+            ]);
+        }
 
         if ( ! session()->has('selected_shipping')) {
             return redirect()->route('kosarica');
         }
 
-        session()->put('customer_info', $request->all());
+        if ( ! session()->has('customer_info')) {
+            session()->put('customer_info', $request->all());
+        }
 
         //
         $selected_reservation = session()->get('selected_reservation');
         $selected_shipping    = session()->get('selected_shipping');
-        $user                 = $request->all();
+        $user                 = $this->resolveUser();
         $payment_methods      = (new PaymentMethod())->findGeo(1)->resolve()->sortBy('sort_order');
 
         //dd($payment_methods);
@@ -170,7 +186,7 @@ class CheckoutController extends FrontController
 
         $selected_reservation = session()->get('selected_reservation');
         $selected_shipping    = session()->get('selected_shipping');
-        $user                 = session()->get('customer_info');
+        $user                 = $this->resolveUser();
         $selected_payment     = Settings::get('payment', 'list.' . $request->input('payment_method'))->first();
         $cart                 = CartSession::resolve()->get();
 
@@ -238,6 +254,57 @@ class CheckoutController extends FrontController
         }
 
         return false;
+    }
+
+
+    /**
+     * @return array|string[]
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    private function resolveUser(): array
+    {
+        if (session()->has('customer_info')) {
+            return [
+                'fname'   => session()->get('customer_info.fname'),
+                'lname'   => session()->get('customer_info.lname'),
+                'email'   => session()->get('customer_info.email'),
+                'phone'   => session()->get('customer_info.phone'),
+                'city'    => session()->get('customer_info.city'),
+                'zip'     => session()->get('customer_info.zip'),
+                'address' => session()->get('customer_info.address'),
+                'company' => '',
+                'oib'     => ''
+            ];
+        }
+
+        if (auth()->check()) {
+            $user = auth()->user();
+
+            return [
+                'fname'   => $user->details->fname,
+                'lname'   => $user->details->lname,
+                'email'   => $user->email,
+                'phone'   => $user->details->phone,
+                'city'    => $user->details->city,
+                'zip'     => $user->details->zip,
+                'address' => $user->details->address,
+                'company' => '',
+                'oib'     => ''
+            ];
+        }
+
+        return [
+            'fname'   => '',
+            'lname'   => '',
+            'email'   => '',
+            'phone'   => '',
+            'city'    => '',
+            'zip'     => '',
+            'address' => '',
+            'company' => '',
+            'oib'     => ''
+        ];
     }
 
 }

@@ -165,7 +165,7 @@ class Checkout
                     'year'             => $date->year,
                     'time'             => $this->reservation_data['hour'],
                     'message'          => '',
-                    'status'           => 1,
+                    'active'           => 1,
                 ]);
             }
         }
