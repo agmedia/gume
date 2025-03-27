@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Front\Hotel;
 use App\Models\Roles\Role;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -78,6 +79,15 @@ class User extends Authenticatable
     public function details()
     {
         return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function hotels()
+    {
+        return $this->hasMany(Hotel::class, 'user_id');
     }
 
 
