@@ -159,8 +159,12 @@
                             </div>
                             <span class="text-body-tertiary fs-sm">4 mišljenja</span>
                         </a>-->
-                        <img src="{{  asset($data->product->brand->image) }}" class="img-fluid mb-1" alt="{{$data->product->brand->name}}" width="125" height="37" loading="lazy">
+                        @if($data->product->brand->image)
+                        <img src="{{  asset($data->product->brand->image) }}" class="img-fluid mb-1" alt="{{$data->product->brand->title}}" width="125" height="37" loading="lazy">
                         <!-- Title -->
+                        @else
+                            <p class="mb-0"><strong>{{$data->product->brand->title}}</strong></p>
+                        @endif
 
 
                         <h1 class="h3">{{ $data->product->name }}</h1>
@@ -169,7 +173,7 @@
 
                         <p><strong>{{ $data->product->sirina }}/{{ $data->product->visina }}  {{ $data->product->promjer }} {{ $data->product->nosivnost }}</strong></p>
 
-                        <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{ $data->product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $data->product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> B {{ $data->product->buka }}dB </span> </p>
+                        <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{ $data->product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $data->product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $data->product->buka }} </span> </p>
                         <!-- Description -->
                         @if ($data->product->main_price > $data->product->main_special)
                             <div class="h4 d-flex align-items-center mt-4 mb-2">
