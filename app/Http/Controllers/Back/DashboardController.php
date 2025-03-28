@@ -89,7 +89,7 @@ class DashboardController extends Controller
                 $exist = Product::query()->where('sku', $item->Oznaka3)->first();
 
                 if ( ! $exist) {
-                    dd($item);
+
                     $count++;
 
                     $product_id = Product::insertGetId([
