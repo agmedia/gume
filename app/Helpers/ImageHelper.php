@@ -10,14 +10,17 @@ use Intervention\Image\Facades\Image;
 class ImageHelper
 {
 
-    public static function save($image, $title, $id)
+    /**
+     * @param string $image
+     * @param string $title
+     * @param int    $id
+     *
+     * @return string
+     */
+    public static function save(string $image, string $title, int $id): string
     {
-        $path = Storage::disk('local')->put('temp/images/' . $title, $image);
-
-        Log::info($path);
-
         $time = Str::random(4);
-        $img  = Image::make(Storage::disk('local')->get('temp/images/' . $title));
+        $img  = Image::make($image);
         $path = $id . '/' . Str::slug($title) . '-' . $time . '.';
 
         $path_jpg = $path . 'jpg';
@@ -36,6 +39,6 @@ class ImageHelper
         $path_webp_thumb = $path_thumb . 'webp';
         Storage::disk('products')->put($path_webp_thumb, $img->encode('webp', 80));
 
-        return $path_jpg;
+        return 'media/img/products/' . $path_jpg;
     }
 }
