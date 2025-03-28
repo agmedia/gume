@@ -76,7 +76,9 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="brand-input">Proizvođač </label>
-                                                @livewire('back.catalog.brand-search-input', ['user_id' => isset($hotel) ? $hotel->brand_id : 0])
+                                                @livewire('back.catalog.brand-search-input', ['brand_id' => isset($hotel) ? $hotel->brand_id : 0])
+
+
                                             </div>
                                         </div>
                                         <div class="col-md-3">
