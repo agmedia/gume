@@ -67,13 +67,19 @@
 
     <!-- Footer -->
     <div class="offcanvas-header">
-        <button type="button" class="btn btn-lg btn-primary w-100 rounded-pill" data-bs-dismiss="offcanvas">Potvrdi termin</button>
+        <button onclick="selectRadio()" type="button" class="btn btn-lg btn-primary w-100 rounded-pill" data-bs-dismiss="offcanvas">Potvrdi termin</button>
     </div>
 
 </div>
 
 @push('js_after')
     <script src="https://cdn.jsdelivr.net/npm/axios@1.8.1/dist/axios.min.js"></script>
+    <script>
+        function selectRadio() {
+            document.getElementById('pickup').click();
+        }
+
+    </script>
 
     <script>
         window.addEventListener('load', (e) => {
