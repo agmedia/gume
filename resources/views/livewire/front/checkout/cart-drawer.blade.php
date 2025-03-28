@@ -22,7 +22,7 @@
                     <h5 class="fs-sm fw-medium lh-base mb-2">
                         <a class="hover-effect-underline" href="shop-product-grocery.html">{{ $item->name }}</a>
                     </h5>
-                    <div class="h6 pb-1 mb-2">{{ $item->price }} €</div>
+                    <div class="h6 pb-1 mb-2">{{ $item->price }}€</div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="count-input rounded-pill">
                             <button type="button" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity" wire:click="changeQuantity({{ $item->id }}, -1)">

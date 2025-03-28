@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="h6 py-3 d-none d-xl-table-cell">{{ price($item['price'], true) }}</td>
+                        <td class="h6 py-3 d-none d-xl-table-cell fs-sm">{{ price($item['price'], true) }}</td>
                         <td class="py-3 d-none d-md-table-cell">
                             <div class="count-input">
                                 <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
@@ -73,7 +73,7 @@
                         @else
                             <td class="py-3 d-none d-md-table-cell"></td>
                         @endif
-                        <td class="h6 py-3 d-none d-md-table-cell">{{ price($item->getPriceSumWithConditions(), true) }}</td>
+                        <td class="h6 py-3 d-none d-md-table-cell fs-sm">{{ price($item->getPriceSumWithConditions(), true) }}</td>
                     </tr>
                 @empty
                     <tr>

@@ -74,12 +74,7 @@
 
 @push('js_after')
     <script src="https://cdn.jsdelivr.net/npm/axios@1.8.1/dist/axios.min.js"></script>
-    <script>
-        function selectRadio() {
-            document.getElementById('pickup').click();
-        }
 
-    </script>
 
     <script>
         window.addEventListener('load', (e) => {
@@ -147,4 +142,5 @@
             });
         }
     </script>
+
 @endpush

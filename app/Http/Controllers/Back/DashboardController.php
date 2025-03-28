@@ -218,7 +218,7 @@ class DashboardController extends Controller
 
                         $count++;
 
-                        if ($count > 200) {
+                        if ($count > 30) {
                             return redirect()->route('dashboard');
                         }
                     }
