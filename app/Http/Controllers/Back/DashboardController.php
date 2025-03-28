@@ -89,13 +89,14 @@ class DashboardController extends Controller
                 $exist = Product::query()->where('sku', $item->Oznaka3)->first();
 
                 if ( ! $exist) {
+                    dd($item);
                     $count++;
 
                     $product_id = Product::insertGetId([
                         'brand_id'         => 0,
                         'action_id'        => 0,
                         'sku'              => $item->Oznaka3,
-                        'ean'              => $item->EAN,
+                        'ean'              => !empty($item->EAN) ? $item->EAN : '',
                         'name'             => $item->Naziv,
                         'description'      => '',
                         'slug'             => Str::slug($item->Naziv),
@@ -108,15 +109,15 @@ class DashboardController extends Controller
                         'special_to'       => null,
                         'meta_title'       => $item->Naziv,
                         'meta_description' => '',
-                        'nosivost'         => $item->Li_Si,
-                        'namjena'          => $item->Namjena,
-                        'promjer'          => $item->Promjer,
-                        'sirina'           => $item->Širina,
-                        'visina'           => $item->Visina,
-                        'buka'             => $item->Buka,
-                        'prijanjanje'      => $item->Prianjanje_na_mokrom,
-                        'iskoristivost'    => $item->Iskoristivost_goriva,
-                        'sezona'           => $item->Namjena,
+                        'nosivost'         => !empty($item->Li_Si) ? $item->Li_Si : '',
+                        'namjena'          => !empty($item->Namjena) ? $item->Namjena : '',
+                        'promjer'          => !empty($item->Promjer) ? $item->Promjer : '',
+                        'sirina'           => !empty($item->Širina) ? $item->Širina : '',
+                        'visina'           => !empty($item->Visina) ? $item->Visina : '',
+                        'buka'             => !empty($item->Buka) ? $item->Buka : '',
+                        'prijanjanje'      => !empty($item->Prianjanje_na_mokrom) ? $item->Prianjanje_na_mokrom : '',
+                        'iskoristivost'    => !empty($item->Iskoristivost_goriva) ? $item->Iskoristivost_goriva : '',
+                        'sezona'           => !empty($item->Namjena) ? $item->Namjena : '',
                         'viewed'           => 0,
                         'sort_order'       => 0,
                         'featured'         => 0,
@@ -127,7 +128,7 @@ class DashboardController extends Controller
 
                     if ($product_id) {
                         // image
-                        if ($item->Slika1) {
+                        if ( ! empty($item->Slika1)) {
                             $image = ImageHelper::save($item->Slika1, $item->Naziv, $product_id);
 
                             Product::where('id', $product_id)->update([
@@ -135,7 +136,7 @@ class DashboardController extends Controller
                             ]);
                         }
                         // + image
-                        if ($item->Informacijski_list) {
+                        if ( ! empty($item->Informacijski_list)) {
                             $pimage = ImageHelper::save($item->Informacijski_list, $item->Naziv . '-informacijski-list', $product_id);
 
                             ProductImage::insert([
@@ -150,7 +151,7 @@ class DashboardController extends Controller
                         }
 
                         // category
-                        if ($item->Kategorija) {
+                        if ( ! empty($item->Kategorija)) {
                             $cat_id = $import->saveCategory($item->Kategorija);
 
                             if ($cat_id) {
@@ -160,7 +161,7 @@ class DashboardController extends Controller
                                 ]);
 
                                 // subcategory
-                                if ($item->Podkategorija) {
+                                if ( ! empty($item->Podkategorija)) {
                                     $subcat_id = $import->saveCategory($item->Podkategorija, $cat_id);
 
                                     if ($subcat_id) {
@@ -180,14 +181,14 @@ class DashboardController extends Controller
                         ]);
 
                         // Brand
-                        if ($item->Brand) {
+                        if ( ! empty($item->Brand)) {
                             $brand_id = $import->resolveBrand($item->Brand);
 
                             $product->update(['brand_id' => $brand_id]);
                         }
 
                         // Attributes
-                        if ($item->EPREL_link) {
+                        if ( ! empty($item->EPREL_link)) {
                             $att_id = $import->resolveAttribute('EPREL Link');
 
                             ProductAttribute::query()->insert([
@@ -196,7 +197,7 @@ class DashboardController extends Controller
                                 'value'        => $item->EPREL_link,
                             ]);
                         }
-                        if ($item->Dezen) {
+                        if ( ! empty($item->Dezen)) {
                             $att_id = $import->resolveAttribute('Dezen gume');
 
                             ProductAttribute::query()->insert([
@@ -205,7 +206,7 @@ class DashboardController extends Controller
                                 'value'        => $item->Dezen,
                             ]);
                         }
-                        if ($item->SAP_kod) {
+                        if ( ! empty($item->SAP_kod)) {
                             $att_id = $import->resolveAttribute('SAP Kod');
 
                             ProductAttribute::query()->insert([
