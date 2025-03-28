@@ -26,7 +26,7 @@ return [
     'publisher_path'    => 'nakladnik',
     'group_path'        => 'webshop',
 
-    'unknown_author'    => 3282,
+    'unknown_brand'     => 0,
     'unknown_publisher' => 376,
     'images_domain'     => env('APP_IMAGE_DOMAIN'),
     'default_tax_id'    => 1,

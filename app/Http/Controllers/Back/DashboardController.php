@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Helpers\Chart;
 use App\Helpers\Helper;
+use App\Helpers\ImageHelper;
 use App\Helpers\Import;
 use App\Helpers\ProductHelper;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,7 @@ use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Mjerilo;
 use App\Models\Back\Catalog\Product\Product;
+use App\Models\Back\Catalog\Product\ProductAttribute;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Catalog\Publisher;
@@ -77,125 +79,147 @@ class DashboardController extends Controller
 
         //
         $array = json_decode(json_encode($xml),TRUE);
+        $sorted = collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->toJson();
 
-        dd(collect($array['Artikl'])->count(), collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->first());
+        //dd(collect($array['Artikl'])->count(), collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->first());
 
-        foreach ($xml->Artikl as $item) {
-            dd($item);
-            $exist = Product::query()->where('sku', $item->bar_kod)->first();
+        foreach (json_decode($sorted) as $item) {
+            //dd($item);
+            if ($item->Namjena != 'TERETNE') {
+                $exist = Product::query()->where('sku', $item->Oznaka3)->first();
 
-            if ( ! $exist) {
-                $categories = [];
-                $images = [];
-                $publisher = 2049;
-                $author = 3282;
-                $action = ((float) $item->RegularPrice == (float) $item->Price) ? null : $item->Price;
-
-
-                $data['title'] = $item->Naziv;
-
-                $priceeur = ($item->PreporucenaMPC * 0.0085) * 2;
-
-                $count++;
-
-             /*   foreach ($item->Kategorijeproizvoda as $category) {
-                    $categories[] = $category;
-                }
-
-              /  foreach ($item->Slika as $image) {
-                    $images[] = $image;
-                }*/
-
-                $images[] = (string) $item->Slika;
-
-                $product_id = Product::insertGetId([
-                    'author_id'        => $author ?: config('settings.unknown_author'),
-                    'publisher_id'     => $publisher ?: config('settings.unknown_publisher'),
-                    'action_id'        => 0,
-                    'name'             => $item->Naziv,
-                    'sku'             => $item->bar_kod,
-                    'ean'              => $item->bar_kod,
-                    'description'      => '<p class="text-primary">Rok dostave 20 radnih dana!</p><p>' . str_replace('\n', '<br>', $item->Opis) . '</p>',
-                    'slug'             => Helper::resolveSlug($data),
-                    'price'            => $priceeur ?: '0',
-                    'quantity'         => 1,
-                    'tax_id'           => 1,
-                    'special'          => NULL,
-                    'special_from'     => null,
-                    'special_to'       => null,
-                    'meta_title'       => $item->Naziv,
-                    'meta_description' => $item->Opis,
-                    'pages'            => null,
-                    'dimensions'       => null,
-                    'origin'           => null,
-                    'letter'           => null,
-                    'condition'        => null,
-                    'binding'          => null,
-                    'year'             => null,
-                    'viewed'           => 0,
-                    'sort_order'       => 0,
-                    'push'             => 0,
-                    'status'           => 1,
-                    'created_at'       => Carbon::now(),
-                    'updated_at'       => Carbon::now()
-                ]);
-
-                if ($product_id) {
-                    $images = $import->resolveImages($images, $item->Naziv, $product_id);
-
-                    if ($images && ! empty($images)) {
-                        for ($k = 0; $k < count($images); $k++) {
-                            if ($k == 0) {
-                                Product::where('id', $product_id)->update([
-                                    'image' => $images[$k]
-                                ]);
-                            } else {
-                                ProductImage::insert([
-                                    'product_id' => $product_id,
-                                    'image'      => $images[$k],
-                                    'alt'        => $item->Naziv,
-                                    'published'  => 1,
-                                    'sort_order' => $k,
-                                    'created_at' => Carbon::now(),
-                                    'updated_at' => Carbon::now()
-                                ]);
-                            }
-                        }
-                    }
-
-                /*    $categories = $import->resolveCategories($categories);
-
-                    if ($categories) {
-                        foreach ($categories as $category) {
-                            ProductCategory::insert([
-                                'product_id'  => $product_id,
-                                'category_id' => $category
-                            ]);
-                        }
-                    }*/
-
-                    ProductCategory::query()->insert([
-                        'product_id'  => $product_id,
-                        'category_id' => 25,
-                    ]);
-
-
-                    ProductCategory::insert([
-                        'product_id'  => $product_id,
-                        'category_id' => 115
-                    ]);
-
-                    $product = Product::find($product_id);
-
-                    $product->update([
-                        'url' => ProductHelper::url($product),
-                        'category_string' => ProductHelper::categoryString($product)
-                    ]);
-
+                if ( ! $exist) {
                     $count++;
 
-                    if ($count > 1000) {
-                        return redirect()->route('dashboard');
+                    $product_id = Product::insertGetId([
+                        'brand_id'         => 0,
+                        'action_id'        => 0,
+                        'sku'              => $item->Oznaka3,
+                        'ean'              => $item->EAN,
+                        'name'             => $item->Naziv,
+                        'description'      => '',
+                        'slug'             => Str::slug($item->Naziv),
+                        'price'            => $item->MPC,
+                        'quantity'         => $item->Stock,
+                        'tax_id'           => 2,
+                        'special'          => null,
+                        'special_lock'     => null,
+                        'special_from'     => null,
+                        'special_to'       => null,
+                        'meta_title'       => $item->Naziv,
+                        'meta_description' => '',
+                        'nosivost'         => $item->Li_Si,
+                        'namjena'          => $item->Namjena,
+                        'promjer'          => $item->Promjer,
+                        'sirina'           => $item->Širina,
+                        'visina'           => $item->Visina,
+                        'buka'             => $item->Buka,
+                        'prijanjanje'      => $item->Prianjanje_na_mokrom,
+                        'iskoristivost'    => $item->Iskoristivost_goriva,
+                        'sezona'           => $item->Namjena,
+                        'viewed'           => 0,
+                        'sort_order'       => 0,
+                        'featured'         => 0,
+                        'status'           => 1,
+                        'created_at'       => Carbon::now(),
+                        'updated_at'       => Carbon::now()
+                    ]);
+
+                    if ($product_id) {
+                        // image
+                        if ($item->Slika1) {
+                            $image = ImageHelper::save($item->Slika1, $item->Naziv, $product_id);
+
+                            Product::where('id', $product_id)->update([
+                                'image' => $image
+                            ]);
+                        }
+                        // + image
+                        if ($item->Informacijski_list) {
+                            $pimage = ImageHelper::save($item->Informacijski_list, $item->Naziv . '-informacijski-list', $product_id);
+
+                            ProductImage::insert([
+                                'product_id' => $product_id,
+                                'image'      => $pimage,
+                                'alt'        => $item->Naziv . ' Informacijski list',
+                                'published'  => 1,
+                                'sort_order' => 1,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
+                            ]);
+                        }
+
+                        // category
+                        if ($item->Kategorija) {
+                            $cat_id = $import->saveCategory($item->Kategorija);
+
+                            if ($cat_id) {
+                                ProductCategory::query()->insert([
+                                    'product_id'  => $product_id,
+                                    'category_id' => $cat_id,
+                                ]);
+
+                                // subcategory
+                                if ($item->Podkategorija) {
+                                    $subcat_id = $import->saveCategory($item->Podkategorija, $cat_id);
+
+                                    if ($subcat_id) {
+                                        ProductCategory::query()->insert([
+                                            'product_id'  => $product_id,
+                                            'category_id' => $subcat_id,
+                                        ]);
+                                    }
+                                }
+                            }
+                        }
+
+                        $product = Product::find($product_id);
+                        $product->update([
+                            'url' => ProductHelper::url($product),
+                            'category_string' => ProductHelper::categoryString($product)
+                        ]);
+
+                        // Brand
+                        if ($item->Brand) {
+                            $brand_id = $import->resolveBrand($item->Brand);
+
+                            $product->update(['brand_id' => $brand_id]);
+                        }
+
+                        // Attributes
+                        if ($item->EPREL_link) {
+                            $att_id = $import->resolveAttribute('EPREL Link');
+
+                            ProductAttribute::query()->insert([
+                                'product_id'   => $product_id,
+                                'attribute_id' => $att_id,
+                                'value'        => $item->EPREL_link,
+                            ]);
+                        }
+                        if ($item->Dezen) {
+                            $att_id = $import->resolveAttribute('Dezen gume');
+
+                            ProductAttribute::query()->insert([
+                                'product_id'   => $product_id,
+                                'attribute_id' => $att_id,
+                                'value'        => $item->Dezen,
+                            ]);
+                        }
+                        if ($item->SAP_kod) {
+                            $att_id = $import->resolveAttribute('SAP Kod');
+
+                            ProductAttribute::query()->insert([
+                                'product_id'   => $product_id,
+                                'attribute_id' => $att_id,
+                                'value'        => $item->SAP_kod,
+                            ]);
+                        }
+
+                        $count++;
+
+                        if ($count > 5) {
+                            return redirect()->route('dashboard');
+                        }
                     }
                 }
             }

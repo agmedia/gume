@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -11,8 +12,12 @@ class ImageHelper
 
     public static function save($image, $title, $id)
     {
+        $path = Storage::disk('local')->put('temp/images/' . $title, $image);
+
+        Log::info($path);
+
         $time = Str::random(4);
-        $img  = Image::make($image);
+        $img  = Image::make(Storage::disk('local')->get('temp/images/' . $title));
         $path = $id . '/' . Str::slug($title) . '-' . $time . '.';
 
         $path_jpg = $path . 'jpg';

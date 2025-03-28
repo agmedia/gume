@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Back\Catalog\Attributes\Attributes;
 use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Brand;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Publisher;
 use Carbon\Carbon;
@@ -137,7 +139,7 @@ class Import
      *
      * @return mixed
      */
-    private function saveCategory(string $name, int $parent = 0)
+    public function saveCategory(string $name, int $parent = 0)
     {
         $exist = Category::where('title', $name)->first();
 
@@ -166,25 +168,24 @@ class Import
      *
      * @return int
      */
-    public function resolveAuthor(string $author = null): int
+    public function resolveBrand(string $brand = null): int
     {
-        if ($author) {
-            $author = trim($author);
-
-            $exist = Author::where('title', $author)->first();
+        if ($brand) {
+            $exist = Brand::where('title', $brand)->first();
 
             if ( ! $exist) {
-                return Author::insertGetId([
-                    'letter'           => Helper::resolveFirstLetter($author),
-                    'title'            => $author,
+                $slug = Str::slug($brand);
+
+                return Brand::insertGetId([
+                    'letter'           => Helper::resolveFirstLetter($brand),
+                    'title'            => $brand,
                     'description'      => '',
-                    'meta_title'       => $author,
+                    'meta_title'       => $brand,
                     'meta_description' => '',
-                    'lang'             => 'hr',
+                    'slug'             => $slug,
+                    'url'              => config('settings.brand_path') . '/' . $slug,
                     'sort_order'       => 0,
                     'status'           => 1,
-                    'slug'             => Str::slug($author),
-                    'url'              => config('settings.author_path') . '/' . Str::slug($author),
                     'created_at'       => Carbon::now(),
                     'updated_at'       => Carbon::now()
                 ]);
@@ -193,7 +194,7 @@ class Import
             return $exist->id;
         }
 
-        return config('settings.unknown_author');
+        return config('settings.unknown_brand');
     }
 
 
@@ -214,39 +215,31 @@ class Import
 
 
     /**
-     * @param string $publisher
+     * @param string|null $title
      *
      * @return int
      */
-    public function resolvePublisher(string $publisher = null): int
+    public function resolveAttribute(string $title = null): int
     {
-        if ($publisher) {
-
-            Log::info('$publisher..... ' . $publisher);
-
-            $exist = Publisher::where('title', $publisher)->first();
+        if ($title) {
+            $exist = Attributes::query()->where('title', $title)->first();
 
             if ( ! $exist) {
-                return Publisher::insertGetId([
-                    'letter'           => Helper::resolveFirstLetter($publisher),
-                    'title'            => $publisher,
-                    'description'      => '',
-                    'meta_title'       => $publisher,
-                    'meta_description' => '',
-                    'lang'             => 'hr',
-                    'sort_order'       => 0,
-                    'status'           => 1,
-                    'slug'             => Str::slug($publisher),
-                    'url'              => config('settings.publisher_path') . '/' . Str::slug($publisher),
-                    'created_at'       => Carbon::now(),
-                    'updated_at'       => Carbon::now()
+                return Attributes::insertGetId([
+                    'group'       => '',
+                    'title'       => $title,
+                    'type'        => 'text',
+                    'sort_order'  => 0,
+                    'status'      => 1,
+                    'created_at'  => now(),
+                    'updated_at'  => now()
                 ]);
             }
 
             return $exist->id;
         }
 
-        return config('settings.unknown_publisher');
+        return 0;
     }
 
 
