@@ -74,6 +74,7 @@ class Reservation extends Model
 
         for ($i = 0; $i < count($hours); $i++) {
             $reservation = Reservation::query()->where('reservation_date', '=', $day->format('Y-m-d'))
+                                               ->where('status_id', '!=', 5)
                                                ->where(function (Builder $query) use ($hours, $i) {
                                                    $query->where('time', '=', $hours[$i]['from'] . ' - ' . $hours[$i]['to'])
                                                          ->orWhere('time', '=', $hours[$i]['from'] . '-' . $hours[$i]['to']);
