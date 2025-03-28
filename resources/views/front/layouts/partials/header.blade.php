@@ -220,10 +220,12 @@
         </div>
     </div>
 
-    <div class="toast-container position-fixed end-0 p-3" style="margin-top: -80px;">
+
+
+    <div class="toast-container top-0 end-0 p-3" >
         <div class="toast border-success" id="add-cart-toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header mt-2">
-                <i class="ci-check text-primary fs-base mt-1 me-2"></i>
+                <i class="ci-shopping-cart text-primary fs-base mt-1 me-2"></i>
                 <strong class="">Proizvod je uspješno dodan u košaricu.</strong>
                 {{--<small class="text-body-secondary">5 mins ago</small>--}}
                 <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -231,6 +233,10 @@
             {{--<div class="toast-body">
                 Hello, world! This is a toast message.
             </div>--}}
+            <div class="d-flex pt-1">
+                <a href="{{ route('kosarica') }}" class="btn btn-sm btn-primary me-2">Košarica</a>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="toast">Zatvori</button>
+            </div>
         </div>
     </div>
 </section>

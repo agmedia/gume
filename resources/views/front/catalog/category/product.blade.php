@@ -33,7 +33,9 @@
                     <div class="h5 lh-1 mb-0">{{ $product->main_price_text }}  </div>
                 @endif
 
-                    <add-to-cart-btn-simple id="{{ $product->id }}" available="{{ $product->quantity }}"></add-to-cart-btn-simple>
+                    <button type="button" onclick="Livewire.emit('addCartItem', '{{ $product->slug }}', 1)" class="product-card-button btn btn-icon btn-primary animate-slide-end ms-2" aria-label="Add to Cart">
+                        <i class="ci-shopping-cart fs-base animate-target"></i>
+                    </button>
 
             </div>
         </div>
