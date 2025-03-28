@@ -10,7 +10,7 @@
         <div class="container py-5">
             <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
                 <div class="col-lg-8 col-xl-7 position-relative z-2 mb-5 mb-lg-0">
-                    @include('front.layouts.partials.session')
+
 
                     <div class="accordion d-flex flex-column gap-5 pe-lg-4 pe-xl-0" id="checkout">
                         <!-- Delivery info overview + Edit button -->
@@ -70,18 +70,38 @@
                                             </div>
                                         </div>
                                     @endforeach
+
+                                    @error('payment_method')
+                                    <div class="alert fs-sm alert-danger d-flex" role="alert">
+                                        <div class="alert-icon me-2">
+                                            <i class="ci-close-circle"></i>
+                                        </div>
+                                        <div>Greška..! Morate odabrati način plaćanja</div>
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <!-- Additional comments -->
                                 <textarea class="form-control form-control-lg mb-4" name="comment" rows="3" placeholder="Dodatni komentar"></textarea>
 
                                 <div class="form-check mb-lg-4">
-                                    <input type="checkbox" class="form-check-input" id="accept-terms" name="terms_conditions">
+                                    <input type="checkbox" class="form-check-input" id="accept-terms" name="terms_conditions" >
+
+
                                     <label for="accept-terms" class="form-check-label nav align-items-center">
                                         Slažem se sa
                                         <a class="nav-link text-decoration-underline fw-normal ms-1 p-0" href="{{ route('catalog.route.page', ['page' => 'uvjeti-prodaje']) }}">Općim uvjetima</a>
                                     </label>
+
                                 </div>
+                                @error('terms_conditions')
+                                    <div class="alert fs-sm alert-danger d-flex" role="alert">
+                                        <div class="alert-icon me-2">
+                                            <i class="ci-close-circle"></i>
+                                        </div>
+                                        <div>Greška..! Morate se složiti s općim uvjetima</div>
+                                    </div>
+                                @enderror
                                 <!-- Pay button visible on screens > 991px wide (lg breakpoint) -->
                                 <button type="submit" class="btn btn-lg btn-primary w-100 d-none d-lg-flex">Dovrši narudžbu</button>
                             </div>
