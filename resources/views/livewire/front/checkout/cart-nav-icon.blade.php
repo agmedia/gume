@@ -12,7 +12,7 @@
                         <a href="#" class="d-block flex-shrink-0 pt-2">
                             <img src="{{ $item->attributes->thumb }}" alt="{{ $item->name }}" title="{{ $item->name }}" style="width: 5rem;"></a>
                         <div class="ps-2">
-                            <h6 class="widget-product-title fs-md">
+                            <h6 class="widget-product-title fs-sm">
                                 <a href="#">{{ $item->name }}</a>
                             </h6>
                             <div class="widget-product-meta"><span class="text-primary me-2">{{ $item->price }} €</span><span class="text-muted">x {{ $item->quantity }}</span></div>
