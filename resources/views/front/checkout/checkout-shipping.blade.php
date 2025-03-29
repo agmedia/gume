@@ -5,11 +5,8 @@
 
 @section('content')
     <form action="{{ route('info-podaci') }}" method="GET" enctype="multipart/form-data" novalidate>
-        {{--@csrf--}}
-
-        @livewire('front.checkout.reservation-selection')
-
         <div class="container py-5">
+
             @include('front.layouts.partials.session')
 
             <div class="row pt-1 pt-sm-3 pt-lg-4 pb-2 pb-md-3 pb-lg-4 pb-xl-5">
@@ -72,6 +69,7 @@
             </div>
         </div>
 
+        @include('front.checkout.partials.reservation-selection')
     </form>
 
 @endsection

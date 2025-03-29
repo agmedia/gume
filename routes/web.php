@@ -228,6 +228,7 @@ Route::prefix('api/v2')->group(function () {
     // RESERVATIONS
     Route::get('rezervacije/dani', [ReservationController::class, 'getDays'])->name('api.reservations.days');
     Route::get('rezervacije/sati', [ReservationController::class, 'getHours'])->name('api.reservations.hours');
+    Route::post('rezervacije/snimi', [ReservationController::class, 'setReservation'])->name('api.reservations.set');
     // CART
     Route::prefix('cart')->group(function () {
         Route::get('/get', [CartController::class, 'get']);

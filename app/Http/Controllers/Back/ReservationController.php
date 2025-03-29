@@ -9,6 +9,9 @@ use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+/**
+ *
+ */
 class ReservationController extends Controller
 {
 
@@ -140,6 +143,9 @@ class ReservationController extends Controller
     }
 
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getDays()
     {
         $days = \App\Models\Front\Checkout\Reservation::getUpcomingDays();
@@ -148,6 +154,11 @@ class ReservationController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getHours(Request $request)
     {
         $hours = [];
@@ -157,6 +168,26 @@ class ReservationController extends Controller
         }
 
         return response()->json($hours);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setReservation(Request $request)
+    {
+        if ($request->has('day') && $request->has('time')) {
+            session()->put('selected_reservation', [
+                'day' => $request->input('day'),
+                'hour' => $request->input('time'),
+            ]);
+
+            return response()->json(['success' => 'Rezervacija je snimljena!']);
+        }
+
+        return response()->json(['error' => 'Molimo selektirajte dan i sat rezervacije.']);
     }
 
     /*******************************************************************************
