@@ -46,7 +46,7 @@
 
     <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
         <!-- Breadcrumb -->
-        <nav class="position-relative  my-3 ms-3" aria-label="breadcrumb" style="z-index: 1021">
+        <nav class="position-relative fs-sm my-3 ms-3" aria-label="breadcrumb" style="z-index: 1021">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovnica</a></li>
 
@@ -80,7 +80,7 @@
             </ol>
         </nav>
         <!-- Product gallery and details -->
-        <section class=" my-3 ms-3">
+        <section class="mt-4  my-3 ms-3">
             <div class="row">
                 <!-- Gallery -->
                 <div class="col-md-6 pb-4 pb-md-0 mb-2 mb-sm-3 mb-md-0">
@@ -125,16 +125,16 @@
                             <div class="swiper-wrapper">
                                 @if ( ! empty($data->product->image))
                                     <div class="swiper-slide">
-                                        <a class=" d-block rounded cursor-zoom-in" href="{{ asset($data->product->image) }}" data-glightbox data-gallery="product-gallery">
-                                            <img src="{{ asset($data->product->image) }}" class="rounded" alt="{{ $data->product->name }}">
+                                        <a class=" text-center d-block rounded cursor-zoom-in" href="{{ asset($data->product->image) }}" data-glightbox data-gallery="product-gallery">
+                                            <img src="{{ asset($data->product->image) }}" style="max-height:450px" class="rounded" alt="{{ $data->product->name }}">
                                         </a>
                                     </div>
                                 @endif
                                 @if ($data->product->images->count())
                                     @foreach ($data->product->images as $key => $image)
                                         <div class="swiper-slide">
-                                            <a class=" d-block rounded cursor-zoom-in" href="{{ asset($image->image) }}" data-glightbox data-gallery="product-gallery">
-                                                <img src="{{ asset($image->image) }}" class="rounded" alt="{{ $image->alt }}">
+                                            <a class=" text-center d-block rounded cursor-zoom-in" href="{{ asset($image->image) }}" data-glightbox data-gallery="product-gallery">
+                                                <img src="{{ asset($image->image) }}" style="max-height:450px" class="rounded" alt="{{ $image->alt }}">
                                             </a>
                                         </div>
                                     @endforeach
@@ -224,7 +224,7 @@
         </section>
         <a id="content-scroll"></a>
         <!-- Product details tabs -->
-        <section  class="container pt-5 pb-3 mt-2 mt-sm-3 mt-lg-4 mt-xl-5">
+        <section  class="container pt-0 pb-3 mt-2 mt-sm-3 mt-lg-4 mt-xl-5">
 
             <!-- Nav tabs -->
             <ul class="nav nav-underline flex-nowrap border-bottom" role="tablist">
@@ -255,11 +255,14 @@
                 <!-- Description tab -->
                 <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel" aria-labelledby="description-tab">
                     <div class="row">
+
+                        @if($data->product->description)
                         <div class="col-lg-6 fs-sm">
 
                             {!! $data->product->description !!}
                         </div>
-                        <div class="col-lg-6 col-xl-5 offset-xl-1">
+                        @endif
+                        <div class="col-lg-6 @if($data->product->description) col-xl-5 offset-xl-1  @endif">
                             <div class="row  g-4 my-0 my-lg-n2">
                                 <!-- Table with striped rows -->
                                 <div class="table-responsive">

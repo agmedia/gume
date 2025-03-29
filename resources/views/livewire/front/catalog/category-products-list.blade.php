@@ -240,43 +240,53 @@
         </div>
     </div>
 
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 0 gy-5" id="productGrid">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 0 gy-4" id="productGrid">
         <!-- Toolbar-->
         @foreach($products as $product)
             {{--{{ dd($product->toArray()) }}--}}
             <div class="col">
-                <div class="animate-underline">
-                    <a class=" d-block mb-3" href="{{ $product->url }}">
-                        <img loading="lazy" src="{{ $product->thumb }}" width="300" height="300" alt="{{ $product->name }}" class="rounded-4">
-                    </a>
-                    <div class="w-100 min-w-0 px-0 pb-2 pb-sm-3">
-                      <!-- <div class="d-flex align-items-center gap-2 mb-2">
-                            <div class="d-flex gap-1 fs-xs">
-                                <i class="ci-star-filled text-warning"></i>
-                                <i class="ci-star-filled text-warning"></i>
-                                <i class="ci-star-filled text-warning"></i>
-                                <i class="ci-star-filled text-warning"></i>
-                                <i class="ci-star text-body-tertiary opacity-75"></i>
-                            </div>
-                            <span class="text-body-tertiary fs-xs">(2)</span>
-                        </div> -->
-                        <h3 class="pb-1 mb-2">
-                            <a class="d-block fs-sm fw-medium" href="{{ $product->url }}">
-                                <span class="animate-target">{{ $product->name }}</span>
-                            </a>
-                        </h3>
-                        <div class="d-flex align-items-center justify-content-between">
-                            @if ($product->special() < $product->main_price)
-                                <div class="h5 lh-1 mb-0">{{ $product->main_special_text }} <del class="text-body-tertiary fs-sm fw-normal">{{ $product->main_price_text }}</del></div>
-                            @else
-                                <div class="h5 lh-1 mb-0"> {{ $product->main_price_text }}</div>
-                            @endif
+                <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
+                        <div class="card-img-top  position-relative bg-body-white overflow-hidden">
 
-                            <button type="button" wire:click="addToCart('{{ $product->slug }}', 1)" class="product-card-button btn btn-icon btn-primary animate-slide-end ms-2" aria-label="Add to Cart">
-                                <i class="ci-shopping-cart fs-base animate-target"></i>
-                            </button>
+                            <a class="  d-block mb-3 pt-3" href="{{ $product->url }}">
+                                <img loading="lazy" src="{{ $product->thumb }}" width="300" height="300" alt="{{ $product->name }}" class="rounded-4">
+                            </a>
                         </div>
-                    </div>
+
+
+                        <div class="card-body p-3 pb-1">
+                        <div class="w-100 min-w-0 px-0 pb-2 pb-sm-3">
+                          <!-- <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="d-flex gap-1 fs-xs">
+                                    <i class="ci-star-filled text-warning"></i>
+                                    <i class="ci-star-filled text-warning"></i>
+                                    <i class="ci-star-filled text-warning"></i>
+                                    <i class="ci-star-filled text-warning"></i>
+                                    <i class="ci-star text-body-tertiary opacity-75"></i>
+                                </div>
+                                <span class="text-body-tertiary fs-xs">(2)</span>
+                            </div> -->
+
+                            <h3 class="nav min-w-0 mb-0 pb-1 mb-2">
+                                <a class="nav-link  p-0" href="{{ $product->url }}">
+                                    <span class=" animate-target">{{ $product->name }}</span>
+                                </a>
+                            </h3>
+
+                            <div class="d-flex align-items-center justify-content-between">
+                                @if ($product->special() < $product->main_price)
+                                    <div class="h5 lh-1 mb-0">{{ $product->main_special_text }} <del class="text-body-tertiary fs-sm fw-normal">{{ $product->main_price_text }}</del></div>
+                                @else
+                                    <div class="h5 lh-1 mb-0"> {{ $product->main_price_text }}</div>
+                                @endif
+
+                                <button type="button" wire:click="addToCart('{{ $product->slug }}', 1)" class="product-card-button btn btn-icon btn-primary animate-slide-end ms-2" aria-label="Add to Cart">
+                                    <i class="ci-shopping-cart fs-base animate-target"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                       </div>
                 </div>
             </div>
         @endforeach
