@@ -29,38 +29,89 @@ class CategoryProductsList extends Component
      */
     public $route_data;
 
+    /**
+     * @var array
+     */
     public $sezone = [];
 
+    /**
+     * @var array
+     */
     public $sirine = [];
 
+    /**
+     * @var array
+     */
     public $visine = [];
 
+    /**
+     * @var array
+     */
     public $promjeri = [];
 
+    /**
+     * @var array
+     */
     public $sorting_list = [];
 
+    /**
+     * @var string
+     */
     public $sezona = '';
 
+    /**
+     * @var string
+     */
     public $sirina = '';
 
+    /**
+     * @var string
+     */
     public $visina = '';
 
+    /**
+     * @var string
+     */
     public $promjer = '';
 
+    /**
+     * @var string
+     */
     public $sort = '';
 
+    /**
+     * @var array
+     */
     public $brands = [];
 
+    /**
+     * @var string
+     */
     public $brand = '';
 
+    /**
+     * @var array
+     */
     public $prices = [];
 
+    /**
+     * @var string
+     */
     public $price = '';
 
+    /**
+     * @var int
+     */
     public $page = 1;
 
+    /**
+     * @var bool
+     */
     public $show_additional_filters = false;
 
+    /**
+     * @var array
+     */
     protected $queryString = [
         'sezona'  => ['except' => ''],
         'sirina'  => ['except' => ''],
@@ -101,6 +152,12 @@ class CategoryProductsList extends Component
     }
 
 
+    /**
+     * @param string $target
+     * @param string $value
+     *
+     * @return void
+     */
     public function dropdownFilterSelected(string $target, string $value)
     {
         //dd($target, $value);
@@ -110,12 +167,18 @@ class CategoryProductsList extends Component
     }
 
 
+    /**
+     * @return void
+     */
     public function showFilter()
     {
         $this->show_additional_filters = ! $this->show_additional_filters;
     }
 
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cleanFilter()
     {
         return redirect()->to(request()->input('fingerprint')['path']);
@@ -141,8 +204,8 @@ class CategoryProductsList extends Component
      */
     private function resolveCategoryId($data)
     {
-        if ($data->category) {
-            return Category::getById($data->category->id);
+        if ($data) {
+            return Category::getById($data->id);
         }
 
         $category     = new \stdClass();
@@ -159,77 +222,88 @@ class CategoryProductsList extends Component
      */
     private function resolveProducts($data)
     {
-        $category    = $this->resolveCategoryId($data);
-        $filter_data = $this->resolveData();
+        $filter = $this->resolveData($data);
 
-        //return Cache::remember($filter_data->cacheHash, config('cache.life'), function () use ($category, $filter_data) {
+        //return Cache::remember($filter->cacheHash, config('cache.life'), function () use ($category, $filter) {
 
-            $products = Product::query()->where('status', 1)
-                               ->where('quantity', '>', 0);
+        $products = Product::query()->where('status', 1)
+                           ->where('quantity', '>', 0);
 
-            if ($category->id) {
-                if ( ! $category->parent_id) {
-                    $cats = $category->subcategories()->pluck('id');
-                    $cats->push($category->id);
+        // Categories
+        if ($filter->category->id) {
+            if ( ! $filter->category->parent_id) {
+                $cats = $filter->category->subcategories()->pluck('id');
+                $cats->push($filter->category->id);
 
-                    $products->whereHas('categories', function (Builder $query) use ($cats) {
-                        $query->whereIn('category_id', $cats);
-                    });
-                }
+                $products->whereHas('categories', function (Builder $query) use ($cats) {
+                    $query->whereIn('category_id', $cats);
+                });
             }
+        }
 
-            // Brand
-            if ($filter_data->brand != '') {
-                $brand = Brand::getBySlug($filter_data->brand);
+        // Subcategories
+        if ($filter->subcategory->id) {
+            $products->whereHas('categories', function (Builder $query) use ($filter) {
+                $query->where('category_id', $filter->subcategory->id);
+            });
+        }
 
+        // Brand
+        if ($filter->brand != '') {
+            $brand = Brand::getBySlug($filter->brand);
 
-                if ($brand) {
-                    $products->where('brand_id', $brand->id);
-                    //dd($brand->id, $products->count());
-                }
+            if ($brand) {
+                $products->where('brand_id', $brand->id);
             }
+        }
 
-            if ($filter_data->sezona != '') {
-                $products->where('sezona', $filter_data->sezona);
-            }
-            if ($filter_data->sirina != '') {
-                $products->where('sirina', $filter_data->sirina);
-            }
-            if ($filter_data->visina != '') {
-                $products->where('visina', $filter_data->visina);
-            }
-            if ($filter_data->promjer != '') {
-                $products->where('promjer', $filter_data->promjer);
-            }
+        if ($filter->sezona != '') {
+            $products->where('sezona', $this->resolveSezona($filter->sezona));
+        }
+        if ($filter->sirina != '') {
+            $products->where('sirina', $filter->sirina);
+        }
+        if ($filter->visina != '') {
+            $products->where('visina', $filter->visina);
+        }
+        if ($filter->promjer != '') {
+            $products->where('promjer', $filter->promjer);
+        }
 
-            // Sort
-            if ($filter_data->sort != '') {
-                $sort = explode('_', $filter_data->sort);
+        // Sort
+        if ($filter->sort != '') {
+            $sort = explode('_', $filter->sort);
 
-                $products->orderBy($sort[0], $sort[1]);
-            }
+            $products->orderBy($sort[0], $sort[1]);
+        }
 
-            return $products->paginate(15);
+        return $products->paginate(15);
 
         //});
     }
 
 
-    private function resolveData(): \stdClass
+    /**
+     * @param $data
+     *
+     * @return \stdClass
+     */
+    private function resolveData($data): \stdClass
     {
-        $data          = json_decode($this->route_data);
-        $data->sezona  = $this->sezona;
-        $data->sirina  = $this->sirina;
-        $data->visina  = $this->visina;
-        $data->promjer = $this->promjer;
-        $data->sort    = $this->sort;
-        $data->brand   = $this->brand;
-        $data->price   = $this->price;
-        $data->page    = $this->page;
+        $data->category    = $this->resolveCategoryId($data->category);
+        $data->subcategory = $this->resolveCategoryId($data->subcategory);
+        $data->sezona      = $this->sezona;
+        $data->sirina      = $this->sirina;
+        $data->visina      = $this->visina;
+        $data->promjer     = $this->promjer;
+        $data->sort        = $this->sort;
+        $data->brand       = $this->brand;
+        $data->price       = $this->price;
+        $data->page        = $this->page;
 
         $cache_hash = 'products.list' . $data->group
-                      . ($data->category ? $data->category->id : 0)
-                      . ($data->subcategory ? $data->subcategory->id : 0)
+                      . $data->category->id
+                      . $data->subcategory->id
                       . $data->sezona
                       . $data->sirina
                       . $data->visina
@@ -242,6 +316,25 @@ class CategoryProductsList extends Component
         $data->cacheHash = hash('crc32', $cache_hash);
 
         return $data;
+    }
+
+
+    /**
+     * @param string $sezona
+     *
+     * @return string
+     */
+    private function resolveSezona(string $sezona): string
+    {
+        if ($sezona == 'Ljeto') {
+            return 'Summer';
+        } elseif ($sezona == 'Zima') {
+            return '';
+        } elseif ($sezona == 'Sve') {
+            return 'WholeYear';
+        }
+
+        return '';
     }
 
 
