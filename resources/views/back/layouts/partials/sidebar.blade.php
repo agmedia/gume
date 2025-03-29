@@ -139,12 +139,12 @@
 
                 <li class="nav-main-heading">Aplikacija</li>
 
-                <li class="nav-main-item">
+                {{--<li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['profile', 'profile.*']) ? ' active' : '' }}" href="{{ route('profile.show') }}">
                         <i class="nav-main-link-icon si si-user"></i>
                         <span class="nav-main-link-name">Moj Profil</span>
                     </a>
-                </li>
+                </li>--}}
 
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['widgets', 'widgets.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
@@ -160,11 +160,11 @@
                     </a>
                     <ul class="nav-main-submenu">
 
-                        <li class="nav-main-item">
+                        {{--<li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['api', 'api.*']) ? ' active' : '' }}" href="{{ route('api.index') }}">
                                 <span class="nav-main-link-name">API</span>
                             </a>
-                        </li>
+                        </li>--}}
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['pages', 'pages.*']) ? ' active' : '' }}" href="{{ route('pages') }}">
                                 <span class="nav-main-link-name">Info Stranice</span>
@@ -213,11 +213,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-main-item">
+                        {{--<li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['history', 'history.*']) ? ' active' : '' }}" href="{{ route('history') }}">
                                 <span class="nav-main-link-name">History log</span>
                             </a>
-                        </li>
+                        </li>--}}
 
                     </ul>
                 </li>

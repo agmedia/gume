@@ -73,6 +73,9 @@ class CurrencyController extends Controller
         }
 
         if ($stored) {
+            Cache::forget('currency');
+            Cache::forget('currencylist');
+
             return response()->json(['success' => 'Valuta je uspješno snimljena.']);
         }
 
@@ -164,6 +167,8 @@ class CurrencyController extends Controller
      */
     public function cleanCache()
     {
+        Cache::forget('currency');
+        Cache::forget('currencylist');
         Cache::forget('currency_list');
         Cache::forget('currency_main');
         Cache::forget('currency_secondary');

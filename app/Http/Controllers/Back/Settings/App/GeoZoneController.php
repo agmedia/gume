@@ -82,7 +82,8 @@ class GeoZoneController extends Controller
         }
 
         if ($stored) {
-            Cache::forget('geo_zones');
+            Cache::forget('geo_zone');
+            Cache::forget('geo_zonelist');
 
             return redirect()->route('geozones')->with(['success' => 'Geo zone was succesfully saved!']);
         }
@@ -105,7 +106,7 @@ class GeoZoneController extends Controller
         $geo_zone = $geo_zones->where('id', $geozone)->first();
 
         if (isset($geo_zone->state)) {
-            Cache::forget('geo_zones');
+            Cache::forget('geo_zone');
 
             $geo_zone->state = json_decode(json_encode($geo_zone->state), true);
         } else {

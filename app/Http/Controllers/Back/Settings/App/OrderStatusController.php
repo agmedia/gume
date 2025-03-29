@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class OrderStatusController extends Controller
@@ -63,6 +64,9 @@ class OrderStatusController extends Controller
         }
 
         if ($stored) {
+            Cache::forget('order');
+            Cache::forget('orderstatuses');
+
             return response()->json(['success' => 'Status narudžbe je uspješno snimljen.']);
         }
 

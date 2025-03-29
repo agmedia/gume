@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class TaxController extends Controller
 {
@@ -63,6 +64,9 @@ class TaxController extends Controller
         }
 
         if ($stored) {
+            Cache::forget('tax');
+            Cache::forget('taxlist');
+
             return response()->json(['success' => 'Porez je uspješno snimljen.']);
         }
 
