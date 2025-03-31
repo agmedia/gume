@@ -2,9 +2,9 @@
 
 <div class="swiper-slide">
     <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
-        <div class="card-img-top  position-relative bg-body-white overflow-hidden">
+        <div class="card-img-top  position-relative bg-white overflow-hidden">
         <a class=" d-block mb-3 pt-3" href="{{ url($product->url) }}">
-            <img src="{{ $product->thumb }}"  class="rounded-4" alt="Product">
+            <img src="{{ $product->thumb }}"   alt="Product">
 
         </a>
         </div>

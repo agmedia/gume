@@ -246,10 +246,10 @@
             {{--{{ dd($product->toArray()) }}--}}
             <div class="col">
                 <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
-                        <div class="card-img-top  position-relative bg-body-white overflow-hidden">
+                        <div class="card-img-top  position-relative bg-white overflow-hidden">
 
                             <a class="  d-block mb-3 pt-3" href="{{ $product->url }}">
-                                <img loading="lazy" src="{{ $product->thumb }}" width="300" height="300" alt="{{ $product->name }}" class="rounded-4">
+                                <img loading="lazy" src="{{ $product->thumb }}" width="300" height="300" alt="{{ $product->name }}" >
                             </a>
                         </div>
 
