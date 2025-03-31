@@ -80,15 +80,15 @@ class Bank
                         ),
                     'receiver'    =>
                         array(
-                            'name'      => 'ZUZI, obrt',
-                            'street'    => 'Antuna Šoljana 33',
+                            'name'      => 'Pneu-max',
+                            'street'    => 'Severinska ul. 4',
                             'place'     => '10000 Zagreb',
-                            'iban'      => 'HR1624020061140345999',
+                            'iban'      => 'HR4823600001102661944',
                             'model'     => '00',
                             'reference' => $pozivnabroj,
                         ),
                     'purpose'     => 'CMDT',
-                    'description' => 'Web narudžba Zuzi Shop',
+                    'description' => 'Web narudžba PNEU-MAX',
                 ),
         );
 

@@ -55,14 +55,12 @@
                                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Montažni partneri</a>
                                     </li>
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Česta pitanja</a>
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('faq') }}">Česta pitanja</a>
                                     </li>
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Kontaktirajte nas</a>
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('kontakt') }}">Kontaktirajte nas</a>
                                     </li>
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Novosti</a>
-                                    </li>
+
                                 </ul>
                             </div>
                             <hr class="d-sm-none my-0">
