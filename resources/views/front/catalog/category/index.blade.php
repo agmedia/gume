@@ -51,12 +51,12 @@
             </nav>
             <!-- Page title -->
             @if ($data->group && ! $data->category && ! $data->subcategory)
-                <h1 class="h3 position-relative pb-0" style="z-index: 1021">{{ \Illuminate\Support\Str::ucfirst($data->group) }}</h1>
+                <h1 class="h3 position-relative pb-0" >{{ \Illuminate\Support\Str::ucfirst($data->group) }}</h1>
             @endif
             @if ($data->category && ! $data->subcategory)
-                <h1 class="h3 position-relative pb-0" style="z-index: 1021">{{ $data->category->title }}</h1>
+                <h1 class="h3 position-relative pb-0" >{{ $data->category->title }}</h1>
             @elseif ($data->category && $data->subcategory)
-                <h1 class="h3 position-relative pb-0" style="z-index: 1021">{{ $data->subcategory->title }}</h1>
+                <h1 class="h3 position-relative pb-0" >{{ $data->subcategory->title }}</h1>
             @endif
         @endif
 
