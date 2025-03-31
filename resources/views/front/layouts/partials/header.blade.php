@@ -175,7 +175,7 @@
     <div class="container py-lg-1" >
         <div class="overflow-auto" data-simplebar>
             <div class="nav flex-nowrap justify-content-between gap-4 py-2 ">
-                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => 'auto-gume']) }}">
+                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => 'gume']) }}">
               <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
                 <img src="{{ asset('assets/images/auto-gume.png') }}" width="35" alt="Image">
               </span>

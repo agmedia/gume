@@ -134,7 +134,7 @@
                 <div class="accordion-item">
                     <h6 class="accordion-header" id="visinaCategory">
                         <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#visinaFilter" aria-expanded="false" aria-controls="visinaFilter">
-                            <span class="d-flex align-items-end">Širina<span class="text-body fs-sm fw-normal ms-1" id="visinaFilter-drawer"></span></span>
+                            <span class="d-flex align-items-end">Visina<span class="text-body fs-sm fw-normal ms-1" id="visinaFilter-drawer"></span></span>
                         </button>
                     </h6>
                     <div class="accordion-collapse collapse" id="visinaFilter" aria-labelledby="visinaCategory" data-bs-parent="#filters">
@@ -156,7 +156,7 @@
                 <div class="accordion-item">
                     <h6 class="accordion-header" id="promjerCategory">
                         <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#promjerFilter" aria-expanded="false" aria-controls="promjerFilter">
-                            <span class="d-flex align-items-end">Širina<span class="text-body fs-sm fw-normal ms-1" id="promjerFilter-drawer"></span></span>
+                            <span class="d-flex align-items-end">Promjer<span class="text-body fs-sm fw-normal ms-1" id="promjerFilter-drawer"></span></span>
                         </button>
                     </h6>
                     <div class="accordion-collapse collapse" id="promjerFilter" aria-labelledby="promjerCategory" data-bs-parent="#filters">
@@ -175,7 +175,7 @@
                 </div>
 
                 <!-- Price filter -->
-                <div class="accordion-item">
+             {{--  <div class="accordion-item">
                     <h6 class="accordion-header" id="headingPrice">
                         <button type="button" class="accordion-button fw-medium collapsed" data-bs-toggle="collapse" data-bs-target="#priceFilter" aria-expanded="false" aria-controls="priceFilter">
                 <span class="d-flex align-items-end">
@@ -231,7 +231,7 @@
                         </div>
                     </div>
                 </div>
-
+                 --}}
                 <a class="btn btn-primary btn-block mt-4" wire:click="cleanFilter()">
                     <i class="ci-trash-empty me-1"></i>
                     <span class="animate-target text-nowrap">Očisti</span>
