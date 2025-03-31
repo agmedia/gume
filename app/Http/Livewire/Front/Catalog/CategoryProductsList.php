@@ -277,7 +277,7 @@ class CategoryProductsList extends Component
             $products->orderBy($sort[0], $sort[1]);
         }
 
-        return $products->paginate(15);
+        return $products->paginate(config('settings.pagination.front'));
 
         //});
     }
