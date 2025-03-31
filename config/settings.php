@@ -35,32 +35,32 @@ return [
     'sorting_list' => [
         0 => [
             'title' => 'Zadnje dodano',
-            'value' => 'created_at_desc',
+            'value' => 'created_at-desc',
             'sort_order' => 1
         ],
         1 => [
             'title' => 'Najpopularnije',
-            'value' => 'viewed_desc',
+            'value' => 'viewed-desc',
             'sort_order' => 2
         ],
         2 => [
             'title' => 'Cijena (niža - viša)',
-            'value' => 'price_asc',
+            'value' => 'price-asc',
             'sort_order' => 3
         ],
         3 => [
             'title' => 'Cijena (viša - niža)',
-            'value' => 'price_desc',
+            'value' => 'price-desc',
             'sort_order' => 4
         ],
         4 => [
             'title' => 'A - Ž',
-            'value' => 'name_asc',
+            'value' => 'name-asc',
             'sort_order' => 5
         ],
         5 => [
             'title' => 'Ž - A',
-            'value' => 'name_desc',
+            'value' => 'name-desc',
             'sort_order' => 6
         ],
     ],

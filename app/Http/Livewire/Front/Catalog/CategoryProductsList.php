@@ -272,7 +272,7 @@ class CategoryProductsList extends Component
 
         // Sort
         if ($filter->sort != '') {
-            $sort = explode('_', $filter->sort);
+            $sort = explode('-', $filter->sort);
 
             $products->orderBy($sort[0], $sort[1]);
         }
