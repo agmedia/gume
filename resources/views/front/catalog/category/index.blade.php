@@ -32,7 +32,7 @@
     <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
         @if (isset($data->group) && $data->group)
             <!-- Breadcrumb -->
-            <nav class="position-relative  my-3 " aria-label="breadcrumb" style="z-index: 1021">
+            <nav class="position-relative  my-3 " aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovnica</a></li>
 
