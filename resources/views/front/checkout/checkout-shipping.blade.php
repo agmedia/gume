@@ -29,14 +29,15 @@
                                                         <input   type="radio" class="form-check-input fs-base me-2 me-sm-3" name="shipping_method" onclick="shippingChange(this);" value="{{ $method->code }}"
                                                                @if( ! empty(session()->get('selected_shipping')) && session()->get('selected_shipping')->code == $method->code) checked @endif>
                                                         {{ $method->title }}
-                                                        @if ($method->code == 'pickup')
-                                                            <div class="ms-auto">
-                                                                <label class="btn btn-dark" for="other-date" data-bs-toggle="offcanvas" data-bs-target="#deliveryDateTime" aria-controls="deliveryDateTime"><i class="ci-schedule me-2"></i> Odaberite slobodan termin</label>
-                                                            </div>
-                                                        @endif
+
                                                         <span class="fw-normal ms-auto">{{ $method->data->price != '0' ? price($method->data->price, true) : '' }}</span>
                                                     </label>
                                                     <p class="fw-lighter fs-sm" style="margin-left: 9px;">{{ $method->data->short_description }}</p>
+                                                    @if ($method->code == 'pickup')
+                                                        <div class="block ms-2">
+                                                            <label class="btn btn-dark" for="other-date" data-bs-toggle="offcanvas" data-bs-target="#deliveryDateTime" aria-controls="deliveryDateTime"><i class="ci-schedule me-2"></i> Odaberite slobodan termin</label>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         @endforeach

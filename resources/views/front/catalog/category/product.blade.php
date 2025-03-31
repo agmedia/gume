@@ -1,13 +1,15 @@
 
 
 <div class="swiper-slide">
-    <div class="animate-underline">
-        <a class="  d-block mb-3" href="{{ url($product->url) }}">
+    <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
+        <div class="card-img-top  position-relative bg-body-white overflow-hidden">
+        <a class=" d-block mb-3 pt-3" href="{{ url($product->url) }}">
             <img src="{{ $product->thumb }}"  class="rounded-4" alt="Product">
 
         </a>
+        </div>
 
-
+        <div class="card-body p-3 pb-1">
 
         <div class="w-100 min-w-0 px-0 pb-2  pb-sm-3">
           <!--  <div class="d-flex align-items-center gap-2 mb-2">
@@ -39,6 +41,7 @@
 
             </div>
         </div>
+    </div>
     </div>
 </div>
 
