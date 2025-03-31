@@ -27,7 +27,7 @@
         <!-- Slider -->
         <div class="swiper pt-3 pt-sm-4" data-swiper='{
             "slidesPerView": 2,
-            "spaceBetween": 40,
+            "spaceBetween": 20,
             "loop": true,
             "navigation": {
               "prevEl": ".popular-prev",
