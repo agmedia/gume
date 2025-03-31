@@ -43,7 +43,7 @@
                                         @endforeach
 
                                     </div>
-                                    <button class="btn btn-lg btn-primary w-100 d-none d-lg-flex" type="submit">
+                                    <button class="btn btn-lg btn-primary w-100 d-flex" type="submit">
                                         Nastavi dalje
                                         <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
                                     </button>

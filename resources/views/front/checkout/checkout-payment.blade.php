@@ -103,7 +103,7 @@
                                     </div>
                                 @enderror
                                 <!-- Pay button visible on screens > 991px wide (lg breakpoint) -->
-                                <button type="submit" class="btn btn-lg btn-primary w-100 d-none d-lg-flex">Dovrši narudžbu</button>
+                                <button type="submit" class="btn btn-lg btn-primary w-100 d-flex">Dovrši narudžbu</button>
                             </div>
                         </div>
                     </div>
