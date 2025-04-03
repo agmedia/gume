@@ -237,9 +237,9 @@ class DashboardController extends Controller
      */
     public function importInter(Request $request)
     {
-        $category = 3;
-        $subcategory = 4;
-        $sync_cat = 'Aluminijske felge PKW';
+        $category = 6;
+        $subcategory = 24;
+        $sync_cat = 'Cestovna moto guma';
         //
         $xml = simplexml_load_file(public_path('assets/inter.xml'));
         $import = new Import();
