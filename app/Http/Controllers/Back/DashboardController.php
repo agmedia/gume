@@ -237,60 +237,48 @@ class DashboardController extends Controller
      */
     public function importInter(Request $request)
     {
+        $category = 10;
+        $subcategory = 11;
+        $sync_cat = 'Aluminijske felge PKW';
+        //
         $xml = simplexml_load_file(public_path('assets/inter.xml'));
         $import = new Import();
         $count  = 0;
 
         $group = [];
-        foreach ($xml->children() as $product) {
-            //dd($product, $product->asXML(), (string) $product->product_code);
-            $cat = (string) $product->category;
+        foreach ($xml->children() as $item) {
+            $cat = (string) $item->category;
 
-            if (strpos($cat, 'gum') !== false || strpos($cat, 'Gum') !== false) {
-                $group[$cat] = $cat;
-            }
-
-            //$group = array_values($group);
-        }
-
-        dd($group);
-
-
-        foreach (json_decode($sorted) as $item) {
-            //dd($item);
-            if ($item->Namjena != 'TERETNE') {
-                $exist = Product::query()->where('sku', $item->Oznaka3)->first();
+            if (strpos($cat, $sync_cat) !== false) {
+                $exist = Product::query()->where('sku', (string) $item->product_code)->first();
 
                 if ( ! $exist) {
-
-                    $count++;
-
                     $product_id = Product::insertGetId([
                         'brand_id'         => 0,
                         'action_id'        => 0,
-                        'sku'              => $item->Oznaka3,
-                        'ean'              => !empty($item->EAN) ? $item->EAN : '',
-                        'name'             => $item->Naziv,
-                        'description'      => '',
-                        'slug'             => Str::slug($item->Naziv),
-                        'price'            => $item->MPC,
-                        'quantity'         => $item->Stock,
+                        'sku'              => (string) $item->product_code,
+                        'ean'              => !empty((string) $item->ean) ? (string) $item->ean : '',
+                        'name'             => (string) $item->product_name,
+                        'description'      => (string) $item->description,
+                        'slug'             => Str::slug((string) $item->product_name),
+                        'price'            => (string) $item->price,
+                        'quantity'         => (string) $item->stock_number,
                         'tax_id'           => 2,
                         'special'          => null,
                         'special_lock'     => null,
                         'special_from'     => null,
                         'special_to'       => null,
-                        'meta_title'       => $item->Naziv,
+                        'meta_title'       => (string) $item->product_name,
                         'meta_description' => '',
-                        'nosivost'         => !empty($item->Li_Si) ? $item->Li_Si : '',
-                        'namjena'          => !empty($item->Namjena) ? $item->Namjena : '',
-                        'promjer'          => !empty($item->Promjer) ? $item->Promjer : '',
-                        'sirina'           => !empty($item->Širina) ? $item->Širina : '',
-                        'visina'           => !empty($item->Visina) ? $item->Visina : '',
-                        'buka'             => !empty($item->Buka) ? $item->Buka : '',
-                        'prijanjanje'      => !empty($item->Prianjanje_na_mokrom) ? $item->Prianjanje_na_mokrom : '',
-                        'iskoristivost'    => !empty($item->Iskoristivost_goriva) ? $item->Iskoristivost_goriva : '',
-                        'sezona'           => !empty($item->Namjena) ? $item->Namjena : '',
+                        'nosivost'         => !empty((string) $item->carrying_capacity_index) ? (string) $item->carrying_capacity_index : '',
+                        'namjena'          => !empty((string) $item->tyre_type) ? (string) $item->tyre_type : '',
+                        'promjer'          => !empty((string) $item->dimensions_diameter) ? (string) $item->dimensions_diameter : '',
+                        'sirina'           => !empty((string) $item->dimensions_width) ? (string) $item->dimensions_width : '',
+                        'visina'           => !empty((string) $item->dimensions_height) ? (string) $item->dimensions_height : '',
+                        'buka'             => !empty((string) $item->external_rolling_noise) ? (string) $item->external_rolling_noise : '',
+                        'prijanjanje'      => !empty((string) $item->grip_on_wet_roads) ? (string) $item->grip_on_wet_roads : '',
+                        'iskoristivost'    => !empty((string) $item->fuel_efficiency) ? (string) $item->fuel_efficiency : '',
+                        'sezona'           => '',
                         'viewed'           => 0,
                         'sort_order'       => 0,
                         'featured'         => 0,
@@ -301,51 +289,23 @@ class DashboardController extends Controller
 
                     if ($product_id) {
                         // image
-                        if ( ! empty($item->Slika1)) {
-                            $image = ImageHelper::save($item->Slika1, $item->Naziv, $product_id);
+                        if ( ! empty((string) $item->URL_to_product_image)) {
+                            $image = ImageHelper::save((string) $item->URL_to_product_image, (string) $item->product_name, $product_id);
 
                             Product::where('id', $product_id)->update([
                                 'image' => $image
                             ]);
                         }
-                        // + image
-                        if ( ! empty($item->Informacijski_list)) {
-                            $pimage = ImageHelper::save($item->Informacijski_list, $item->Naziv . '-informacijski-list', $product_id);
 
-                            ProductImage::insert([
-                                'product_id' => $product_id,
-                                'image'      => $pimage,
-                                'alt'        => $item->Naziv . ' Informacijski list',
-                                'published'  => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        // category
-                        if ( ! empty($item->Kategorija)) {
-                            $cat_id = $import->saveCategory($item->Kategorija);
-
-                            if ($cat_id) {
-                                ProductCategory::query()->insert([
-                                    'product_id'  => $product_id,
-                                    'category_id' => $cat_id,
-                                ]);
-
-                                // subcategory
-                                if ( ! empty($item->Podkategorija)) {
-                                    $subcat_id = $import->saveCategory($item->Podkategorija, $cat_id);
-
-                                    if ($subcat_id) {
-                                        ProductCategory::query()->insert([
-                                            'product_id'  => $product_id,
-                                            'category_id' => $subcat_id,
-                                        ]);
-                                    }
-                                }
-                            }
-                        }
+                        // Category
+                        ProductCategory::query()->insert([
+                            'product_id'  => $product_id,
+                            'category_id' => $category,
+                        ]);
+                        ProductCategory::query()->insert([
+                            'product_id'  => $product_id,
+                            'category_id' => $subcategory,
+                        ]);
 
                         $product = Product::find($product_id);
                         $product->update([
@@ -354,38 +314,20 @@ class DashboardController extends Controller
                         ]);
 
                         // Brand
-                        if ( ! empty($item->Brand)) {
-                            $brand_id = $import->resolveBrand($item->Brand);
+                        if ( ! empty((string) $item->brand)) {
+                            $brand_id = $import->resolveBrand($item->brand);
 
                             $product->update(['brand_id' => $brand_id]);
                         }
 
                         // Attributes
-                        if ( ! empty($item->EPREL_link)) {
-                            $att_id = $import->resolveAttribute('EPREL Link');
+                        if ( ! empty((string) $item->speed_index)) {
+                            $att_id = $import->resolveAttribute('Index Brzine');
 
                             ProductAttribute::query()->insert([
                                 'product_id'   => $product_id,
                                 'attribute_id' => $att_id,
-                                'value'        => $item->EPREL_link,
-                            ]);
-                        }
-                        if ( ! empty($item->Dezen)) {
-                            $att_id = $import->resolveAttribute('Dezen gume');
-
-                            ProductAttribute::query()->insert([
-                                'product_id'   => $product_id,
-                                'attribute_id' => $att_id,
-                                'value'        => $item->Dezen,
-                            ]);
-                        }
-                        if ( ! empty($item->SAP_kod)) {
-                            $att_id = $import->resolveAttribute('SAP Kod');
-
-                            ProductAttribute::query()->insert([
-                                'product_id'   => $product_id,
-                                'attribute_id' => $att_id,
-                                'value'        => $item->SAP_kod,
+                                'value'        => (string) $item->speed_index,
                             ]);
                         }
 
