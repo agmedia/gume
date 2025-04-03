@@ -241,19 +241,20 @@ class DashboardController extends Controller
         $import = new Import();
         $count  = 0;
 
-        foreach ($xml->products as $product) {
-            dd($product);
+        $group = [];
+        foreach ($xml->children() as $product) {
+            //dd($product, $product->asXML(), (string) $product->product_code);
+            $cat = (string) $product->category;
 
+            if (strpos($cat, 'gum') !== false || strpos($cat, 'Gum') !== false) {
+                $group[$cat] = $cat;
+            }
+
+            //$group = array_values($group);
         }
-        //
-        $array = json_decode(json_encode($xml),TRUE);
 
-        unset($xml);
-        //$sorted = collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->toJson();
+        dd($group);
 
-        dd($array);
-
-        //dd(collect($array['Artikl'])->count(), collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->first());
 
         foreach (json_decode($sorted) as $item) {
             //dd($item);
