@@ -56,8 +56,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')->group(function () {
     Route::match(['get', 'post'], '/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
     Route::get('import', [DashboardController::class, 'import'])->name('import.initial');
+    Route::get('import-inter', [DashboardController::class, 'importInter'])->name('import.inter');
+    /*Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
     Route::get('mailing-test', [DashboardController::class, 'mailing'])->name('mailing.test');
     Route::get('letters', [DashboardController::class, 'letters'])->name('letters.import');
     Route::get('slugs', [DashboardController::class, 'slugs'])->name('slugs.revision');
@@ -65,7 +66,7 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('duplicate/{target?}', [DashboardController::class, 'duplicate'])->name('duplicate.revision');
     Route::get('set/category-group', [DashboardController::class, 'setCategoryGroup'])->name('set.group');
     Route::get('set/pdv/products', [DashboardController::class, 'setPdvProducts'])->name('set.pdv.products');
-    Route::get('set/unlimited-qty', [DashboardController::class, 'setProductsUnlimitedQty'])->name('set.unlimited');
+    Route::get('set/unlimited-qty', [DashboardController::class, 'setProductsUnlimitedQty'])->name('set.unlimited');*/
 
     // CATALOG
     Route::prefix('catalog')->group(function () {
