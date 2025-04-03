@@ -22,7 +22,9 @@
                     <select class="form-select rounded-pill" wire:model="visina" wire:change="dropdownFilterSelected('visina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Visina">
                         <option value="">Visina</option>
                         @foreach ($visine as $item)
+                            @if($item !='')
                             <option value="{{ $item }}" @if($item == $visina) selected @endif>{{ $item }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
