@@ -173,7 +173,11 @@
 
                         <p><strong>{{ $data->product->sirina }}/{{ $data->product->visina }}  {{ $data->product->promjer }} {{ $data->product->nosivnost }}</strong></p>
 
+
+                        @if($data->product->iskoristivost and $data->product->prijanjanje and $data->product->buka)
                         <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{ $data->product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $data->product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $data->product->buka }} </span> </p>
+                        @endif
+
                         <!-- Description -->
                         @if ($data->product->main_price > $data->product->main_special)
                             <div class="h4 d-flex align-items-center mt-4 mb-2">
