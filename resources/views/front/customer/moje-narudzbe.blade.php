@@ -33,7 +33,7 @@
                         @endforeach
                     </div>
                     <!-- Footer-->
-                    <div class="modal-footer flex-wrap justify-content-between bg-secondary fs-md">
+                    <div class="modal-footer flex-wrap justify-content-between  fs-md">
                         @foreach ($order->totals as $total)
                             <div class="px-2 py-1"><span class="text-muted">{{ $total->title }}:&nbsp;</span><span>{{ number_format($total->value, 2, ',', '.') }}</span></div>
                         @endforeach
@@ -72,7 +72,7 @@
                                 <td class="py-3"><a class="nav-link-style fw-medium fs-sm" href="#order-details{{ $order->id }}" data-bs-toggle="modal">{{ $order->id }}</a></td>
                                 <td class="py-3">{{ \Illuminate\Support\Carbon::make($order->created_at)->format('d.m.Y') }}</td>
                                 <td class="py-3"><span class="badge bg-info m-0">{{ $order->status->title }}</span></td>
-                                <td class="py-3">{{ number_format($order->total, 2, ',', '.') }} kn</td>
+                                <td class="py-3">{{ number_format($order->total, 2, ',', '.') }} €</td>
                             </tr>
                         @empty
                             <tr>
