@@ -4,12 +4,42 @@ namespace App\Models\Front\Cart;
 
 use App\Helpers\Helper;
 use App\Models\Front\Catalog\Product;
+use App\Models\Front\Catalog\ProductAction;
 use App\Models\Front\Checkout\PaymentMethod;
 use App\Models\Front\Checkout\ShippingMethod;
 use Darryldecode\Cart\Exceptions\InvalidConditionException;
 
 class CartCondition
 {
+
+    /**
+     * @param string       $type
+     * @param string       $target
+     * @param float|string $cart_total
+     * @param string       $coupon
+     *
+     * @return \Darryldecode\Cart\CartCondition
+     */
+    public static function set(string $type, string $target, float|string $cart_total, string $coupon = ''): \Darryldecode\Cart\CartCondition
+    {
+        $condition = null;
+        $actions = ProductAction::query()->where('group', 'total')->active()->get();
+
+        if ($actions->count()) {
+            foreach ($actions as $action) {
+                if ($coupon != '' && $action->coupon && $action->coupon == $coupon) {
+                    $condition[] = self::setAction($type, $target, $cart_total, $action, $coupon);
+                }
+
+                if ( ! $action->coupon) {
+                    $condition[] = self::setAction($type, $target, $cart_total, $action);
+                }
+            }
+        }
+
+        return $condition;
+    }
+
 
     /**
      * @param string        $type
@@ -128,5 +158,31 @@ class CartCondition
         }
 
         return $attr;
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    private static function setAction(string $type, string $target, float|string $cart_total, ProductAction $action, string $coupon = '')
+    {
+        $value    = Helper::calculateDiscountPrice($cart_total, $action->discount, $action->type);
+        $discount = $cart_total - $value;
+
+        $condition = [
+            'name'   => $action->title,
+            'type'   => $type,
+            'target' => $target, // this condition will be applied to cart's subtotal when getSubTotal() is called.
+            'value'  => '-' . $discount,
+        ];
+
+        if ($coupon != '') {
+            $condition['attributes'] = [
+                'coupon' => $coupon,
+            ];
+        }
+
+        return new \Darryldecode\Cart\CartCondition($condition);
     }
 }

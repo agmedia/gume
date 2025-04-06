@@ -147,6 +147,9 @@ class Cart
             }
         }
 
+        $condition = CartCondition::set('coupon', 'total', $this->cart->getTotal(), $this->coupon);
+        $this->resetCartCondition('coupon', $condition);
+
         return $this;
     }
 
