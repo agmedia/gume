@@ -47,11 +47,26 @@
                                         <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
                                         <button type="submit" class="btn btn-primary fs-base" onclick="setPageURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                                     </div>
-                                    <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
+                                    <div class="form-text small">Pretraži po imenu, šifri, brandu.</div>
                                 </div>
                             </div>
-
                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="Sortiraj artikle">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="new" {{ 'new' == request()->input('sort') ? 'selected' : '' }}>Najnovije</option>
+                                        <option value="old" {{ 'old' == request()->input('sort') ? 'selected' : '' }}>Najstarije</option>
+                                        <option value="price_up" {{ 'price_up' == request()->input('sort') ? 'selected' : '' }}>Cijena od manje</option>
+                                        <option value="price_down" {{ 'price_down' == request()->input('sort') ? 'selected' : '' }}>Cijena od više</option>
+                                        <option value="az" {{ 'az' == request()->input('sort') ? 'selected' : '' }}>Od A do Ž</option>
+                                        <option value="za" {{ 'za' == request()->input('sort') ? 'selected' : '' }}>Od Ž do A</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row items-push mb-0">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
@@ -68,17 +83,14 @@
                                     </select>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="form-group row items-push mb-0">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    @livewire('back.layout.search.author-search', ['author_id' => request()->input('author') ?: '', 'list' => true])
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    @livewire('back.layout.search.publisher-search', ['publisher_id' => request()->input('publisher') ?: '', 'list' => true])
+                                    <select class="js-select2 form-control" id="brand-select" name="brand" style="width: 100%;" data-placeholder="Odaberi Brand">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        @foreach ($brands as $id => $title)
+                                            <option value="{{ $id }}" class="pl-3 text-sm" {{ $id == request()->input('brand') ? 'selected' : '' }}>{{ $title }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -88,24 +100,12 @@
                                         <option value="all" {{ 'all' == request()->input('status') ? 'selected' : '' }}>Svi artikli</option>
                                         <option value="active" {{ 'active' == request()->input('status') ? 'selected' : '' }}>Aktivni</option>
                                         <option value="inactive" {{ 'inactive' == request()->input('status') ? 'selected' : '' }}>Neaktivni</option>
-                                        <option value="with_action" {{ 'with_action' == request()->input('status') ? 'selected' : '' }}>Sa akcijama</option>
-                                        <option value="without_action" {{ 'without_action' == request()->input('status') ? 'selected' : '' }}>Bez akcija</option>
+                                        {{--<option value="with_action" {{ 'with_action' == request()->input('status') ? 'selected' : '' }}>Sa akcijama</option>
+                                        <option value="without_action" {{ 'without_action' == request()->input('status') ? 'selected' : '' }}>Bez akcija</option>--}}
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="Sortiraj artikle">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="new" {{ 'new' == request()->input('sort') ? 'selected' : '' }}>Najnovije</option>
-                                        <option value="old" {{ 'old' == request()->input('sort') ? 'selected' : '' }}>Najstarije</option>
-                                        <option value="price_up" {{ 'price_up' == request()->input('sort') ? 'selected' : '' }}>Cijena od manje</option>
-                                        <option value="price_down" {{ 'price_down' == request()->input('sort') ? 'selected' : '' }}>Cijena od više</option>
-                                        <option value="az" {{ 'az' == request()->input('sort') ? 'selected' : '' }}>Od A do Ž</option>
-                                        <option value="za" {{ 'za' == request()->input('sort') ? 'selected' : '' }}>Od Ž do A</option>
-                                    </select>
-                                </div>
-                            </div>
+
 
                         </div>
                     </form>
@@ -120,9 +120,6 @@
                             <th>Naziv</th>
                             <th>Šifra</th>
                             <th class="text-right">Cijena</th>
-                            <th class="text-center">God.</th>
-                            <th class="text-center">Polica</th>
-                            <th class="text-center">Dimenzija</th>
                             <th class="text-center">Kol.</th>
                             <th>Dodano</th>
                             <th>Zadnja izmjena</th>
@@ -153,11 +150,6 @@
                                 <td class="font-size-sm text-right">
                                     <ag-input-field item="{{ $product }}" target="price"></ag-input-field>
                                 </td>
-                                <td class="font-size-sm text-center">
-                                    <ag-input-field item="{{ $product }}" target="year"></ag-input-field>
-                                </td>
-                                <td class="font-size-sm text-center">  <ag-input-field item="{{ $product }}" target="polica"></ag-input-field></td>
-                                <td class="font-size-sm text-center">  <ag-input-field item="{{ $product }}" target="dimensions"></ag-input-field></td>
                                 <td class="font-size-sm text-center">{{ $product->quantity }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->updated_at)->format('d.m.Y') }}</td>
@@ -180,7 +172,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center font-size-sm" colspan="12">
+                                <td class="text-center font-size-sm" colspan="9">
                                     <label>Nema proizvoda...</label>
                                 </td>
                             </tr>
@@ -211,6 +203,10 @@
                 placeholder: 'Odaberite kategoriju',
                 allowClear: true
             });
+            $('#brand-select').select2({
+                placeholder: 'Odaberite brand',
+                allowClear: true
+            });
             $('#status-select').select2({
                 placeholder: 'Odaberite status',
                 allowClear: true
@@ -227,27 +223,12 @@
             $('#status-select').on('change', (e) => {
                 setPageURL('status', e.currentTarget.selectedOptions[0]);
             });
+            $('#brand-select').on('change', (e) => {
+                setPageURL('brand', e.currentTarget.selectedOptions[0]);
+            });
             $('#sort-select').on('change', (e) => {
                 setPageURL('sort', e.currentTarget.selectedOptions[0]);
             });
-
-            //
-            Livewire.on('authorSelect', (e) => {
-                setPageURL('author', e.author.id, true);
-            });
-            Livewire.on('publisherSelect', (e) => {
-                setPageURL('publisher', e.publisher.id, true);
-            });
-
-            /*$('#btn-inactive').on('click', () => {
-                setRegularURL('active', false);
-            });
-            $('#btn-today').on('click', () => {
-                setRegularURL('today', true);
-            });
-            $('#btn-week').on('click', () => {
-                setRegularURL('week', true);
-            });*/
 
         });
 

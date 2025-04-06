@@ -93,39 +93,6 @@ class Breadcrumb
 
 
     /**
-     * @param Product|null $prod
-     *
-     * @return array
-     */
-    public function productBookSchema(Product $prod = null)
-    {
-        if ($prod) {
-            return [
-                '@context' => 'https://schema.org/',
-                '@type' => 'Book',
-                'datePublished' => $prod->year ?: '...',
-                'description' => $prod->name . ' knjiga autora ' . (($prod->author) ? $prod->author->title : 'Autor') . ' godine izdanja ' . ($prod->year ?: '...') . '. izdavača ' . (($prod->publisher) ? $prod->publisher->title : 'Izdavačka kuća'),
-                'image' => asset($prod->image),
-                'name' => $prod->name,
-                'url' => url($prod->url),
-                'publisher' => [
-                    '@type' => 'Organization',
-                    'name' => ($prod->publisher) ? $prod->publisher->title : 'Izdavačka kuća',
-                ],
-                'author' => ($prod->author) ? $prod->author->title : 'Autor',
-                'offers' => [
-                    '@type' => 'Offer',
-                    'priceCurrency' => 'EUR',
-                    'price' => ($prod->special()) ? $prod->special() : number_format($prod->price, 2, '.', ''),
-                    'sku' => $prod->sku,
-                    'availability' => ($prod->quantity) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
-                ],
-            ];
-        }
-    }
-
-
-    /**
      * @return array
      */
     public function resolve()

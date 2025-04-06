@@ -22,21 +22,4 @@ class Country
         return collect(json_decode($countries, true));
     }
 
-
-    /**
-     * @param null $id
-     *
-     * @return Collection
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public static function zones($id = null): Collection
-    {
-        $zones = Storage::disk('assets')->get('zone.json');
-
-        if ($id) {
-            return collect(json_decode($zones))->where('country_id', $id);
-        }
-
-        return collect(json_decode($zones));
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Brand;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductAction;
@@ -27,41 +28,12 @@ class ProductController extends Controller
      */
     public function index(Request $request, Product $product)
     {
-        $query = $product->filter($request);
-
-        $products = $query->paginate(20)->appends(request()->query());
-
-        if ($request->has('status')) {
-            if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
-                $products = collect();
-                $temps    = Product::all();
-
-                if ($request->input('status') == 'with_action') {
-                    foreach ($temps as $product) {
-                        if ($product->special()) {
-                            $products->push($product);
-                        }
-                    }
-                }
-
-                if ($request->input('status') == 'without_action') {
-                    foreach ($temps as $product) {
-                        if ( ! $product->special()) {
-                            $products->push($product);
-                        }
-                    }
-                }
-
-                $products = $this->paginateColl($products);
-            }
-        }
+        $products = $product->filter($request)->paginate(20)->appends(request()->query());
 
         $categories = (new Category())->getList(false);
-        /*$authors    = Author::all()->pluck('title', 'id');
-        $publishers = Publisher::all()->pluck('title', 'id');*/
-        $counts = [];//Product::setCounts($query);
+        $brands = Brand::query()->orderBy('title')->active()->pluck('title', 'id');
 
-        return view('back.catalog.product.index', compact('products', 'categories'/*, 'authors', 'publishers'*/, 'counts'));
+        return view('back.catalog.product.index', compact('products', 'categories', 'brands'));
     }
 
 

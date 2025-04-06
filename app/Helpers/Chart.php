@@ -93,22 +93,5 @@ class Chart
 
         return $sum;
     }
-
-
-    /**
-     * @param array $data
-     *
-     * @return int|mixed
-     */
-    public function total(array $data)
-    {
-        $sum = 0;
-
-        foreach ($data as $key => $month) {
-            $sum += $month['value'];
-        }
-
-        return $sum;
-    }
     
 }

@@ -230,16 +230,7 @@ Route::prefix('api/v2')->group(function () {
     Route::get('rezervacije/dani', [ReservationController::class, 'getDays'])->name('api.reservations.days');
     Route::get('rezervacije/sati', [ReservationController::class, 'getHours'])->name('api.reservations.hours');
     Route::post('rezervacije/snimi', [ReservationController::class, 'setReservation'])->name('api.reservations.set');
-    // CART
-    Route::prefix('cart')->group(function () {
-        Route::get('/get', [CartController::class, 'get']);
-        Route::post('/check', [CartController::class, 'check']);
-        Route::post('/add', [CartController::class, 'add']);
-        Route::post('/update/{id}', [CartController::class, 'update']);
-        Route::get('/remove/{id}', [CartController::class, 'remove']);
-        Route::get('/coupon/{coupon}', [CartController::class, 'coupon']);;
-    });
-
+    // Products
     Route::get('/products/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('products.autocomplete');
     Route::post('/products/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('products.destroy.image');
     Route::post('/products/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('products.change.status');

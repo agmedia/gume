@@ -107,33 +107,6 @@ class Helper
 
 
     /**
-     * @param $cat
-     * @param $subcat
-     *
-     * @return mixed
-     */
-    public static function getRelated($cat = null, $subcat = null)
-    {
-        $related = [];
-
-        if ($subcat) {
-            $related = $subcat->products()->inRandomOrder()->take(10)->get();
-
-        } else {
-            if ($cat) {
-                $related = $cat->products()->inRandomOrder()->take(10)->get();
-            }
-        }
-
-        if ($related->count() < 9) {
-            $related->merge(Product::query()->inRandomOrder()->take(10 - $related->count())->get());
-        }
-
-        return $related;
-    }
-
-
-    /**
      * @param string $description
      *
      * @return false|string
@@ -210,9 +183,9 @@ class Helper
                 $tablename = 'category';
             }
 
-            if (static::isDescriptionTarget($data, 'publisher')) {
-                $items     = static::publisher($data)->get();
-                $tablename = 'publisher';
+            if (static::isDescriptionTarget($data, 'brand')) {
+                $items     = static::brand($data)->get();
+                $tablename = 'brand';
             }
 
             if (static::isDescriptionTarget($data, 'reviews')) {
@@ -379,25 +352,25 @@ class Helper
      *
      * @return Builder
      */
-    private static function publisher(array $data): Builder
+    private static function brand(array $data): Builder
     {
-        $publisher = (new Publisher())->newQuery();
+        $brand = (new Brand())->newQuery();
 
-        $publisher->active();
+        $brand->active();
 
         if (isset($data['new']) && $data['new'] == 'on') {
-            $publisher->latest();
+            $brand->orderByDesc('created_at');
         }
 
         if (isset($data['popular']) && $data['popular'] == 'on') {
-            $publisher->latest();
+            $brand->featured();
         }
 
         if (isset($data['list']) && $data['list']) {
-            $publisher->whereIn('id', $data['list']);
+            $brand->whereIn('id', $data['list']);
         }
 
-        return $publisher;
+        return $brand;
     }
 
 
@@ -444,143 +417,6 @@ class Helper
         }
 
         return config('settings.group_path');
-    }
-
-    /**
-     * @param array  $data
-     * @param string $tag
-     * @param        $target
-     *
-     * @return string
-     */
-    public static function resolveSlug(array $data, string $tag = 'title', $target = null): string
-    {
-        $slug = null;
-
-        if ($target) {
-            $product = Product::where('id', $target)->first();
-
-            if ($product) {
-                $slug = $product->slug;
-            }
-        }
-
-        $slug  = $slug ?: Str::slug($data[$tag]);
-        $exist = Product::where('slug', $slug)->count();
-
-        $cat_exist = Category::where('slug', $slug)->count();
-
-        if (($cat_exist || $exist > 1) && $target) {
-            return $slug . '-' . time();
-        }
-
-        if (($cat_exist || $exist) && ! $target) {
-            return $slug . '-' . time();
-        }
-
-        return $slug;
-    }
-
-
-    /**
-     * @param $cart
-     *
-     * @return CartCondition|false
-     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
-     */
-    public static function hasSpecialCartCondition($cart = null)
-    {
-        $condition     = false;
-        $has_condition = false;
-
-        if ($cart->getTotal() > 50) {
-            $has_condition = 10;
-        }
-        if ($cart->getTotal() > 100) {
-            $has_condition = 15;
-        }
-        if ($cart->getTotal() > 200) {
-            $has_condition = 20;
-        }
-
-        if ($has_condition && self::isDateBetween()) {
-            $value    = self::calculateDiscountPrice($cart->getTotal(), $has_condition, 'P');
-            $discount = $cart->getTotal() - $value;
-
-            $condition = new CartCondition(array(
-                'name'       => config('settings.special_action.title'),
-                'type'       => 'special',
-                'target'     => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value'      => '-' . $discount,
-                'attributes' => [
-                    'description' => '',
-                    'geo_zone'    => ''
-                ]
-            ));
-        }
-
-        return $condition;
-    }
-
-
-    /**
-     * @param        $cart
-     * @param string $coupon
-     *
-     * @return CartCondition|false
-     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
-     */
-    public static function hasCouponCartConditions($cart, string $coupon = '')
-    {
-        $condition = false;
-        $actions   = Action::query()->where('group', 'total')->get();
-
-        if ($actions->count()) {
-            foreach ($actions as $action) {
-                if ($action->isValid($coupon)) {
-                    $value    = self::calculateDiscountPrice($cart->getTotal(), $action->discount, $action->type);
-                    $discount = $cart->getTotal() - $value;
-
-                    $condition = new CartCondition(array(
-                        'name'       => $action->title,
-                        'type'       => 'special',
-                        'target'     => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                        'value'      => '-' . $discount,
-                        'attributes' => $action->setConditionAttributes($coupon)
-                    ));
-                }
-            }
-        }
-
-        return $condition;
-    }
-
-
-    /**
-     * @param $cart
-     *
-     * @return false|mixed
-     */
-    public static function isCouponUsed($cart)
-    {
-        $coupon = false;
-        $items = $cart->getContent();
-
-        foreach ($items as $item) {
-            if ($item->getConditions()->getType() == 'coupon') {
-                $coupon = $item->getConditions()->getTarget();
-            }
-        }
-
-        foreach ($cart->getConditions() as $condition) {
-            if (isset($condition->getAttributes()['type']) && $condition->getAttributes()['type'] == 'coupon' && floatval($condition->getValue()) < 0) {
-                $coupon = $condition->getAttributes()['description'];
-            }
-        }
-
-
-
-        return $coupon;
     }
 
 
