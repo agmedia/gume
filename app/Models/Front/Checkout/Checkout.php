@@ -29,6 +29,11 @@ class Checkout
     protected $order = null;
 
     /**
+     * @var int
+     */
+    protected $user_id = 0;
+
+    /**
      * @var null
      */
     protected $request = null;
@@ -62,6 +67,7 @@ class Checkout
 
         $this->payment_method  = $this->resolveMethod('payment', $payment_method);
         $this->shipping_method = $this->resolveMethod('shipping', $shipping_method);
+        $this->user_id         = auth()->user() ? auth()->id() : 0;
     }
 
 
@@ -100,49 +106,19 @@ class Checkout
             return $this;
         }
 
-        $user_id = auth()->user() ? auth()->id() : 0;
+        if (session()->has('order_id')) {
+            $this->order_id = Order::query()->update($this->getOrderModelArray(false));
 
-        $this->order_id = Order::insertGetId([
-            'user_id'             => $user_id,
-            'affiliate_id'        => 0,
-            'order_status_id'     => config('settings.order.status.unfinished'),
-            'invoice'             => '',
-            'total'               => $this->cart['total'],
-            'payment_fname'       => $this->customer_info['fname'],
-            'payment_lname'       => $this->customer_info['lname'],
-            'payment_address'     => $this->customer_info['address'],
-            'payment_zip'         => $this->customer_info['zip'],
-            'payment_city'        => $this->customer_info['city'],
-            //'payment_state'       => 'Croatia',
-            'payment_phone'       => $this->customer_info['phone'] ?: null,
-            'payment_email'       => $this->customer_info['email'],
-            'payment_method'      => $this->payment_method->title,
-            'payment_code'        => $this->payment_method->code,
-            'payment_card'        => '',
-            'payment_installment' => '',
-            'shipping_fname'      => $this->customer_info['fname'],
-            'shipping_lname'      => $this->customer_info['lname'],
-            'shipping_address'    => $this->customer_info['address'],
-            'shipping_zip'        => $this->customer_info['zip'],
-            'shipping_city'       => $this->customer_info['city'],
-            //'shipping_state'      => 'Croatia',
-            'shipping_phone'      => $this->customer_info['phone'] ?: null,
-            'shipping_email'      => $this->customer_info['email'],
-            'shipping_method'     => $this->shipping_method->title,
-            'shipping_code'       => $this->shipping_method->code,
-            'company'             => $this->customer_info['company'] ?: '',
-            'oib'                 => $this->customer_info['oib'] ?: '',
-            'comment'             => $this->comment,
-            'created_at'          => now(),
-            'updated_at'          => now()
-        ]);
+        } else {
+            $this->order_id = Order::insertGetId($this->getOrderModelArray());
+        }
 
         if ($this->order_id) {
             $this->order = Order::query()->find($this->order_id);
             // HISTORY
             OrderHistory::insert([
                 'order_id'   => $this->order_id,
-                'user_id'    => $user_id,
+                'user_id'    => $this->user_id,
                 'comment'    => config('settings.order.made_text'),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -261,6 +237,55 @@ class Checkout
 
 
     /**
+     * @param bool $insert
+     *
+     * @return array
+     */
+    private function getOrderModelArray(bool $insert = true): array
+    {
+        $response = [
+            'user_id'             => $this->user_id,
+            'affiliate_id'        => 0,
+            'order_status_id'     => config('settings.order.status.unfinished'),
+            'invoice'             => '',
+            'total'               => $this->cart['total'],
+            'payment_fname'       => $this->customer_info['fname'],
+            'payment_lname'       => $this->customer_info['lname'],
+            'payment_address'     => $this->customer_info['address'],
+            'payment_zip'         => $this->customer_info['zip'],
+            'payment_city'        => $this->customer_info['city'],
+            //'payment_state'       => 'Croatia',
+            'payment_phone'       => $this->customer_info['phone'] ?: null,
+            'payment_email'       => $this->customer_info['email'],
+            'payment_method'      => $this->payment_method->title,
+            'payment_code'        => $this->payment_method->code,
+            'payment_card'        => '',
+            'payment_installment' => '',
+            'shipping_fname'      => $this->customer_info['fname'],
+            'shipping_lname'      => $this->customer_info['lname'],
+            'shipping_address'    => $this->customer_info['address'],
+            'shipping_zip'        => $this->customer_info['zip'],
+            'shipping_city'       => $this->customer_info['city'],
+            //'shipping_state'      => 'Croatia',
+            'shipping_phone'      => $this->customer_info['phone'] ?: null,
+            'shipping_email'      => $this->customer_info['email'],
+            'shipping_method'     => $this->shipping_method->title,
+            'shipping_code'       => $this->shipping_method->code,
+            'company'             => $this->customer_info['company'] ?: '',
+            'oib'                 => $this->customer_info['oib'] ?: '',
+            'comment'             => $this->comment,
+            'updated_at'          => now()
+        ];
+
+        if ($insert) {
+            $response['created_at'] = Carbon::now();
+        }
+
+        return $response;
+    }
+
+
+    /**
      * @param int $order_id
      *
      * @return bool
@@ -337,7 +362,7 @@ class Checkout
 
         // CONDITIONS on Total
         foreach ($this->cart['conditions'] as $name => $condition) {
-            if ($condition->getType() == 'payment') {
+            if ( ! in_array($condition->getType(), ['payment', 'shipping'])) {
                 OrderTotal::query()->insertGetId([
                     'order_id'   => $order_id,
                     'code'       => $condition->getType(),
@@ -353,7 +378,7 @@ class Checkout
         }
 
         // Shipping
-        if (isset($this->shipping_method->data->price) && $this->shipping_method->data->price != '0') {
+        if (isset($this->shipping_method->data->price)) {
             OrderTotal::query()->insertGetId([
                 'order_id'   => $order_id,
                 'code'       => 'shipping',

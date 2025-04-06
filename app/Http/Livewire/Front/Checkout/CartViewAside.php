@@ -13,6 +13,9 @@ use Livewire\Component;
 class CartViewAside extends Component
 {
 
+    /**
+     * @var string[]
+     */
     protected $listeners = ['shippingUpdated', 'paymentUpdated'];
 
     /**
@@ -30,8 +33,14 @@ class CartViewAside extends Component
      */
     public $subtotal;
 
+    /**
+     * @var
+     */
     public $shipping;
 
+    /**
+     * @var
+     */
     public $payment;
 
     /**
@@ -45,6 +54,11 @@ class CartViewAside extends Component
     public $count;
 
 
+    /**
+     * @return void
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function mount()
     {
         if (session()->has('selected_shipping')) {
@@ -57,6 +71,12 @@ class CartViewAside extends Component
     }
 
 
+    /**
+     * @param string $shipping
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
     public function shippingUpdated(string $shipping)
     {
         $this->setCart();
@@ -75,6 +95,12 @@ class CartViewAside extends Component
     }
 
 
+    /**
+     * @param string $payment
+     *
+     * @return void
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
     public function paymentUpdated(string $payment)
     {
         $this->setCart();

@@ -21,7 +21,7 @@ class Cart
     private $cart_id;
 
     /**
-     * @var CartFacade
+     * @var \Darryldecode\Cart\Cart
      */
     private $cart;
 
@@ -139,6 +139,11 @@ class Cart
     }
 
 
+    /**
+     * @param string $coupon
+     *
+     * @return $this
+     */
     public function setCoupon(string $coupon): self
     {
         $this->coupon = $coupon;
