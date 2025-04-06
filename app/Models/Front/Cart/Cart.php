@@ -2,11 +2,7 @@
 
 namespace App\Models\Front\Cart;
 
-use App\Helpers\Helper;
 use App\Models\Front\Catalog\Product;
-use App\Models\Front\Checkout\PaymentMethod;
-use App\Models\Front\Checkout\ShippingMethod;
-use Darryldecode\Cart\CartCondition;
 use Darryldecode\Cart\Facades\CartFacade;
 
 /**
@@ -121,21 +117,13 @@ class Cart
      * @return void
      * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
      */
-    public function setShippingMethod(object|string $shipping_method): self
+    public function setMethod(string $type, object|string $shipping_method): self
     {
-        return $this->setConditionMethod('shipping', 'total', $shipping_method);
-    }
+        $condition = CartCondition::method($type, 'total', $shipping_method);
 
+        $this->resetCartCondition($type, $condition);
 
-    /**
-     * @param object|string $payment_method
-     *
-     * @return $this
-     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
-     */
-    public function setPaymentMethod(object|string $payment_method): self
-    {
-        return $this->setConditionMethod('payment', 'total', $payment_method);
+        return $this;
     }
 
 
@@ -151,12 +139,12 @@ class Cart
         foreach ($this->cart->getContent() as $item) {
             $this->remove($item->id);
 
-            $this->setProduct(
-                Product::query()->find($item->id),
-                $item->quantity
-            );
+            $product = Product::query()->find($item->id);
 
-            $this->store();
+            if ($product) {
+                $this->setProduct($product, $item->quantity)
+                     ->store();
+            }
         }
 
         return $this;
@@ -218,8 +206,7 @@ class Cart
      */
     private function structureCartItem()
     {
-        $condition = $this->structureCartItemConditions();
-        $attributes = $this->structureCartItemAttributes($condition);
+        $condition = CartCondition::setItem($this->product);
 
         $response = [
             'id'              => $this->product->id,
@@ -227,7 +214,7 @@ class Cart
             'price'           => $this->product->price,
             'quantity'        => $this->product_quantity,
             'conditions'      => $condition,
-            'attributes'      => $attributes
+            'attributes'      => CartCondition::setItemAttributes($this->product, $condition)
         ];
 
         return $response;
@@ -235,137 +222,32 @@ class Cart
 
 
     /**
-     * @param CartCondition|null $condition
-     *
-     * @return array
-     */
-    private function structureCartItemAttributes(CartCondition $condition = null)
-    {
-        $tax = $this->product->getTax(true);
-
-        $attr = [
-            'thumb'      => $this->product->thumb,
-            'path'       => $this->product->url,
-            'org_price'  => price($this->product->price, true),
-            'tax'        => [
-                'title' => $tax->title,
-                'rate'  => $tax->rate,
-            ],
-            'tax_amount' => $this->product->getTax(),
-            'action'     => []
-        ];
-
-        if ( ! empty($condition)) {
-            $attr['action'] = [
-                'title'      => $condition->getName(),
-                'discount'   => $condition->getValue(),
-                'price'      => $condition->getAttributes()['price'],
-                'price_text' => $condition->getAttributes()['price_text'],
-            ];
-
-            $attr['tax_amount'] = Helper::calculateTax($condition->getAttributes()['price'], $tax->rate);
-        }
-
-        return $attr;
-    }
-
-
-    /**
-     * @param $product
-     *
-     * @return CartCondition|bool
-     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
-     */
-    private function structureCartItemConditions()
-    {
-        // Ako artikl ima akciju.
-        $action_price = $this->product->special();
-
-        if ($action_price) {
-            $action = $this->product->special(true);
-
-            if ($action && is_array($action)) {
-                $type = 'action';
-                $value = '-' . intval($action['discount']) . '%';
-
-                if ($action['type'] == 'F') {
-                    $value = '-' . intval($action['discount']);
-                }
-
-                if ($action['coupon'] || $action['coupon'] != '') {
-                    $type = 'coupon';
-                }
-
-                return new CartCondition([
-                    'name'       => $action['title'],
-                    'type'       => $type,
-                    'value'      => $value,
-                    'attributes' => [
-                        'discount'   => $action['discount'],
-                        'price'      => $action_price,
-                        'price_text' => price($action_price, true),
-                        'diff'       => $this->product->price - $action_price,
-                    ]
-                ]);
-            }
-        }
-
-        // Ako nema akcije na artiklu.
-        // Ako nije ispravan kupon.
-        return null;
-    }
-
-
-    /**
-     * @param string        $type
-     * @param string        $target
-     * @param object|string $method
+     * @param Product|int $product
+     * @param int         $quantity
      *
      * @return self
-     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
      */
-    private function setConditionMethod(string $type, string $target, object|string $method): self
+    private function setProduct(Product $product, int $quantity): self
     {
-        if (is_string($method)) {
-            if ($type == 'payment') {
-                $method = (new PaymentMethod())->find($method);
-            } elseif ($type == 'shipping') {
-                $method = (new ShippingMethod())->find($method);
-            }
-        }
-
-        if ($method) {
-            $value = $method->data->price ?: 0;
-
-            $condition = new CartCondition([
-                'name' => $method->title,
-                'type' => $type, // payment, shipping, action, sale...
-                'target' => $target, // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $value,
-                'attributes' => [
-                    'description' => $method->data->short_description,
-                    'geo_zone' => $method->geo_zone
-                ]
-            ]);
-
-            $this->cart->removeConditionsByType($type);
-
-            $this->cart->condition($condition);
-        }
+        $this->product = $product;
+        $this->product_quantity = $quantity;
 
         return $this;
     }
 
 
     /**
-     * @param Product|int $product
-     * @param int         $quantity
+     * @param $condition
      *
-     * @return void
+     * @return self
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
      */
-    private function setProduct(Product $product, int $quantity): void
+    private function resetCartCondition(string $type, $condition): self
     {
-        $this->product = $product;
-        $this->product_quantity = $quantity;
+        $this->cart->removeConditionsByType($type);
+
+        $this->cart->condition($condition);
+
+        return $this;
     }
 }

@@ -67,8 +67,6 @@ class CheckoutController extends FrontController
         $ship             = new ShippingMethod();
         $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
 
-        //dd(Reservation::getHoursList());
-
         return view('front.checkout.checkout-shipping', compact('shipping_methods'));
     }
 
@@ -156,8 +154,6 @@ class CheckoutController extends FrontController
         $user                 = $this->resolveUser();
         $payment_methods      = (new PaymentMethod())->findGeo(1)->resolve()->sortBy('sort_order');
 
-        //dd($payment_methods);
-
         return view('front.checkout.checkout-payment', compact('selected_shipping', 'selected_reservation', 'user', 'payment_methods'));
     }
 
@@ -195,15 +191,11 @@ class CheckoutController extends FrontController
         $payment_form = $checkout->recordUnfinishedOrder()
                                  ->resolvePaymentForm();
 
-        //dd($request->all(), session()->all(), $payment_form);
-
         if ( ! $payment_form) {
             return redirect()->route('kosarica');
         }
 
         session()->put('order_id', $checkout->getOrderId());
-
-        //dd($selected_payment);
 
         return view('front.checkout.checkout-final-view', compact('selected_shipping', 'selected_reservation', 'user', 'selected_payment', 'cart', 'payment_form'));
     }

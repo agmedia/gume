@@ -6,7 +6,6 @@ use App\Helpers\Breadcrumb;
 use App\Helpers\Helper;
 use App\Helpers\Query;
 use App\Helpers\RouteResolver;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontController;
 use App\Imports\ProductImport;
 use App\Models\Front\Blog;
@@ -15,16 +14,9 @@ use App\Models\Front\Faq;
 use App\Models\Front\Catalog\Brand;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
-use App\Models\Front\Catalog\Publisher;
 use App\Models\Seo;
-use App\Models\Back\Catalog\Product\ProductAttribute;
-use App\Models\TagManager;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class CatalogRouteController extends FrontController
 {
@@ -139,8 +131,6 @@ class CatalogRouteController extends FrontController
             $data->ids = $ids;
 
             $crumbs = null; $meta = null;
-
-            //dd($data);
 
             return view('front.catalog.category.index', compact('data', 'meta', 'crumbs'));
         }

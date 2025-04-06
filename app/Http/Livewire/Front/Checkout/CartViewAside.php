@@ -88,7 +88,7 @@ class CartViewAside extends Component
         if ($method) {
             session()->put('selected_shipping', $method);
 
-            $this->cart->setShippingMethod($method);
+            $this->cart->setMethod('shipping', $method);
         }
 
         return redirect()->to(request()->server('HTTP_REFERER'));
@@ -112,7 +112,7 @@ class CartViewAside extends Component
         if ($method) {
             session()->put('selected_payment', $method);
 
-            $this->cart->setPaymentMethod($method);
+            $this->cart->setMethod('payment', $method);
         }
 
         //return redirect()->to(request()->server('HTTP_REFERER'));
