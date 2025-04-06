@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Breadcrumb;
 use App\Helpers\Helper;
+use App\Helpers\Query;
 use App\Helpers\RouteResolver;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontController;
@@ -64,41 +65,6 @@ class CatalogRouteController extends FrontController
         $crumbs = (new Breadcrumb())->category($data->group, $data->category, $data->subcategory)->resolve();
 
         return view('front.catalog.category.index', compact('data', 'crumbs', 'meta'));
-    }
-
-
-    /**
-     * @param null $prod
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function resolveOldUrl($prod = null)
-    {
-        if ($prod) {
-            $prod = substr($prod, 0, strrpos($prod, '-'));
-            $prod = Product::where('slug', 'LIKE', $prod . '%')->first();
-
-            if ($prod) {
-                return redirect()->to(url($prod->url), 301);
-            }
-        }
-
-        abort(404);
-    }
-
-
-    /**
-     * @param null $prod
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function resolveOldCategoryUrl(string $group = null, $cat = null, $subcat = null)
-    {
-        if ($group) {
-            return redirect()->route('catalog.route', ['group' => $group, 'cat' => $cat, 'subcat' => $subcat]);
-        }
-
-        abort(404);
     }
 
 
@@ -165,23 +131,18 @@ class CatalogRouteController extends FrontController
                 return redirect()->back()->with(['error' => 'Oops..! Zaboravili ste upisati pojam za pretraživanje..!']);
             }
 
-            $group = null; $cat = null; $subcat = null;
-
-            $ids = Helper::search(
+            $ids = Query::search(
                 $request->input(config('settings.search_keyword'))
             );
 
-            $crumbs = null;
+            $data = new \stdClass();
+            $data->ids = $ids;
 
-            return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'crumbs'));
-        }
+            $crumbs = null; $meta = null;
 
-        if ($request->has(config('settings.search_keyword') . '_api')) {
-            $search = Helper::search(
-                $request->input(config('settings.search_keyword') . '_api')
-            );
+            //dd($data);
 
-            return response()->json($search);
+            return view('front.catalog.category.index', compact('data', 'meta', 'crumbs'));
         }
 
         return response()->json(['error' => 'Greška kod pretrage..! Molimo pokušajte ponovo ili nas kotaktirajte! HVALA...']);

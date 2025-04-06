@@ -200,34 +200,22 @@ class CategoryProductsList extends Component
     /**
      * @param $data
      *
-     * @return Category|\stdClass|null
-     */
-    private function resolveCategoryId($data)
-    {
-        if ($data) {
-            return Category::getById($data->id);
-        }
-
-        $category     = new \stdClass();
-        $category->id = 0;
-
-        return $category;
-    }
-
-
-    /**
-     * @param $data
-     *
      * @return mixed
      */
     private function resolveProducts($data)
     {
         $filter = $this->resolveData($data);
+        //dd($data, $filter);
 
         //return Cache::remember($filter->cacheHash, config('cache.life'), function () use ($category, $filter) {
 
         $products = Product::query()->where('status', 1)
                            ->where('quantity', '>', 0);
+
+        // Search
+        if (isset($filter->ids) && $filter->ids) {
+            $products->whereIn('id', json_decode($filter->ids));
+        }
 
         // Categories
         if ($filter->category->id) {
@@ -290,8 +278,8 @@ class CategoryProductsList extends Component
      */
     private function resolveData($data): \stdClass
     {
-        $data->category    = $this->resolveCategoryId($data->category);
-        $data->subcategory = $this->resolveCategoryId($data->subcategory);
+        $data->category    = $this->resolveCategoryId(isset($data->category) ? $data->category : null);
+        $data->subcategory = $this->resolveCategoryId(isset($data->subcategory) ? $data->subcategory : null);
         $data->sezona      = $this->sezona;
         $data->sirina      = $this->sirina;
         $data->visina      = $this->visina;
@@ -301,7 +289,9 @@ class CategoryProductsList extends Component
         $data->price       = $this->price;
         $data->page        = $this->page;
 
-        $cache_hash = 'products.list' . $data->group
+        //$ids = $data->ids ? hash('crc32', $data->ids) : 0;
+
+        $cache_hash = 'products.list' . (isset($data->group) ? $data->group : '')
                       . $data->category->id
                       . $data->subcategory->id
                       . $data->sezona
@@ -311,11 +301,30 @@ class CategoryProductsList extends Component
                       . $data->brand
                       . $data->sort
                       . $data->price
-                      . $data->page;
+                      . $data->page
+                      /*. $ids*/;
 
         $data->cacheHash = hash('crc32', $cache_hash);
 
         return $data;
+    }
+
+
+    /**
+     * @param $data
+     *
+     * @return Category|\stdClass|null
+     */
+    private function resolveCategoryId($data = null)
+    {
+        if ($data) {
+            return Category::getById($data->id);
+        }
+
+        $category     = new \stdClass();
+        $category->id = 0;
+
+        return $category;
     }
 
 

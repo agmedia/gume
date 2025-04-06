@@ -151,7 +151,7 @@ return [
         'providers' => [
             //'wspay'  => \App\Models\Front\Checkout\Payment\Wspay::class,
             //'payway' => \App\Models\Front\Checkout\Payment\Payway::class,
-            'corvus' => \App\Models\Front\Checkout\Payment\Corvus::class,
+            //'corvus' => \App\Models\Front\Checkout\Payment\Corvus::class,
             'cod'    => \App\Models\Front\Checkout\Payment\Cod::class,
             'bank'   => \App\Models\Front\Checkout\Payment\Bank::class,
             'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
@@ -162,79 +162,7 @@ return [
         0 => 'pages',
         1 => 'categories',
         2 => 'products',
-        3 => 'authors',
-        4 => 'publishers'
+        3 => 'brands',
     ],
-
-    'vrijeme_termina' => [
-        0 => '08:00 - 08:30',
-        1 => '08:30 - 09:00',
-        2 => '09:00 - 09:30',
-        3 => '09:30 - 10:00',
-        4 => '10:00 - 10:30',
-        5 => '10:30 - 11:00',
-        6 => '11:00 - 11:30',
-        7 => '11:30 - 12:00',
-        8 => '12:00 - 12:30',
-        9 => '12:30 - 13:00',
-        10 => '13:00 - 13:30',
-        11 => '13:30 - 14:00',
-        12 => '14:00 - 14:30',
-        13 => '14:30 - 15:00',
-        14 => '15:00 - 15:30',
-        15 => '15:30 - 16:00',
-        16 => '16:00 - 16:30',
-        17 => '16:30 - 17:00',
-        18 => '17:00 - 17:30'
-    ],
-
-
-    'njuskalo' => [
-        'user_id' => '968815',
-        'sync' => [
-            'fantasy' => 15360, //*
-            'djecje-knjige' => 15348,
-            'beletristika' => 9751, //*
-            'proza' => 15358, //* Poezija
-            'sf' => 15369, //*
-            'knjizevnost' => 9753, //*
-            'outlet' => 9760,
-            'duhovne-knjige' => 9754, //*
-            'povijest' => 15387,
-            'autobiografije-i-biografije' => 15363, //
-            'kompleti' => 9760,
-            'alternativne-knjige' => 9760,
-            'savjetnici' => 9760, //*
-            'psihologija' => 15389,
-            'rijetke-knjige' => 9750,
-            'erotske-knjige' => 9760,
-            'nakladnici' => 9760,
-            'knjige-na-stranom-jeziku' => 9760,
-            'religija-i-mitologija' => 9754,
-            'antikvarne-knjige' => 9750,
-            'militarija' => 9760,
-            'kuharice' => 13116,
-            'publicistika' => 9760,
-            'ostala-literatura' => 9760,
-            'strucna-literatura' => 9756,
-            'enciklopedije-i-leksikon' => 9756,
-            'monografije' => 13118,
-            'putopisi' => 9760,
-            'rjecnici' => 13095,
-            'filozofija' => 15380,
-            'poezija' => 15358,
-            'stripovi' => 12408,
-            'wattpad-i-domaci-pisci' => 9760,
-            'nekategorizirane' => 9760,
-            'casopisi' => 15347,
-            'bookmarkeri' => 9760,
-            'fotografija' => 9760,
-            'bojanke-za-odrasle' => 9760,
-            'rokovnici' => 9760,
-            'gift-program' => 9760,
-            'karte' => 9760,
-            'svezalice-pidzame-za-knjige' => 9760
-        ]
-    ]
 
 ];

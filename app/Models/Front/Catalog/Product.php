@@ -105,7 +105,11 @@ class Product extends Model
      */
     public function getImageAttribute($value)
     {
-        return config('settings.images_domain') . str_replace('.jpg', '.webp', $value);
+        if ($value) {
+            return config('settings.images_domain') . str_replace('.jpg', '.webp', $value);
+        }
+
+        return $value;
     }
 
 
@@ -377,10 +381,10 @@ class Product extends Model
             });
         }
 
-        if ($request->has('autor')) {
+        if ($request->has('brand')) {
             $auts = [];
 
-            foreach ($request->input('autor') as $key => $item) {
+            foreach ($request->input('brand') as $key => $item) {
                 if (isset($item->id)) {
                     array_push($auts, $item->id);
                 } else {
@@ -388,21 +392,7 @@ class Product extends Model
                 }
             }
 
-            $query->whereIn('author_id', $auts);
-        }
-
-        if ($request->has('nakladnik')) {
-            $pubs = [];
-
-            foreach ($request->input('nakladnik') as $key => $item) {
-                if (isset($item->id)) {
-                    array_push($pubs, $item->id);
-                } else {
-                    array_push($pubs, $key);
-                }
-            }
-
-            $query->whereIn('publisher_id', $pubs);
+            $query->whereIn('brand_id', $auts);
         }
 
         if ($request->has('start')) {

@@ -4,6 +4,7 @@ namespace App\Models\Front\Catalog;
 
 use App\Helpers\Helper;
 use App\Helpers\ProductHelper;
+use App\Helpers\Query;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -95,34 +96,10 @@ class Brand extends Model
         if ($request['search_brand']) {
             $query->active();
 
-            $query = Helper::searchByTitle($query, $request['search_brand']);
+            $query = Query::searchByTitle($query, $request['search_brand']);
 
         } else {
             $query->active()->featured();
-
-            if ($request['group'] && ! $request['search_brand']) {
-                $query->whereHas('products', function ($query) use ($request) {
-                    $query = ProductHelper::queryCategories($query, $request);
-
-                    if ($request['publisher']) {
-                        if (strpos($request['publisher'], '+') !== false) {
-                            $arr = explode('+', $request['publisher']);
-                            $pubs = Publisher::query()->whereIn('slug', $arr)->pluck('id');
-
-                            $query->whereIn('publisher_id', $pubs);
-                        } else {
-                            $query->where('publisher_id', $request['publisher']);
-                        }
-                    }
-                });
-            }
-
-            if (! $request['group'] && $request['publisher']) {
-                $query->whereHas('products', function ($query) use ($request) {
-                    $query = ProductHelper::queryCategories($query, $request);
-                    $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
-                });
-            }
 
             if (! $request['group'] && $request['ids']) {
                 $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
