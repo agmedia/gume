@@ -202,7 +202,7 @@
                                 <button type="button" class="btn btn-icon btn-lg" data-decrement aria-label="Decrement quantity">
                                     <i class="ci-minus"></i>
                                 </button>
-                                <input type="number" id="input-qty" class="form-control form-control-lg" min="1" value="1" readonly>
+                                <input type="number" id="input-qty" class="form-control form-control-lg" min="1" max="{{ $data->product->quantity }}" value="1" readonly>
                                 <button type="button" class="btn btn-icon btn-lg" data-increment aria-label="Increment quantity">
                                     <i class="ci-plus"></i>
                                 </button>
@@ -329,18 +329,6 @@
                                                 <td>{{$data->product->sezona}} </td>
                                             </tr>
                                         @endif
-
-
-
-
-
-
-
-
-
-
-
-
                                         @foreach($data->product->attributes as $attribute)
 
                                             @if($attribute->attribute->title == 'Informacijski list' )

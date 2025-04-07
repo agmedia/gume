@@ -48,7 +48,7 @@
                                         <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-sm btn-icon" data-decrement aria-label="Decrement quantity">
                                             <i class="ci-minus"></i>
                                         </button>
-                                        <input type="number" class="form-control form-control-sm" value="{{ $item['quantity'] }}" readonly>
+                                        <input type="number" class="form-control form-control-sm" value="{{ $item['quantity'] }}" min="1" max="{{ $item->attributes['available_quantity'] }}" readonly>
                                         <button type="button" wire:click="changeItemQuantity('{{ $item['id'] }}', 1)" class="btn btn-sm btn-icon" data-increment aria-label="Increment quantity">
                                             <i class="ci-plus"></i>
                                         </button>
@@ -62,7 +62,7 @@
                                 <button type="button" wire:click="changeItemQuantity({{ $item['id'] }}, -1)" class="btn btn-icon btn-sm" data-decrement aria-label="Decrement quantity">
                                     <i class="ci-minus"></i>
                                 </button>
-                                <input type="number" class="form-control form-control-sm" value="{{ $item['quantity'] }}" readonly>
+                                <input type="number" class="form-control form-control-sm" value="{{ $item['quantity'] }}" min="1" max="{{ $item->attributes['available_quantity'] }}" readonly>
                                 <button type="button" wire:click="changeItemQuantity('{{ $item['id'] }}', 1)" class="btn btn-icon btn-sm" data-increment aria-label="Increment quantity">
                                     <i class="ci-plus"></i>
                                 </button>

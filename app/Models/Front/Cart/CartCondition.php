@@ -23,7 +23,7 @@ class CartCondition
     public static function set(string $type, string $target, float|string $cart_total, string $coupon = ''): \Darryldecode\Cart\CartCondition
     {
         $condition = null;
-        $actions = ProductAction::query()->where('group', 'total')->active()->get();
+        $actions   = ProductAction::query()->where('group', 'total')->active()->get();
 
         if ($actions->count()) {
             foreach ($actions as $action) {
@@ -63,13 +63,13 @@ class CartCondition
             $value = $method->data->price ?: 0;
 
             return new \Darryldecode\Cart\CartCondition([
-                'name' => $method->title,
-                'type' => $type, // payment, shipping, action, sale...
-                'target' => $target, // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $value,
+                'name'       => $method->title,
+                'type'       => $type, // payment, shipping, action, sale...
+                'target'     => $target, // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value'      => $value,
                 'attributes' => [
                     'description' => $method->data->short_description,
-                    'geo_zone' => $method->geo_zone
+                    'geo_zone'    => $method->geo_zone
                 ]
             ]);
         }
@@ -93,7 +93,7 @@ class CartCondition
             $action = $product->special(true);
 
             if ($action && is_array($action)) {
-                $type = 'action';
+                $type  = 'action';
                 $value = '-' . intval($action['discount']) . '%';
 
                 if ($action['type'] == 'F') {
@@ -135,15 +135,16 @@ class CartCondition
         $tax = $product->getTax(true);
 
         $attr = [
-            'thumb'      => $product->thumb,
-            'path'       => $product->url,
-            'org_price'  => price($product->price, true),
-            'tax'        => [
+            'thumb'              => $product->thumb,
+            'path'               => $product->url,
+            'available_quantity' => $product->quantity,
+            'org_price'          => price($product->price, true),
+            'tax'                => [
                 'title' => $tax->title,
                 'rate'  => $tax->rate,
             ],
-            'tax_amount' => $product->getTax(),
-            'action'     => []
+            'tax_amount'         => $product->getTax(),
+            'action'             => []
         ];
 
         if ( ! empty($condition)) {
@@ -160,10 +161,11 @@ class CartCondition
         return $attr;
     }
 
+
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     private static function setAction(string $type, string $target, float|string $cart_total, ProductAction $action, string $coupon = '')
     {

@@ -70,11 +70,18 @@ class Cart extends Component
     {
         $this->setCart();
 
+        $items = $this->getItems();
         $product = Product::query()->find($product_id);
 
-        $this->cart->add($product, $quantity);
+        foreach ($items as $item) {
+            if ($item['id'] == $product_id) {
+                if (($item['quantity'] + $quantity) <= $product->quantity) {
+                    $this->cart->add($product, $quantity);
 
-        $this->emit('updateCartNavIcon', $this->cart->get()['count']);
+                    $this->emit('updateCartNavIcon', $this->cart->get()['count']);
+                }
+            }
+        }
     }
 
 
@@ -104,15 +111,6 @@ class Cart extends Component
     private function setCart()
     {
         $this->cart = CartSession::resolve();
-    }
-
-
-    /**
-     * @return void
-     */
-    private function updateNavIcon()
-    {
-        $this->emit('updateCartNavIcon', $this->cart->get()['count']);
     }
 
 
