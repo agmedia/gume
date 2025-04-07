@@ -119,7 +119,7 @@ class Cart
      */
     public function setMethod(string $type, object|string $shipping_method): self
     {
-        $condition = CartCondition::method($type, 'total', $shipping_method);
+        $condition = CartCondition::setMethod($type, 'total', $shipping_method);
 
         $this->resetCartCondition($type, $condition);
 
