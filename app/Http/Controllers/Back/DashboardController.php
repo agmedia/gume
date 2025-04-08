@@ -250,13 +250,14 @@ class DashboardController extends Controller
             $cat = (string) $item->category;
 
             if (strpos($cat, $sync_cat) !== false) {
-                $exist = Product::query()->where('sku', (string) $item->product_code)->first();
+                $sku = (string) $item->product_code;
+                $exist = Product::query()->where('sku', $sku)->first();
 
                 if ( ! $exist) {
                     $product_id = Product::insertGetId([
                         'brand_id'         => 0,
                         'action_id'        => 0,
-                        'sku'              => (string) $item->product_code,
+                        'sku'              => $sku,
                         'ean'              => !empty((string) $item->ean) ? (string) $item->ean : '',
                         'name'             => (string) $item->product_name,
                         'description'      => (string) $item->description,
