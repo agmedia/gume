@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('brand_id')->unsigned()->default(0);
             $table->bigInteger('action_id')->unsigned()->default(0);
-            $table->string('sku', 14)->default(0)->index();
+            $table->string('sku', 32)->default(0)->index();
             $table->string('ean', 14)->nullable();
             $table->string('name')->index();
             $table->text('description')->nullable();
