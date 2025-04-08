@@ -241,7 +241,7 @@ class DashboardController extends Controller
         $subcategory = 25;
         $sync_cat = 'Ljetna guma za osobna vozila';
         //
-        $xml = simplexml_load_file(public_path('assets/inter.xml'));
+        $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
         $import = new Import();
         $count  = 0;
 
@@ -333,7 +333,7 @@ class DashboardController extends Controller
 
                         $count++;
 
-                        if ($count > 200) {
+                        if ($count > 500) {
                             return redirect()->route('dashboard');
                         }
                     }
