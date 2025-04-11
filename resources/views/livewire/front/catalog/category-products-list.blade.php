@@ -6,7 +6,9 @@
                 <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                     <select class="form-select rounded-pill" wire:model="sezona" wire:change="dropdownFilterSelected('sezona', $event.target.value)" data-placeholder="Sezona" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Sezona">
                         @foreach ($sezone as $item)
+                            @if($item !='')
                             <option value="{{ $item['key'] }}" @if($item['key'] == $sezona) selected @endif>{{ $item['title'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -15,8 +17,9 @@
                         <option value="">Širina</option>
                         @foreach ($sirine as $item)
                             @if($item !='')
-                            @endif
+
                             <option value="{{ $item }}" @if($item == $sirina) selected @endif>{{ $item }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
