@@ -182,7 +182,7 @@ class Brand extends Model
     public static function getSelectList(string $key = 'id')
     {
         return Helper::resolveCache('brands')->remember('list' . $key, config('cache.life'), function () use ($key) {
-            return Brand::query()->where('status', 1)->orderBy('sort_order')->pluck('title', $key)->toArray();
+            return Brand::query()->where('status', 1)->orderBy('slug')->pluck('title', $key)->toArray();
         });
     }
 

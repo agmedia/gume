@@ -14,6 +14,8 @@
                     <select class="form-select rounded-pill" wire:model="sirina" wire:change="dropdownFilterSelected('sirina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Širina">
                         <option value="">Širina</option>
                         @foreach ($sirine as $item)
+                            @if($item !='')
+                            @endif
                             <option value="{{ $item }}" @if($item == $sirina) selected @endif>{{ $item }}</option>
                         @endforeach
                     </select>
@@ -31,14 +33,18 @@
                 <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                     <select class="form-select rounded-pill" wire:model="promjer" wire:change="dropdownFilterSelected('promjer', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Promjer" data-placeholder="Promjer">
                         @foreach ($promjeri as $item)
+                            @if($item !='')
                             <option value="{{ $item }}" @if($item == $promjer) selected @endif>{{ $item }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
                 <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                     <select class="form-select rounded-pill" wire:model="sort" wire:change="dropdownFilterSelected('sort', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Sortiraj" data-placeholder="Sortiraj">
                         @foreach ($sorting_list as $item)
+                            @if($item !='')
                             <option value="{{ $item['value'] }}" @if($item['value'] == $sort) selected @endif>{{ $item['title'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -55,7 +61,6 @@
 
     <!-- Shop filters offcanvas -->
     <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shopFilters" tabindex="-1" aria-labelledby="shopFiltersLabel">
-
         <!-- Header -->
         <div class="offcanvas-header py-3">
             <h5 class="offcanvas-title" id="shopFiltersLabel">Filteri</h5>
@@ -65,7 +70,6 @@
         <!-- Body -->
         <div class="offcanvas-body pt-0">
             <div class="accordion" id="filters">
-
                 <!-- Category filter -->
                 <div class="accordion-item">
                     <h6 class="accordion-header" id="headingCategory">

@@ -136,6 +136,9 @@ class CategoryProductsList extends Component
         $this->sorting_list = ProductHelper::getSortingList();
         //
         $this->brands = Brand::getSelectList('slug');
+
+
+
         //dd($this->brands);
     }
 
