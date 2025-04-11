@@ -188,19 +188,14 @@
                     <span class="d-block animate-target fw-bolder text-nowrap ms-1">NAPLATCI / FELGE</span>
                 </a>
 
-                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => 'moto-gume']) }}">
+                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => 'moto-i-scooter-gume']) }}">
               <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
                        <img src="{{ asset('assets/images/motogume.png') }}" width="35" alt="Image">
               </span>
-                    <span class="d-block animate-target fw-bolder text-nowrap ms-1">MOTO GUME</span>
+                    <span class="d-block animate-target fw-bolder text-nowrap ms-1">MOTO I GUME Za SCOOTER</span>
                 </a>
 
-                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => 'scooter-gume']) }}">
-              <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
-               <img src="{{ asset('assets/images/scootergume.png') }}" width="35" alt="Image">
-              </span>
-                    <span class="d-block animate-target fw-bolder text-nowrap ms-1">SCOOTER GUME</span>
-                </a>
+
 
                 <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => '']) }}">
               <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
