@@ -238,8 +238,8 @@ class DashboardController extends Controller
     public function importInter(Request $request)
     {
         $category = 12;
-        $subcategory = 39;
-        $sync_cat = 'Metlica brisača';
+        $subcategory = 40;
+        $sync_cat = 'Akumulator za osobna vozila';
         //gume
         //$xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
         //dijelovi
