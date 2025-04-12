@@ -4,11 +4,9 @@
         <div class="row align-items-center pt-1">
             <div class="col-12 d-md-flex d-block gap-2">
                 <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
-                    <select class="form-select rounded-pill" wire:model="sezona" wire:change="dropdownFilterSelected('sezona', $event.target.value)" data-placeholder="Sezona" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Sezona">
-                        @foreach ($sezone as $item)
-                            @if($item !='')
-                            <option value="{{ $item['key'] }}" @if($item['key'] == $sezona) selected @endif>{{ $item['title'] }}</option>
-                            @endif
+                    <select class="form-select rounded-pill" wire:model="brand" wire:change="dropdownFilterSelected('brand', $event.target.value)" data-placeholder="Brand" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Brand">
+                        @foreach ($brands as $slug => $title)
+                            <option value="{{ $slug }}" @if($slug == $brand) selected @endif>{{ $title }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -52,12 +50,12 @@
                     </select>
                 </div>
                 <!-- All filters offcanvas toggle -->
-                <nav class="nav">
+             <!--   <nav class="nav">
                     <a class="nav-link animate-underline px-2" href="#shopFilters" data-bs-toggle="offcanvas" aria-controls="shopFilters">
                         <i class="ci-filter me-1"></i>
                         <span class="animate-target text-nowrap">Svi filteri</span>
                     </a>
-                </nav>
+                </nav>-->
             </div>
         </div>
     </div>
