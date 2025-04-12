@@ -71,7 +71,7 @@
 
                     <section class="py-2 mb-0">
                         <div class="overflow-auto" data-simplebar>
-                            <div class="nav flex-nowrap justify-content-between gap-1 py-2 ">
+                            <div class="nav flex-nowrap  gap-1 py-2 ">
                                     @foreach ($data->category->subcategories()->get() as $item)
 
                                         <a href=" {{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]). '/'. $item->slug }}"
