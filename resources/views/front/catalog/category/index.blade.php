@@ -55,10 +55,38 @@
             @endif
             @if ($data->category && ! $data->subcategory)
                 <h1 class="h3 position-relative pb-0" >{{ $data->category->title }}</h1>
+
+
             @elseif ($data->category && $data->subcategory)
                 <h1 class="h3 position-relative pb-0" >{{ $data->subcategory->title }}</h1>
             @endif
         @endif
+
+
+
+            @if ($data->category && ! $data->subcategory)
+
+                @if ($data->category->subcategories()->count())
+
+
+                    <section class="py-2 mb-0">
+                        <div class="overflow-auto" data-simplebar>
+                            <div class="nav flex-nowrap justify-content-between gap-1 py-2 ">
+                                    @foreach ($data->category->subcategories()->get() as $item)
+
+                                        <a href=" {{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]). '/'. $item->slug }}"
+                                           class="btn btn-dark btn-sm mb-2">
+                                            <p class=" py-0 mb-0 px-1">{{ $item->title }}</p></a>
+                                    @endforeach
+                                </div>
+                            </div>
+
+
+                    </section>
+
+                @endif
+
+            @endif
 
             @livewire('front.catalog.category-products-list', ['route_data' => json_encode($data)])
     </div>

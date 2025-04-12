@@ -39,12 +39,12 @@
             <hr>
 
             <div class="accordion-item border-0">
-                <div class="accordion-header" id="headingPages6">
-                    <button type="button" class="accordion-button animate-underline fw-medium collapsed py-2" data-bs-toggle="collapse" data-bs-target="#pages6" aria-expanded="false" aria-controls="pages6">
+                <div class="accordion-header" id="headingPages6000">
+                    <button type="button" class="accordion-button animate-underline fw-medium collapsed py-2" data-bs-toggle="collapse" data-bs-target="#pages6000" aria-expanded="false" aria-controls="pages6000">
                         <span class="d-block animate-target py-1">Informacije</span>
                     </button>
                 </div>
-                <div class="accordion-collapse collapse" id="pages6" aria-labelledby="headingPages6" data-bs-parent="#navigation">
+                <div class="accordion-collapse collapse" id="pages6000" aria-labelledby="headingPages6000" data-bs-parent="#navigation">
                     <div class="accordion-body pb-3">
                         <ul class="dropdown-menu show position-static shadow-none">
                             @foreach ($uvjeti_kupnje as $page)
