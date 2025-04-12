@@ -47,9 +47,12 @@ class CatalogRouteController extends FrontController
             $data->product->increment('viewed', 1);
 
             $meta = Seo::getProductData($prod);
+
+            $related_products = Product::where('featured', '1')->get();
+
             $crumbs = (new Breadcrumb())->product($data->group, $data->category, $data->subcategory, $data->product)->resolve();
 
-            return view('front.catalog.product.index', compact('data', 'meta', 'crumbs'));
+            return view('front.catalog.product.index', compact('data', 'meta', 'crumbs','related_products'));
         }
 
         // Nastavi sa prikazom kategorije sa listom proizvoda.

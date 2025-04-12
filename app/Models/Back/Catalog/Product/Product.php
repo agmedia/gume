@@ -278,7 +278,7 @@ class Product extends Model
             'sezona'           => $this->request->sezona,
             'viewed'           => 0,
             'sort_order'       => 0,
-            'featured'         => 0,
+            'featured'         => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
             'updated_at'       => Carbon::now()
         ];

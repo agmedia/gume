@@ -307,9 +307,9 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeTopPonuda(Builder $query, $count = 12): Builder
+    public function scopeFeatured(Builder $query, $count = 12): Builder
     {
-        return $query->where('status', 1)->where('topponuda', 1)->orderBy('updated_at', 'desc')->limit($count);
+        return $query->where('status', 1)->where('featured', 1)->orderBy('updated_at', 'desc')->limit($count);
     }
 
 

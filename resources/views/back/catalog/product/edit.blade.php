@@ -38,7 +38,16 @@
                     <a class="btn btn-light" href="{{ route('products') }}">
                         <i class="fa fa-arrow-left mr-1"></i> Povratak
                     </a>
+
+
                     <div class="block-options">
+
+                         <div class="dropdown">
+                            <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
+                                <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured"{{ (isset($product->featured) and $product->featured) ? 'checked' : '' }}>
+                                <label class="custom-control-label pt-1" for="featured-switch">Izdvojeno</label>
+                            </div>
+                        </div>
                         <div class="dropdown">
                             <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
                                 <input type="checkbox" class="custom-control-input" id="product-switch" name="status"{{ (isset($product->status) and $product->status) ? 'checked' : '' }}>
@@ -46,6 +55,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
