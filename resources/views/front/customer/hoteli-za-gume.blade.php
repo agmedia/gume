@@ -76,6 +76,85 @@
 
                                     <td colspan="2"><p><strong>Napomena</strong></p>{!! $hotel->comment !!} </td>
                                 </tr>
+
+
+
+
+                                </tbody>
+                            </table>
+
+
+                            <table class="table table-bordered border-white" >
+                                <tbody>
+                                <tr>
+                                    <td colspan="3" style="vertical-align: middle;">
+                                <h5>Stanje guma</h5>
+                                <span class="badge bg-success fs-md">Odlično</span> <span class="badge bg-warning fs-md">Srednje</span> <span class="badge bg-danger fs-md">Loše / oštećeno</span>
+                                    </td>
+                                </tr>
+
+
+
+                                <tr>
+                                    <td style="vertical-align: middle;">
+                                        @if($hotel->condition_lp == 'Odlično')
+                                             <span class="badge bg-success fs-md">Lijeva prednja</span>
+                                        @elseif($hotel->condition_lp == 'Srednje')
+                                            <span class="badge bg-warning fs-md">Lijeva prednja</span>
+                                        @elseif($hotel->condition_lp ='Loše/oštećeno')
+                                            <span class="badge bg-danger fs-md">Lijeva prednja</span>
+                                        @else
+                                            <span class="badge bg-secondary fs-md">Nije upisano</span>
+                                        @endif
+
+                                    </td>
+                                    <td  style="vertical-align: middle;text-align:center" rowspan="3" >
+                                        <img src="{{ asset('media/img/auto-tlocrt.jpg') }}" style="max-width:250px"/></td>
+                                    <td style="vertical-align: middle;">
+                                        @if($hotel->condition_dp == 'Odlično')
+                                            <span class="badge bg-success fs-md">Desna prednja</span>
+                                        @elseif($hotel->condition_dp == 'Srednje')
+                                            <span class="badge bg-warning fs-md">Desna prednja</span>
+                                        @elseif($hotel->condition_dp == 'Loše/oštećeno')
+                                            <span class="badge bg-danger fs-md">Desna prednja</span>
+                                        @else
+                                            <span class="badge bg-secondary fs-md">Nije upisano</span>
+                                        @endif
+
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="vertical-align: middle;">
+
+                                        @if($hotel->condition_lz == 'Odlično')
+                                            <span class="badge bg-success fs-md">Lijeva zadnja</span>
+                                        @elseif($hotel->condition_lz == 'Srednje')
+                                            <span class="badge bg-warning fs-md">Lijeva zadnja</span>
+                                        @elseif($hotel->condition_lz == 'Loše/oštećeno')
+                                            <span class="badge bg-danger fs-md">Lijeva zadnja</span>
+                                        @else
+                                            <span class="badge bg-secondary fs-md">Nije upisano</span>
+                                        @endif
+
+
+                                    </td>
+                                    <td style="vertical-align: middle;">
+
+                                        @if($hotel->condition_dz == 'Odlično')
+                                            <span class="badge bg-success fs-md">Desna zadnja</span>
+                                        @elseif($hotel->condition_dz == 'Srednje')
+                                            <span class="badge bg-warning fs-md">Desna zadnja</span>
+                                        @elseif($hotel->condition_dz == 'Loše/oštećeno')
+                                            <span class="badge bg-danger fs-md">Desna zadnja</span>
+                                        @else
+                                            <span class="badge bg-secondary fs-md">Nije upisano</span>
+                                        @endif
+
+
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
