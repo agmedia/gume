@@ -1,4 +1,4 @@
-<footer class="footer position-relative bg-dark border-top">
+<footer class="footer position-relative bg-dark ">
     <span class="position-absolute top-0 start-0 w-100 h-100 bg-body d-none d-block-dark"></span>
     <div class="container position-relative z-1 pt-sm-2 pt-md-3 pt-lg-4" data-bs-theme="dark">
 
@@ -14,16 +14,8 @@
 
                     </h4>
                     <p class="text-body fs-lg text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4"><span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="tel:+38515613930">+385 1 561 3930</a></span></p>
-                    <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">
-                        <strong>Adresa</strong> <br>Severinska 4
-                        10000 Zagreb </p>
-                    <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">
-                        <strong> Radno vrijeme</strong><br>
-                        Ponedjeljak - petak: 08:00 - 18:00<br>
-                        Subota: 08:00 - 13:00
-                    </p>
 
-                    <div class="d-flex gap-3 mt-2">
+                  <!--  <div class="d-flex gap-3 mt-2">
                         <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Instagram">
                             <i class="ci-instagram fs-base"></i>
                         </a>
@@ -36,10 +28,28 @@
                         <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Telegram">
                             <i class="ci-telegram fs-base"></i>
                         </a>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="col-md-8">
                     <div class="row row-cols-1 row-cols-sm-3 gx-3 gx-md-4">
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="customerHeading">
+                                <span class="text-dark-emphasis d-none d-sm-block">Radionica</span>
+                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#customerLinks" aria-expanded="false" aria-controls="customerLinks">Radionica</button>
+                            </h6>
+                            <div class="accordion-collapse collapse d-sm-block" id="customerLinks" aria-labelledby="customerHeading" data-bs-parent="#footerLinks">
+
+                                <p class="text-body mt-3 fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">
+                                    <strong>Adresa</strong> <br>Severinska 4
+                                    10000 Zagreb </p>
+                                <p class="text-body fs-sm text-sm-end text-md-start mb-sm-0 mb-md-3 ms-0 ms-sm-auto ms-md-0 me-4">
+                                    <strong> Radno vrijeme</strong><br>
+                                    Ponedjeljak - petak: 08:00 - 18:00<br>
+                                    Subota: 08:00 - 13:00
+                                </p>
+                            </div>
+                            <hr class="d-sm-none my-0">
+                        </div>
                         <div class="accordion-item col border-0">
                             <h6 class="accordion-header" id="companyHeading">
                                 <span class="text-dark-emphasis d-none d-sm-block">Informacije</span>
@@ -48,11 +58,11 @@
                             <div class="accordion-collapse collapse d-sm-block" id="companyLinks" aria-labelledby="companyHeading" data-bs-parent="#footerLinks">
                                 <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">O nama</a>
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="info/o-nama">O nama</a>
                                     </li>
 
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Montažni partneri</a>
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="info/montazni-partneri">Montažni partneri</a>
                                     </li>
                                     <li class="d-flex w-100 pt-1">
                                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('faq') }}">Česta pitanja</a>
@@ -81,35 +91,7 @@
                             </div>
                             <hr class="d-sm-none my-0">
                         </div>
-                        <div class="accordion-item col border-0">
-                            <h6 class="accordion-header" id="customerHeading">
-                                <span class="text-dark-emphasis d-none d-sm-block">Web shop</span>
-                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#customerLinks" aria-expanded="false" aria-controls="customerLinks">Web shop</button>
-                            </h6>
-                            <div class="accordion-collapse collapse d-sm-block" id="customerLinks" aria-labelledby="customerHeading" data-bs-parent="#footerLinks">
-                                <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Auto gume</a>
-                                    </li>
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Naplatci / Felge</a>
-                                    </li>
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Moto gume</a>
-                                    </li>
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Scooter gume</a>
-                                    </li>
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Hotel za gume - B2C</a>
-                                    </li>
-                                    <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="#!">Dodatna oprema</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <hr class="d-sm-none my-0">
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -120,22 +102,10 @@
 
         <!-- Copyright + Payment methods -->
         <div class="d-md-flex align-items-center border-top py-4">
-            <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
-                <div>
-                    <img src="{{ asset('assets/img/payment-methods/visa-dark-mode.svg') }}" alt="Visa">
-                </div>
-                <div>
-                    <img src="{{ asset('assets/img/payment-methods/mastercard.svg') }}" alt="Mastercard">
-                </div>
-                <div>
-                    <img src="{{ asset('assets/img/payment-methods/maestro.svg') }}" alt="Maestro">
-                </div>
-                <div>
-                    <img src="{{ asset('assets/img/payment-methods/amex.svg') }}" alt="Amex">
-                </div>
-
+            <div class="d-flex gap-2 fs-xs gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
+                Web by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://www.agmedia.hr" target="_blank" rel="noreferrer">AG media</a></span>
             </div>
-            <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; Sva prava pridržana. Web by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://www.agmedia.hr" target="_blank" rel="noreferrer">AG media</a></span></p>
+            <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; Sva prava pridržana. </p>
         </div>
     </div>
 </footer>
