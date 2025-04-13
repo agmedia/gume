@@ -58,11 +58,11 @@
                             <div class="accordion-collapse collapse d-sm-block" id="companyLinks" aria-labelledby="companyHeading" data-bs-parent="#footerLinks">
                                 <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="info/o-nama">O nama</a>
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ env('APP_URL')}}info/o-nama">O nama</a>
                                     </li>
 
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="info/montazni-partneri">Montažni partneri</a>
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ env('APP_URL')}}info/montazni-partneri">Montažni partneri</a>
                                     </li>
                                     <li class="d-flex w-100 pt-1">
                                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('faq') }}">Česta pitanja</a>
