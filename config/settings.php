@@ -17,8 +17,8 @@ return [
     'free_shipping' => 700,
 
     'pagination' => [
-        'front' => 30,
-        'back'  => 30
+        'front' => 60,
+        'back'  => 60
     ],
 
     'search_keyword'    => 'pojam',
