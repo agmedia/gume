@@ -29,7 +29,7 @@
             </h3>
             <div class="d-flex align-items-center justify-content-between">
 
-                <div class="d-flex align-items-center  mb-0">
+
                     @if($product->iskoristivost and $product->prijanjanje and $product->buka)
                         <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{$product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $product->buka }} </span> </p>
                     @endif
