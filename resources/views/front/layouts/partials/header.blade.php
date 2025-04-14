@@ -93,7 +93,7 @@
         <!-- Search bar visible on screens > 768px wide (md breakpoint) -->
         <div class="position-relative w-100 d-none d-md-block me-3 me-xl-4">
             <form action="{{ route('pretrazi') }}" id="search-form" method="get">
-                <input type="search" class="form-control form-control-lg rounded-pill" placeholder="Primjer upisa 195/65 R15" aria-label="Search" name="{{ config('settings.search_keyword') }}" value="{{ request()->query('pojam') ?: '' }}">
+                <input type="search" class="form-control form-control-lg rounded-pill" placeholder="Primjer upisa 195/65R15" aria-label="Search" name="{{ config('settings.search_keyword') }}" value="{{ request()->query('pojam') ?: '' }}">
                 <button type="submit" class="btn btn-icon btn-ghost fs-lg btn-secondary text-bo border-0 position-absolute top-0 end-0 rounded-circle mt-1 me-1" aria-label="Search button">
                     <i class="ci-search"></i>
                 </button>
