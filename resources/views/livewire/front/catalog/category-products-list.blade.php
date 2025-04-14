@@ -286,7 +286,7 @@
 
                                 <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
                                     <i class="ci-check-circle fs-base me-2"></i>
-                                    DNedostupno: {{$product->quantity}}
+                                    Nedostupno: {{$product->quantity}}
                                 </div>
 
                             @endif

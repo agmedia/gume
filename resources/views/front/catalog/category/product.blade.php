@@ -29,23 +29,24 @@
             </h3>
             <div class="d-flex align-items-center justify-content-between">
 
-                @if($data->product->quantity > 0)
+                <div class="d-flex align-items-center  mb-0">
+                    @if($product->iskoristivost and $product->prijanjanje and $product->buka)
+                        <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{$product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $product->buka }} </span> </p>
+                    @endif
+                </div>
+
+                @if($product->quantity > 0)
                     <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
                         <i class="ci-check-circle fs-base me-2"></i>
-                        Dostupno: {{$data->product->quantity}}
+                        Dostupno: {{$product->quantity}}
                     </div>
                 @else
 
                     <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
                         <i class="ci-check-circle fs-base me-2"></i>
-                        Nedostupno: {{$data->product->quantity}}
+                        Nedostupno: {{$product->quantity}}
                     </div>
 
-                @endif
-
-
-                @if($data->product->iskoristivost and $data->product->prijanjanje and $data->product->buka)
-                    <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{ $data->product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $data->product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $data->product->buka }} </span> </p>
                 @endif
 
                 @if ($product->main_price > $product->main_special)
