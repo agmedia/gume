@@ -214,7 +214,7 @@ class ProductHelper
      */
     public static function getVisineList($data): Collection
     {
-        return Cache::remember('products.visine', config('cache.life'), function () use ($data) {
+        return Cache::remember(self::getCacheHash($data, 'visine'), config('cache.life'), function () use ($data) {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
                 $query->where('category_id', $data->category->id);
             })->groupBy('visina')->orderBy('visina')->pluck('visina');
@@ -227,7 +227,7 @@ class ProductHelper
      */
     public static function getPromjeriList($data): Collection
     {
-        return Cache::remember('products.promjeri', config('cache.life'),function () use ($data) {
+        return Cache::remember(self::getCacheHash($data, 'promjeri'), config('cache.life'),function () use ($data) {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
                 $query->where('category_id', $data->category->id);
             })->groupBy('promjer')->orderBy('promjer')->pluck('promjer');

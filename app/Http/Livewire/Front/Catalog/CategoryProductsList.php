@@ -210,7 +210,7 @@ class CategoryProductsList extends Component
         $filter = $this->resolveData($data);
         //dd($data, $filter);
 
-        //return Cache::remember($filter->cacheHash, config('cache.life'), function () use ($category, $filter) {
+        return Cache::remember($filter->cacheHash, config('cache.life'), function () use ($filter) {
 
         $products = Product::query()->where('status', 1)
                            ->where('quantity', '>', 0);
@@ -270,7 +270,7 @@ class CategoryProductsList extends Component
 
         return $products->paginate(config('settings.pagination.front'));
 
-        //});
+        });
     }
 
 
