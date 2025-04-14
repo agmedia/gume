@@ -171,7 +171,11 @@
 
                         <p class="fs-sm fw-normal mb-0">{{ $data->product->namjena }}</p>
 
+
+                        @if($data->product->sirina and $data->product->visina and $data->product->promjer)
                         <p><strong>{{ $data->product->sirina }}/{{ $data->product->visina }}  {{ $data->product->promjer }} {{ $data->product->nosivnost }}</strong></p>
+
+                        @endif
 
                         @if($data->product->quantity > 0)
                         <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
