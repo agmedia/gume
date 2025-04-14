@@ -203,7 +203,7 @@ class ProductHelper
     {
         return Cache::remember('products.sirine', config('cache.life'), function () use ($data) {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
-                $query->where('category_id', $data->category);
+                $query->where('category_id', $data->category->id);
             })->groupBy('sirina')->orderBy('sirina')->pluck('sirina');
         });
     }
@@ -215,7 +215,9 @@ class ProductHelper
     public static function getVisineList(): Collection
     {
         return Cache::remember('products.visine', config('cache.life'), function () {
-            return Product::query()->groupBy('visina')->orderBy('visina')->pluck('visina');
+            return Product::query()->whereHas('categories', function ($query) use ($data) {
+                $query->where('category_id', $data->category->id);
+            })->groupBy('visina')->orderBy('visina')->pluck('visina');
         });
     }
 
@@ -226,7 +228,9 @@ class ProductHelper
     public static function getPromjeriList(): Collection
     {
         return Cache::remember('products.promjeri', config('cache.life'), function () {
-            return Product::query()->groupBy('promjer')->orderBy('promjer')->pluck('promjer');
+            return Product::query()->whereHas('categories', function ($query) use ($data) {
+                $query->where('category_id', $data->category->id);
+            })->groupBy('promjer')->orderBy('promjer')->pluck('promjer');
         });
     }
 

@@ -34,8 +34,8 @@
                     <div class="row row-cols-1 row-cols-sm-3 gx-3 gx-md-4">
                         <div class="accordion-item col border-0">
                             <h6 class="accordion-header" id="customerHeading">
-                                <span class="text-dark-emphasis d-none d-sm-block">Radionica</span>
-                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#customerLinks" aria-expanded="false" aria-controls="customerLinks">Radionica</button>
+                                <span class="text-dark-emphasis d-none d-sm-block">Lokacija</span>
+                                <button type="button" class="accordion-button collapsed py-3 d-sm-none" data-bs-toggle="collapse" data-bs-target="#customerLinks" aria-expanded="false" aria-controls="customerLinks">Lokacija</button>
                             </h6>
                             <div class="accordion-collapse collapse d-sm-block" id="customerLinks" aria-labelledby="customerHeading" data-bs-parent="#footerLinks">
 
