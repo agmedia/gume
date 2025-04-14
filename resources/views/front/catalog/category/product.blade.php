@@ -27,27 +27,29 @@
                     <span class="animate-target">{{ $product->name }}</span>
                 </a>
             </h3>
+
+            <div class="d-flex align-items-center  mb-0">
+                @if($product->iskoristivost and $product->prijanjanje and $product->buka)
+                    <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{$product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $product->buka }} </span> </p>
+                @endif
+            </div>
+
+            @if($product->quantity > 0)
+                <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
+                    <i class="ci-check-circle fs-base me-2"></i>
+                    Dostupno: {{$product->quantity}}
+                </div>
+            @else
+
+                <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
+                    <i class="ci-check-circle fs-base me-2"></i>
+                    Nedostupno: {{$product->quantity}}
+                </div>
+
+            @endif
             <div class="d-flex align-items-center justify-content-between">
 
 
-                    @if($product->iskoristivost and $product->prijanjanje and $product->buka)
-                        <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{$product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $product->buka }} </span> </p>
-                    @endif
-                </div>
-
-                @if($product->quantity > 0)
-                    <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
-                        <i class="ci-check-circle fs-base me-2"></i>
-                        Dostupno: {{$product->quantity}}
-                    </div>
-                @else
-
-                    <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
-                        <i class="ci-check-circle fs-base me-2"></i>
-                        Nedostupno: {{$product->quantity}}
-                    </div>
-
-                @endif
 
                 @if ($product->main_price > $product->main_special)
                     <div class="h5 lh-1 mb-0">{{ $product->main_special_text }}  <del class="text-body-tertiary fs-sm fw-normal">{{ $product->main_price_text }}</del></div>
