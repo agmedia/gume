@@ -56,7 +56,7 @@
                 <h1 class="h3 position-relative pb-0" >{{ $data->subcategory->title }}</h1>
             @endif
         @endif
-            @if ($data->category && ! $data->subcategory)
+            @if ($data->category )
                 @if ($data->category->subcategories()->count())
                     <section class="py-2 mb-0">
                         <div class="overflow-auto" data-simplebar>
