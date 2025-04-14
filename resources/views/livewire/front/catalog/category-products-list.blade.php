@@ -247,7 +247,7 @@
         </div>
     </div>
 
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 0 gy-4" id="productGrid">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5  g-2 g-lg-3" id="productGrid">
         <!-- Toolbar-->
         @foreach($products as $product)
           {{-- dd($product->toArray()) --}}

@@ -25,9 +25,9 @@
         </button>
 
         <!-- Slider -->
-        <div class="swiper pt-3 pt-sm-4" data-swiper='{
+        <div class="swiper pt-3 pt-sm-4 " data-swiper='{
             "slidesPerView": 2,
-            "spaceBetween": 20,
+            "spaceBetween": 10,
             "loop": true,
             "navigation": {
               "prevEl": ".popular-prev{{ str_replace(' ', '', $data['title']) }}",
@@ -35,13 +35,16 @@
             },
             "breakpoints": {
               "768": {
-                "slidesPerView": 3
+                "slidesPerView": 3,
+                 "spaceBetween": 10
               },
               "992": {
-                "slidesPerView": 4
+                "slidesPerView": 4,
+                   "spaceBetween": 20
               },
               "1280": {
-                "slidesPerView": 5
+                "slidesPerView": 5,
+                  "spaceBetween": 20
               }
             }
           }'>
