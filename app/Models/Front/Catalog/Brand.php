@@ -182,11 +182,25 @@ class Brand extends Model
     public static function getSelectList(string $key = 'id', $data)
     {
         return Helper::resolveCache('brands')->remember('list' . $key, config('cache.life'), function () use ($key, $data) {
-            return Brand::query()->where('status', 1)->whereHas('products', function ($query) use ($data) {
-                $query->whereHas('categories', function ($query) use ($data) {
-                    $query->where('category_id', $data->category->id);
+            $query = (new Brand())->newQuery();
+
+            if ($data->category) {
+                $query->whereHas('products', function ($query) use ($data) {
+                    $query->whereHas('categories', function ($query) use ($data) {
+                        $query->where('category_id', $data->category->id);
+                    });
                 });
-            })->orderBy('slug')->pluck('title', $key)->toArray();
+            }
+
+            if ($data->subcategory) {
+                $query->whereHas('products', function ($query) use ($data) {
+                    $query->whereHas('categories', function ($query) use ($data) {
+                        $query->where('category_id', $data->subcategory->id);
+                    });
+                });
+            }
+
+            return $query->orderBy('slug')->pluck('title', $key)->toArray();
         });
     }
 
