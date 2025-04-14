@@ -58,8 +58,8 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
 
     Route::get('import', [DashboardController::class, 'import'])->name('import.initial');
     Route::get('import-inter', [DashboardController::class, 'importInter'])->name('import.inter');
-    /*Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
     Route::get('mailing-test', [DashboardController::class, 'mailing'])->name('mailing.test');
+    /*Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
     Route::get('letters', [DashboardController::class, 'letters'])->name('letters.import');
     Route::get('slugs', [DashboardController::class, 'slugs'])->name('slugs.revision');
     Route::get('statuses', [DashboardController::class, 'statuses'])->name('statuses.cron');

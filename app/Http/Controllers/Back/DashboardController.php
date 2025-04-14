@@ -6,6 +6,7 @@ use App\Helpers\Chart;
 use App\Helpers\Helper;
 use App\Helpers\ImageHelper;
 use App\Helpers\Import;
+use App\Helpers\OrderHelper;
 use App\Helpers\ProductHelper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
@@ -546,12 +547,13 @@ class DashboardController extends Controller
      */
     public function mailing(Request $request)
     {
-        $order = Order::where('id', 3)->first();
+        $order = OrderHelper::get(3);
 
-        dispatch(function () use ($order) {
-            Mail::to(config('mail.admin'))->send(new OrderReceived($order));
-            Mail::to($order->payment_email)->send(new OrderSent($order));
-        });
+        if ($order->isValid()) {
+            $order->sendEmails()
+                  ->decreaseCartItems()
+                  ->getOrder();
+        }
 
         return redirect()->route('dashboard');
     }
