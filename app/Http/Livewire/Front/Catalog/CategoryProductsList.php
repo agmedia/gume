@@ -130,7 +130,7 @@ class CategoryProductsList extends Component
     public function mount()
     {
         $this->sezone       = ProductHelper::getSezoneList();
-        $this->sirine       = ProductHelper::getSirineList();
+        $this->sirine       = ProductHelper::getSirineList(json_decode($this->route_data));
         $this->visine       = ProductHelper::getVisineList();
         $this->promjeri     = ProductHelper::getPromjeriList();
         $this->sorting_list = ProductHelper::getSortingList();

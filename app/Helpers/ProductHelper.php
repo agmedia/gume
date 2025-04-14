@@ -199,10 +199,12 @@ class ProductHelper
     /**
      * @return Collection
      */
-    public static function getSirineList(): Collection
+    public static function getSirineList($data): Collection
     {
-        return Cache::remember('products.sirine', config('cache.life'), function () {
-            return Product::query()->groupBy('sirina')->orderBy('sirina')->pluck('sirina');
+        return Cache::remember('products.sirine', config('cache.life'), function () use ($data) {
+            return Product::query()->whereHas('categories', function ($query) use ($data) {
+                $query->where('category_id', $data->category);
+            })->groupBy('sirina')->orderBy('sirina')->pluck('sirina');
         });
     }
 
