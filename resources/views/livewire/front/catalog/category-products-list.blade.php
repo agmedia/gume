@@ -250,7 +250,7 @@
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 0 gy-4" id="productGrid">
         <!-- Toolbar-->
         @foreach($products as $product)
-            {{--{{ dd($product->toArray()) }}--}}
+          {{-- dd($product->toArray()) --}}
             <div class="col">
                 <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
                         <div class="card-img-top  position-relative bg-white overflow-hidden">
@@ -262,23 +262,34 @@
 
 
                         <div class="card-body p-3 pb-1">
-                        <div class="w-100 min-w-0 px-0 pb-2 pb-sm-3">
-                          <!-- <div class="d-flex align-items-center gap-2 mb-2">
-                                <div class="d-flex gap-1 fs-xs">
-                                    <i class="ci-star-filled text-warning"></i>
-                                    <i class="ci-star-filled text-warning"></i>
-                                    <i class="ci-star-filled text-warning"></i>
-                                    <i class="ci-star-filled text-warning"></i>
-                                    <i class="ci-star text-body-tertiary opacity-75"></i>
-                                </div>
-                                <span class="text-body-tertiary fs-xs">(2)</span>
-                            </div> -->
+                        <div class="w-100 min-w-0 px-0 pb-1 ">
+
 
                             <h3 class="nav min-w-0 mb-0 pb-1 mb-2">
                                 <a class="nav-link  p-0" href="{{ $product->url }}">
                                     <span class=" animate-target">{{ $product->name }}</span>
                                 </a>
                             </h3>
+
+                            <div class="d-flex align-items-center  mb-0">
+                                @if($product->iskoristivost and $product->prijanjanje and $product->buka)
+                                    <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{$product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $product->buka }} </span> </p>
+                                @endif
+                            </div>
+
+                            @if($product->quantity > 0)
+                                <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
+                                    <i class="ci-check-circle fs-base me-2"></i>
+                                    Dostupno: {{$product->quantity}}
+                                </div>
+                            @else
+
+                                <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
+                                    <i class="ci-check-circle fs-base me-2"></i>
+                                    DNedostupno: {{$product->quantity}}
+                                </div>
+
+                            @endif
 
                             <div class="d-flex align-items-center justify-content-between">
                                 @if ($product->special() && ($product->special() < $product->main_price))

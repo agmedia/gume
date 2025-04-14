@@ -176,13 +176,13 @@
                         @if($data->product->quantity > 0)
                         <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
                             <i class="ci-check-circle fs-base me-2"></i>
-                            Dostupno za narudžbu: {{$data->product->quantity}}
+                            Dostupno: {{$data->product->quantity}}
                         </div>
                         @else
 
                             <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
                                 <i class="ci-check-circle fs-base me-2"></i>
-                                Dostupno za narudžbu: {{$data->product->quantity}}
+                                Nedostupno: {{$data->product->quantity}}
                             </div>
 
                        @endif
