@@ -173,6 +173,20 @@
 
                         <p><strong>{{ $data->product->sirina }}/{{ $data->product->visina }}  {{ $data->product->promjer }} {{ $data->product->nosivnost }}</strong></p>
 
+                        @if($data->product->quantity > 0)
+                        <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
+                            <i class="ci-check-circle fs-base me-2"></i>
+                            Dostupno za narudžbu: {{$data->product->quantity}}
+                        </div>
+                        @else
+
+                            <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
+                                <i class="ci-check-circle fs-base me-2"></i>
+                                Dostupno za narudžbu: {{$data->product->quantity}}
+                            </div>
+
+                       @endif
+
 
                         @if($data->product->iskoristivost and $data->product->prijanjanje and $data->product->buka)
                         <p class="criteria-icons fs-sm fw-normal "> <span><i class="fa-solid fa-gas-pump"></i> {{ $data->product->iskoristivost }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-cloud-showers-heavy"></i> {{ $data->product->prijanjanje }} <span class="icon-separator">|</span></span> <span><i class="fa-solid fa-volume-high"></i> {{ $data->product->buka }} </span> </p>
