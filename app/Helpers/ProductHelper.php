@@ -201,7 +201,10 @@ class ProductHelper
      */
     public static function getSirineList($data): Collection
     {
-        return Cache::remember('products.sirine', config('cache.life'), function () use ($data) {
+
+        $cache_hash = hash('crc32', 'products.sirine' . (isset($data->group) ? $data->group : '') . $data->category->id . $data->subcategory->id);
+
+        return Cache::remember($cache_hash, config('cache.life'), function () use ($data) {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
                 $query->where('category_id', $data->category->id);
             })->groupBy('sirina')->orderBy('sirina')->pluck('sirina');
