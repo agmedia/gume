@@ -134,6 +134,7 @@ class Checkout
 
                 Reservation::query()->insertGetId([
                     'order_id'         => $this->order_id,
+                    'user_id'    => $this->user_id,
                     'status_id'        => 1,
                     'reservation_date' => $date,
                     'day'              => $date->day,
