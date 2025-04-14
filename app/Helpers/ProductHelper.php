@@ -212,7 +212,7 @@ class ProductHelper
     /**
      * @return Collection
      */
-    public static function getVisineList(): Collection
+    public static function getVisineList($data): Collection
     {
         return Cache::remember('products.visine', config('cache.life'), function () {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
@@ -225,7 +225,7 @@ class ProductHelper
     /**
      * @return Collection
      */
-    public static function getPromjeriList(): Collection
+    public static function getPromjeriList($data): Collection
     {
         return Cache::remember('products.promjeri', config('cache.life'), function () {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
