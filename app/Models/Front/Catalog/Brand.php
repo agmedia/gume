@@ -200,7 +200,7 @@ class Brand extends Model
 
             if ($data->subcategory) {
                 $query->whereHas('products', function ($query) use ($data) {
-                    $query->whereHas('subcategories', function ($query) use ($data) {
+                    $query->whereHas('categories', function ($query) use ($data) {
                         $query->where('category_id', $data->subcategory->id);
                     });
                 });
