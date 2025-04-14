@@ -85,7 +85,7 @@
         </button>
 
         <!-- Navbar brand (Logo) -->
-        <a class="navbar-brand fs-2 p-0 pe-lg-2 pe-xxl-0 me-4 me-sm-3 me-md-4 me-xxl-5 " href="{{ route('index') }}" >
+        <a class="navbar-brand fs-2 p-0 pe-lg-2 pe-xxl-0 me-5 me-sm-3 me-md-4 me-xxl-5 " href="{{ route('index') }}" >
             <img src="{{ asset('assets/images/pneu-max-light.svg') }}" alt ="PNEU-MAX | Auto gume i ugradnja" class="display-light"/>
             <img src="{{ asset('assets/images/pneu-max.svg') }}" alt ="PNEU-MAX | Auto gume i ugradnja" class="display-dark"/>
         </a>
