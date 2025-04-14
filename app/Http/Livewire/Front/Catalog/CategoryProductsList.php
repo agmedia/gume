@@ -135,7 +135,7 @@ class CategoryProductsList extends Component
         $this->promjeri     = ProductHelper::getPromjeriList(json_decode($this->route_data));
         $this->sorting_list = ProductHelper::getSortingList(json_decode($this->route_data));
         //
-        $this->brands = Brand::getSelectList('slug');
+        $this->brands = Brand::getSelectList( 'slug', json_decode($this->route_data));
 
 
 

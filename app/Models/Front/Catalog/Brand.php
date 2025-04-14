@@ -179,12 +179,18 @@ class Brand extends Model
     *                              email: filip@agmedia.hr                         *
     *******************************************************************************/
 
-    public static function getSelectList(string $key = 'id')
+    public static function getSelectList(string $key = 'id', $data)
     {
-        return Helper::resolveCache('brands')->remember('list' . $key, config('cache.life'), function () use ($key) {
-            return Brand::query()->where('status', 1)->orderBy('slug')->pluck('title', $key)->toArray();
+        return Helper::resolveCache('brands')->remember('list' . $key, config('cache.life'), function () use ($key, $data) {
+            return Brand::query()->where('status', 1)->whereHas('products', function ($query) use ($data) {
+                $query->whereHas('categories', function ($query) use ($data) {
+                    $query->where('category_id', $data->category->id);
+                });
+            })->orderBy('slug')->pluck('title', $key)->toArray();
         });
     }
+
+
 
 
     /**
