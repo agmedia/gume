@@ -3,25 +3,12 @@
 <div class="swiper-slide">
     <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
         <div class="card-img-top  position-relative bg-white overflow-hidden">
-        <a class=" d-block mb-3 pt-3" href="{{ url($product->url) }}">
+        <a class=" d-block mb-0 pt-3" href="{{ url($product->url) }}">
             <img src="{{ $product->thumb }}"   alt="Product">
-
         </a>
         </div>
-
         <div class="card-body p-3 pb-1">
-
         <div class="w-100 min-w-0 px-0 pb-2  pb-sm-3">
-          <!--  <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="d-flex gap-1 fs-xs">
-                    <i class="ci-star-filled text-warning"></i>
-                    <i class="ci-star-filled text-warning"></i>
-                    <i class="ci-star-filled text-warning"></i>
-                    <i class="ci-star-filled text-warning"></i>
-                    <i class="ci-star text-body-tertiary opacity-75"></i>
-                </div>
-                <span class="text-body-tertiary fs-xs">(2)</span>
-            </div> -->
             <h3 class="pb-1 mb-2">
                 <a class="d-block fs-sm fw-medium " href="{{ url($product->url) }}">
                     <span class="animate-target">{{ $product->name }}</span>
