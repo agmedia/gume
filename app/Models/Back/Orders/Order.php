@@ -76,7 +76,7 @@ class Order extends Model
 
     public function reservation()
     {
-        return $this->hasOne(Reservation::class,  'id', 'reservation_id');
+        return $this->hasOne(Reservation::class,  'id', 'user_id');
 
     }
 
