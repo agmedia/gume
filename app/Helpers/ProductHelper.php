@@ -201,10 +201,7 @@ class ProductHelper
      */
     public static function getSirineList($data): Collection
     {
-
-        $cache_hash = hash('crc32', 'products.sirine' . (isset($data->group) ? $data->group : '') . $data->category->id . $data->subcategory->id);
-
-        return Cache::remember($cache_hash, config('cache.life'), function () use ($data) {
+        return Cache::remember(self::getCacheHash($data, 'sirine'), config('cache.life'), function () use ($data) {
             return Product::query()->whereHas('categories', function ($query) use ($data) {
                 $query->where('category_id', $data->category->id);
             })->groupBy('sirina')->orderBy('sirina')->pluck('sirina');
@@ -246,5 +243,14 @@ class ProductHelper
         return Cache::remember('products.sort', config('cache.life'), function () {
             return collect(config('settings.sorting_list'))->sortBy('sort_order');
         });
+    }
+
+
+    private static function getCacheHash($data, $target)
+    {
+        return hash('crc32', 'products.' . $target . (isset($data->group) ? $data->group : '') .
+                             ($data->category ? $data->category->id : 0) .
+                             ($data->subcategory ? $data->subcategory->id : 0)
+        );
     }
 }
