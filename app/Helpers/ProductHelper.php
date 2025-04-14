@@ -205,13 +205,13 @@ class ProductHelper
             $products = Product::query();
 
             if ($data->category) {
-                $query->whereHas('categories', function ($query) use ($data) {
+                $products->whereHas('categories', function ($query) use ($data) {
                     $query->where('category_id', $data->category->id);
                 });
             }
 
             if ($data->subcategory) {
-                $query->whereHas('categories', function ($query) use ($data) {
+                $products->whereHas('categories', function ($query) use ($data) {
                     $query->where('category_id', $data->subcategory->id);
                 });
             }
@@ -227,9 +227,21 @@ class ProductHelper
     public static function getVisineList($data): Collection
     {
         return Cache::remember(self::getCacheHash($data, 'visine'), config('cache.life'), function () use ($data) {
-            return Product::query()->whereHas('categories', function ($query) use ($data) {
-                $query->where('category_id', $data->category->id);
-            })->groupBy('visina')->orderBy('visina')->pluck('visina');
+            $products = Product::query();
+
+            if ($data->category) {
+                $products->whereHas('categories', function ($query) use ($data) {
+                    $query->where('category_id', $data->category->id);
+                });
+            }
+
+            if ($data->subcategory) {
+                $products->whereHas('categories', function ($query) use ($data) {
+                    $query->where('category_id', $data->subcategory->id);
+                });
+            }
+
+            return $products->groupBy('visina')->orderBy('visina')->pluck('visina');
         });
     }
 
@@ -239,10 +251,22 @@ class ProductHelper
      */
     public static function getPromjeriList($data): Collection
     {
-        return Cache::remember(self::getCacheHash($data, 'promjeri'), config('cache.life'),function () use ($data) {
-            return Product::query()->whereHas('categories', function ($query) use ($data) {
-                $query->where('category_id', $data->category->id);
-            })->groupBy('promjer')->orderBy('promjer')->pluck('promjer');
+        return Cache::remember(self::getCacheHash($data, 'promjeri'), config('cache.life'), function () use ($data) {
+            $products = Product::query();
+
+            if ($data->category) {
+                $products->whereHas('categories', function ($query) use ($data) {
+                    $query->where('category_id', $data->category->id);
+                });
+            }
+
+            if ($data->subcategory) {
+                $products->whereHas('categories', function ($query) use ($data) {
+                    $query->where('category_id', $data->subcategory->id);
+                });
+            }
+
+            return $products->groupBy('promjer')->orderBy('promjer')->pluck('promjer');
         });
     }
 
