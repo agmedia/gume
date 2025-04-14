@@ -4,6 +4,7 @@ namespace App\Models\Back\Orders;
 
 use App\Helpers\Mailchimp;
 use App\Helpers\Session\CheckoutSession;
+use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
 use App\User;
@@ -70,6 +71,12 @@ class Order extends Model
     public function products()
     {
         return $this->hasMany(OrderProduct::class, 'order_id')->with('product');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'order_id')->with('reservation');
+
     }
 
 

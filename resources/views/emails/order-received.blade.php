@@ -33,7 +33,7 @@
                 <br>
                 {{ __('Način dostave') }}: {{ $order->shipping_method }}<br> {{ $order->comment }}
                 <br><br>
-                Lijep pozdrav,<br>Zuzi Shop
+                Lijep pozdrav,<br>PNEU-MAX Shop
             </td>
         </tr>
 
