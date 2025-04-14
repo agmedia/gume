@@ -171,6 +171,8 @@
 
                         <p class="fs-sm fw-normal mb-0">{{ $data->product->namjena }}</p>
 
+                        <p class="fs-sm fw-normal mb-2">Šifra: {{ $data->product->sku }}</p>
+
 
                         @if($data->product->sirina and $data->product->visina and $data->product->promjer)
                         <p><strong>{{ $data->product->sirina }}/{{ $data->product->visina }}  {{ $data->product->promjer }} {{ $data->product->nosivnost }}</strong></p>
