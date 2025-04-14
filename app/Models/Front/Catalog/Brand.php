@@ -190,7 +190,7 @@ class Brand extends Model
         return Cache::remember($cache_hash, config('cache.life'), function () use ($key, $data) {
             $query = (new Brand())->newQuery();
 
-            if ($data->category) {
+            if ($data->category && ! $data->subcategory) {
                 $query->whereHas('products', function ($query) use ($data) {
                     $query->whereHas('categories', function ($query) use ($data) {
                         $query->where('category_id', $data->category->id);
@@ -200,7 +200,7 @@ class Brand extends Model
 
             if ($data->subcategory) {
                 $query->whereHas('products', function ($query) use ($data) {
-                    $query->whereHas('categories', function ($query) use ($data) {
+                    $query->whereHas('subcategories', function ($query) use ($data) {
                         $query->where('category_id', $data->subcategory->id);
                     });
                 });

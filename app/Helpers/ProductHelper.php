@@ -204,14 +204,14 @@ class ProductHelper
         return Cache::remember(self::getCacheHash($data, 'sirine'), config('cache.life'), function () use ($data) {
             $products = Product::query();
 
-            if ($data->category) {
+            if ($data->category && ! $data->subcategory) {
                 $products->whereHas('categories', function ($query) use ($data) {
                     $query->where('category_id', $data->category->id);
                 });
             }
 
             if ($data->subcategory) {
-                $products->whereHas('categories', function ($query) use ($data) {
+                $products->whereHas('subcategories', function ($query) use ($data) {
                     $query->where('category_id', $data->subcategory->id);
                 });
             }
@@ -229,14 +229,14 @@ class ProductHelper
         return Cache::remember(self::getCacheHash($data, 'visine'), config('cache.life'), function () use ($data) {
             $products = Product::query();
 
-            if ($data->category) {
+            if ($data->category && ! $data->subcategory) {
                 $products->whereHas('categories', function ($query) use ($data) {
                     $query->where('category_id', $data->category->id);
                 });
             }
 
             if ($data->subcategory) {
-                $products->whereHas('categories', function ($query) use ($data) {
+                $products->whereHas('subcategories', function ($query) use ($data) {
                     $query->where('category_id', $data->subcategory->id);
                 });
             }
@@ -254,14 +254,14 @@ class ProductHelper
         return Cache::remember(self::getCacheHash($data, 'promjeri'), config('cache.life'), function () use ($data) {
             $products = Product::query();
 
-            if ($data->category) {
+            if ($data->category && ! $data->subcategory) {
                 $products->whereHas('categories', function ($query) use ($data) {
                     $query->where('category_id', $data->category->id);
                 });
             }
 
             if ($data->subcategory) {
-                $products->whereHas('categories', function ($query) use ($data) {
+                $products->whereHas('subcategories', function ($query) use ($data) {
                     $query->where('category_id', $data->subcategory->id);
                 });
             }
