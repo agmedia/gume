@@ -65,13 +65,20 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group row items-push mb-0">
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                         @foreach ($categories as $group => $cats)
+
+
+
                                             @foreach ($cats as $id => $category)
+
+
                                                 <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
                                                 @if ( ! empty($category['subs']))
                                                     @foreach ($category['subs'] as $sub_id => $subcategory)
@@ -231,6 +238,40 @@
             });
 
         });
+
+        /**
+         *
+         * @param type
+         * @param search
+         */
+        function setPageURL(type, search, isValue = false) {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+            let keys = [];
+
+            for(var key of params.keys()) {
+                if (key === type) {
+                    keys.push(key);
+                }
+            }
+
+            keys.forEach((value) => {
+                if (params.has(value)) {
+                    params.delete(value);
+                }
+            })
+
+            if (search.value) {
+                params.append(type, search.value);
+            }
+
+            if (isValue && search) {
+                params.append(type, search);
+            }
+
+            url.search = params;
+            location.href = url;
+        }
 
         /**
          *
