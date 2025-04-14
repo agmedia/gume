@@ -80,7 +80,7 @@ class Order extends Model
      */
     public function reservation()
     {
-        return $this->hasOne(Reservation::class,  'id', 'order_id');
+        return $this->hasOne(Reservation::class, 'order_id', 'id');
 
     }
 

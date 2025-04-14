@@ -554,7 +554,7 @@ class DashboardController extends Controller
                   ->decreaseCartItems()
                   ->getOrder();
         }
-        dd($order->reservation);
+        dd($order->getOrder()->reservation);
         return redirect()->route('dashboard');
     }
 
