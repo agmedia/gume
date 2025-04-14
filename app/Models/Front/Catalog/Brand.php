@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -181,7 +182,12 @@ class Brand extends Model
 
     public static function getSelectList(string $key = 'id', $data)
     {
-        return Helper::resolveCache('brands')->remember('list' . $key, config('cache.life'), function () use ($key, $data) {
+        $cache_hash = hash('crc32', 'products.brand' . $key . (isset($data->group) ? $data->group : '') .
+                                    ($data->category ? $data->category->id : 0) .
+                                    ($data->subcategory ? $data->subcategory->id : 0)
+        );
+
+        return Cache::remember($cache_hash, config('cache.life'), function () use ($key, $data) {
             $query = (new Brand())->newQuery();
 
             if ($data->category) {
