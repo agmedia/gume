@@ -7,6 +7,7 @@ use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
+
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -75,7 +76,7 @@ class Order extends Model
 
     public function reservation()
     {
-        return $this->hasMany(Reservation::class, 'order_id')->with('reservation');
+        return $this->hasOne(Reservation::class, 'order_id')->with('reservations');
 
     }
 
