@@ -132,6 +132,8 @@ class CatalogRouteController extends FrontController
 
             $data = new \stdClass();
             $data->ids = $ids;
+            $data->category = null;
+            $data->subcategory = null;
 
             $crumbs = null; $meta = null;
 
