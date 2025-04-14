@@ -255,7 +255,7 @@
                 <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
                         <div class="card-img-top  position-relative bg-white overflow-hidden">
 
-                            <a class="  d-block mb-0 pt-3" href="{{ $product->url }}">
+                            <a class="  d-block mb-0 pt-0" href="{{ $product->url }}">
                                 <img loading="lazy" src="{{ $product->thumb }}" width="300" height="300" alt="{{ $product->name }}" >
                             </a>
                         </div>

@@ -3,7 +3,7 @@
 <div class="swiper-slide">
     <div class="card h-100   hover-effect-opacity hover-effect-scale rounded-4 overflow-hidden">
         <div class="card-img-top  position-relative bg-white overflow-hidden">
-        <a class=" d-block mb-0 pt-3" href="{{ url($product->url) }}">
+        <a class=" d-block mb-0 pt-0" href="{{ url($product->url) }}">
             <img src="{{ $product->thumb }}"   alt="Product">
         </a>
         </div>
