@@ -229,17 +229,48 @@
                         </div>
 
 
+                        <ul class="list-unstyled gap-3 pb-3 pb-lg-4 mb-0">
+                            <li class="d-flex flex-wrap fs-sm">
+                  <span class="d-flex align-items-center fw-medium text-dark-emphasis me-2">
+
+
+                      <i class="ci-map-pin fs-base me-2"></i>
+                    Izražene cijene vrijede za web narudžbe
+                  </span>
+
+                            </li>
+                            <li class="d-flex flex-wrap fs-sm">
+                  <span class="d-flex align-items-center fw-medium text-dark-emphasis me-2">
+                    <i class="ci-percent fs-base me-2"></i>
+                   Mogućnost plaćanja na rate kod nas u poslovnici
+                  </span>
+
+                            </li>
+                        </ul>
+
+
+                        @if (str_contains($data->product->url, '/gume/'))
+
+                            <!-- Stock status -->
+                            <div class="d-flex flex-wrap justify-content-between fs-sm mb-3">
+                                <span class="fw-medium text-dark-emphasis me-2">🔥 Besplatna montaža i postava na vozilo!</span>
+                                <span><i class="fa-solid fa-calendar-days me-2"></i> Odabir termina prilikom kupnje!</span>
+                            </div>
+
+                        @endif
 
 
 
-                        <!-- Stock status -->
-                        <div class="d-flex flex-wrap justify-content-between fs-sm mb-3">
-                            <span class="fw-medium text-dark-emphasis me-2">🔥 Besplatna montaža i postava na vozilo!</span>
-                            <span><i class="fa-solid fa-calendar-days me-2"></i> Odabir termina prilikom kupnje!</span>
-                        </div>
+
+
+
                         <div class="progress" role="progressbar" aria-label="Left in stock" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="height: 4px">
                             <div class="progress-bar rounded-pill" style="width: 100%"></div>
                         </div>
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -262,7 +293,11 @@
                    </li>-->
                 <li class="nav-item me-md-1" role="presentation">
                     <button type="button" class="nav-link" id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery-tab-pane" role="tab" aria-controls="delivery-tab-pane" aria-selected="false">
+                        @if (str_contains($data->product->url, '/gume/'))
                         Montaža<span class="d-none d-md-inline">&nbsp;i dostava</span>
+                        @else
+                            Dostava
+                        @endif
                     </button>
                 </li>
             <!--    <li class="nav-item" role="presentation">
@@ -280,7 +315,7 @@
 
                         @if($data->product->description)
                         <div class="col-lg-6 fs-sm">
-
+                            <h2 class="h4">{{ $data->product->name }}</h2>
                             {!! $data->product->description !!}
                         </div>
                         @endif
@@ -381,9 +416,11 @@
 
                 <!-- Delivery and returns tab -->
                 <div class="tab-pane fade fs-sm" id="delivery-tab-pane" role="tabpanel" aria-labelledby="delivery-tab">
-
+                    @if (str_contains($data->product->url, '/gume/'))
                     <p class="mb-4">Dvije opcije dostave su vam dostupne prilikom narudžbe:</p>
+                    @endif
                     <div class="row row-cols-1 row-cols-md-2">
+                        @if (str_contains($data->product->url, '/gume/'))
                         <div class="col mb-3 mb-md-1">
                             <div class="pe-lg-2 pe-xl-3">
 
@@ -394,6 +431,7 @@
                                 <p>Odaberite željeni datum i vrijeme, a naš stručni tim pobrinut će se za brzu i kvalitetnu ugradnju.</p><p> Osigurajte si bezbrižnu vožnju uz profesionalnu uslugu montaže!</p>
                             </div>
                         </div>
+                        @endif
 
                         <div class="col">
                             <div class="ps-lg-2 ps-xl-3">
