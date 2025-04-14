@@ -316,7 +316,13 @@
                         @if($data->product->description)
                         <div class="col-lg-6 fs-sm">
                             <h2 class="h4">{{ $data->product->name }}</h2>
-                            {!! $data->product->description !!}
+                            <p class="fs-sm fw-normal mb-0">{{ $data->product->namjena }}</p>
+
+
+                            @if($data->product->sirina and $data->product->visina and $data->product->promjer)
+                                <p><strong>{{ $data->product->sirina }}/{{ $data->product->visina }}  {{ $data->product->promjer }} {{ $data->product->nosivnost }}</strong></p>
+
+                                {!! $data->product->description !!}
                         </div>
                         @endif
                         <div class="col-lg-6 @if($data->product->description) col-xl-5 offset-xl-1  @endif">
