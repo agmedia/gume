@@ -35,18 +35,31 @@
             </div>
 
             @if($product->quantity > 0)
-                <div class="d-flex align-items-center text-success fs-sm ms-auto mb-3">
+                <div class="d-flex align-items-center text-success fs-xs ms-auto mb-1">
                     <i class="ci-check-circle fs-base me-2"></i>
                     Dostupno: {{$product->quantity}}
                 </div>
             @else
 
-                <div class="d-flex align-items-center text-danger fs-sm ms-auto mb-3">
+                <div class="d-flex align-items-center text-danger fs-xs ms-auto mb-1">
                     <i class="ci-check-circle fs-base me-2"></i>
                     Nedostupno: {{$product->quantity}}
                 </div>
 
             @endif
+
+
+            <div class="  ms-auto mb-1">
+                <ul class="list-group list-group-flush">
+                    <li class="ps-0 fs-xs list-group-item"><i class="ci-map-pin"></i> Izražena cijena vrijedi za narudžbe putem web shopa</li>
+                    <li class="ps-0 fs-xs list-group-item"><i class="ci-percent"></i></i> Mogućnost plaćanja na rate kod nas u poslovnici</li>
+
+                </ul>
+            </div>
+
+
+
+
             <div class="d-flex align-items-center justify-content-between">
 
 
