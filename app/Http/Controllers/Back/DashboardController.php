@@ -547,14 +547,14 @@ class DashboardController extends Controller
      */
     public function mailing(Request $request)
     {
-        $order = OrderHelper::get(3);
+        $order = OrderHelper::get(1);
 
         if ($order->isValid()) {
             $order->sendEmails()
                   ->decreaseCartItems()
                   ->getOrder();
         }
-
+        dd($order->reservation);
         return redirect()->route('dashboard');
     }
 

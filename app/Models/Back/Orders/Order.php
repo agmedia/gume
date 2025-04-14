@@ -4,11 +4,13 @@ namespace App\Models\Back\Orders;
 
 use App\Helpers\Mailchimp;
 use App\Helpers\Session\CheckoutSession;
+use App\Http\Controllers\Back\UserController;
 use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
 
 use App\User;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -62,7 +64,7 @@ class Order extends Model
      */
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(UserController::class, 'id', 'user_id');
     }
 
 
@@ -73,13 +75,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderProduct::class, 'order_id')->with('product');
     }
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function reservation()
     {
-        return $this->hasOne(Reservation::class,  'id', 'user_id');
+        return $this->hasOne(Reservation::class,  'id', 'order_id');
 
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
