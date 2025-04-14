@@ -20,7 +20,9 @@
         </tr>
         <tr>
             <td class="ag-mail-tableset">
-                {{ __('Datum rezervacije') }}: {{ $order->reservation->reservation_date }} - {{ $order->reservation->time }} - {{ $order->reservation->year }}<br>
+                @if ($order->reservation)
+                <strong>{{ __('Datum rezervacije') }}</strong>: {{ $order->reservation->reservation_date }} - {{ $order->reservation->time }} - {{ $order->reservation->year }}<br><br>
+                @endif
 
                 {{ __('Način plaćanja') }}:
                 @if ($order->payment_code == 'bank')
