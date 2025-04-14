@@ -58,8 +58,8 @@
                                 <div class="col-md-2">
                                     <label for="title-input">Vrijeme termina</label>
                                     <select class="js-select2 form-control" id="vrijeme-select" name="time" style="width: 100%;">
-                                        @foreach (config('settings.vrijeme_termina') as $vrijeme)
-                                            <option value="{{ $vrijeme }}" @if(isset($reservation) && $reservation->time == $vrijeme) selected @endif>{{ $vrijeme }} </option>
+                                        @foreach ($timerange as $vrijeme)
+                                            <option value="{{ $vrijeme['from'] }}-{{ $vrijeme['to'] }}" @if(isset($reservation) && $reservation->time == $vrijeme) selected @endif>{{ $vrijeme['from'] }}-{{ $vrijeme['to'] }} </option>
                                         @endforeach
                                     </select>
                                 </div>

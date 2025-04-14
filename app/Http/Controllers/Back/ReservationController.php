@@ -6,7 +6,10 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
+use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -55,8 +58,9 @@ class ReservationController extends Controller
     public function create()
     {
         $statuses = $this->settings()->pluck('title', 'id')->all();
+        $timerange = $this->getHoursList();
 
-        return view('back.reservation.edit', compact('statuses'));
+        return view('back.reservation.edit', compact('timerange','statuses'));
     }
 
 
@@ -107,7 +111,9 @@ class ReservationController extends Controller
     {
         $statuses = $this->settings()->pluck('title', 'id')->all();
 
-        return view('back.reservation.edit', compact('reservation', 'statuses'));
+        $timerange = $this->getHoursList();
+
+        return view('back.reservation.edit', compact('reservation', 'timerange',   'statuses'));
     }
 
 
@@ -199,6 +205,47 @@ class ReservationController extends Controller
     {
         return Settings::get('order', 'statuses')
                        ->whereIn('id', config('settings.reservation_statuses'));
+    }
+
+    public static function getHoursList(string $day = null): array
+    {
+        $day = Carbon::parse($day);
+
+        $from = Carbon::parse('08:00');
+        $to   = Carbon::parse('17:00');
+
+        if ($day->isSunday()) {
+            return [];
+        }
+
+        if ($day->isSaturday()) {
+            $to = Carbon::parse('12:00');
+        }
+
+        $hours = [];
+        $items = CarbonPeriod::create($from, '30 minutes', $to);
+
+        foreach ($items as $hour) {
+            array_push($hours, [
+                'from'      => $hour->format('H:i'),
+                'to'        => $hour->addMinutes(30)->format('H:i'),
+                'available' => 1
+            ]);
+        }
+
+        for ($i = 0; $i < count($hours); $i++) {
+            $reservation = \App\Models\Front\Checkout\Reservation::query()->where('reservation_date', '=', $day->format('Y-m-d'))
+                ->where('status_id', '!=', 5)
+                ->where(function (Builder $query) use ($hours, $i) {
+                    $query->where('time', '=', $hours[$i]['from'] . ' - ' . $hours[$i]['to'])
+                        ->orWhere('time', '=', $hours[$i]['from'] . '-' . $hours[$i]['to']);
+                })
+                ->exists();
+
+            $hours[$i]['available'] = $reservation ? 0 : 1;
+        }
+
+        return $hours;
     }
 
 }
