@@ -59,6 +59,7 @@
     @endforeach
 </table>
 
+
 <p style="text-align: right;font-size: 10px;"> PDV uključen u cijenu. Od toga
     @foreach ($order->totals as $total)
         @if($total->code == 'subtotal')

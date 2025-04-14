@@ -73,9 +73,9 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class, 'order_id')->with('product');
     }
 
-    public function reservations()
+    public function reservation()
     {
-        return $this->hasMany(Reservation::class, 'order_id')->with('reservation');
+        return $this->hasOne(Reservation::class, 'order_id')->with('reservation');
 
     }
 
