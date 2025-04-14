@@ -202,7 +202,7 @@
                     <span class="d-block animate-target fw-bolder text-nowrap ms-1">DODATNA OPREMA</span>
                 </a>
 
-                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => '']) }}">
+                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('kontakt') }}">
               <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
                <img src="{{ asset('assets/images/hotegume.png') }}" width="35" alt="Image">
               </span>

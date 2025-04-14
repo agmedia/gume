@@ -155,7 +155,7 @@ class Hotel extends Model
             'quantity'     => $this->request->quantity,
             'reg'          => $this->request->reg,
             'start_date'   => Carbon::make($this->request->start_date),
-            'end_date'     => $this->request->end_date ? Carbon::make($this->request->end_date) : Carbon::make($this->request->start_date)->addYear(),
+            'end_date'     => $this->request->end_date ? Carbon::make($this->request->end_date) : Carbon::make($this->request->start_date)->addMonths(6),
             'message'      => $this->request->message,
             'condition_lp' => $this->request->condition_lp,
             'condition_dp' => $this->request->condition_dp,
