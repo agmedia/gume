@@ -36,7 +36,7 @@
                         <tr>
                             <th class="text-center" style="width: 100px;">Slika</th>
                             <th>Naziv</th>
-                            <th>Polica</th>
+
                             <th class="text-center">Kol</th>
                             <th class="text-right" style="width: 10%;">Cijena</th>
                             <th class="text-right" style="width: 10%;">Rabat %</th>
@@ -51,7 +51,7 @@
                                     </a>
                                 </td>
                                 <td><strong>{{ $product->name }} -  {{ $product->product ? $product->product->sku : '' }}</strong></td>
-                                <td>{{ $product->product ? $product->product->polica : '' }}</td>
+
                                 <td class="text-center"><strong>{{ $product->quantity }}</strong></td>
                                 <td class="text-right">{{ number_format($product->org_price, 2, ',', '.') }}</td>
                                 <td class="text-right">{{ number_format($product->discount) }}</td>
@@ -61,7 +61,7 @@
 
                         @foreach ($order->totals as $total)
                             <tr>
-                                <td colspan="6" class="text-right"><strong>{{ $total->title }}:</strong></td>
+                                <td colspan="5" class="text-right"><strong>{{ $total->title }}:</strong></td>
                                 <td class="text-right">{{ number_format($total->value, 2, ',', '.') }}</td>
                             </tr>
                         @endforeach
@@ -100,6 +100,10 @@
                         <h3 class="block-title">Napomene</h3>
                     </div>
                     <div class="block-content">
+                        @if ($order->reservation)
+                            <p>  <strong>{{ __('Datum rezervacije') }}</strong>: {{ (isset($order->reservation->reservation_date) && $order->reservation->reservation_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($order->reservation->reservation_date)->format('d.m.Y.') : '' }} - {{ $order->reservation->time }} - {{ $order->reservation->year }}</p>
+                        @endif
+
                         <p>{{ $order->comment }}</p>
                     </div>
                 </div>

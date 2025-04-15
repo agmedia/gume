@@ -109,6 +109,8 @@
                         <div class="block-content">
                             <div class="row mb-4">
                                 <div class="col-md-8">
+
+
                                     <label for="shipping-select">Dostava</label>
                                     <select class="js-select2 form-control" id="shipping-select" name="shipping" style="width: 100%;" data-placeholder="Odaberite način dostave...">
                                         <option></option>
@@ -121,6 +123,12 @@
                                     <label for="shipping-amount-input">Iznos</label>
                                     <input type="text" class="form-control" id="shipping-amount-input" name="shipping_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->totals()->where('code', 'shipping')->first()->value : old('shipping_amount') }}">
                                 </div>
+
+                                @if ($order->reservation)
+                                    <div class="col-md-12 mt-3">
+                                    <p class="mb-0">  <strong>{{ __('Datum rezervacije') }}</strong>: {{ (isset($order->reservation->reservation_date) && $order->reservation->reservation_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($order->reservation->reservation_date)->format('d.m.Y.') : '' }} - {{ $order->reservation->time }} - {{ $order->reservation->year }}</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -48,13 +48,13 @@
         <!-- Breadcrumb -->
         <nav class="position-relative fs-sm my-3 ms-3" aria-label="breadcrumb" style="z-index: 1021">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovnica</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="ci-home"></i></a></li>
 
                 @if ($data->group)
                     @if ($data->group && ! $data->category && ! $data->subcategory)
                         <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::ucfirst($data->group) }}</li>
                     @elseif ($data->group && $data->category)
-                        <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group]) }}">{{ \Illuminate\Support\Str::ucfirst($data->group) }}</a></li>
+                      {{--  <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group]) }}">{{ \Illuminate\Support\Str::ucfirst($data->group) }}</a></li> --}}
                     @endif
 
                     @if ($data->category && ! $data->subcategory)
@@ -67,15 +67,15 @@
                         <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]) }}">{{ $data->category->title }}</a></li>
                         @if ($data->product)
                             @if ($data->category && ! $data->subcategory)
-                                <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]) }}">{{ \Illuminate\Support\Str::limit($data->product->name, 50) }}</a></li>
+                                <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category]) }}">{{ \Illuminate\Support\Str::limit($data->product->name, 20) }}</a></li>
                             @else
-                                <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category, 'subcat' => $data->subcategory]) }}">{{ $data->subcategory->title }}</a></li>
+                                <li class="breadcrumb-item" aria-current="page"><a class="text-nowrap" href="{{ route('catalog.route', ['group' => $data->group, 'cat' => $data->category, 'subcat' => $data->subcategory]) }}">{{ \Illuminate\Support\Str::limit($data->subcategory->title, 20) }}</a></li>
                             @endif
                         @endif
                     @endif
                 @endif
 
-                <li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::limit($data->product->name, 50) }}</li>
+              {{--<li class="breadcrumb-item" aria-current="page">{{ \Illuminate\Support\Str::limit($data->product->name, 50) }}</li> --}}
 
             </ol>
         </nav>

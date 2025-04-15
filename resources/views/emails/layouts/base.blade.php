@@ -281,7 +281,7 @@
     <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin: auto;" class="email-container">
         <tr>
             <td style="padding: 20px;  font-size: 12px; line-height: 15px; text-align: center; color: #373f50;">
-                Zuzi - Shop © {{ now()->year }}. Sva prava pridržana. <br><a href="https://www.zuzi.hr/info/uvjeti-prodaje" style="color:#ffffff;">Uvjeti korištenja</a>
+                PNEU-MAX - Shop © {{ now()->year }}. Sva prava pridržana. <br><a href="https://www.zuzi.hr/info/uvjeti-prodaje" style="color:#ffffff;">Uvjeti korištenja</a>
                 <br>
             </td>
         </tr>

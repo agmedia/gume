@@ -21,7 +21,7 @@
         <tr>
             <td class="ag-mail-tableset">
                 @if ($order->reservation)
-                <strong>{{ __('Datum rezervacije') }}</strong>: {{ $order->reservation->reservation_date }} - {{ $order->reservation->time }} - {{ $order->reservation->year }}<br><br>
+                <strong>{{ __('Datum rezervacije') }}</strong>: {{ (isset($order->reservation->reservation_date) && $order->reservation->reservation_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($order->reservation->reservation_date)->format('d.m.Y.') : '' }} - {{ $order->reservation->time }} - {{ $order->reservation->year }}<br><br>
                 @endif
 
                 {{ __('Način plaćanja') }}:
