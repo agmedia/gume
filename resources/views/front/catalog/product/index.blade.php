@@ -398,7 +398,7 @@
                                                     <th scope="row">{{$attribute->attribute->title }} </th>
                                                     <td><a  href="{{$attribute->value }}" target="_blank"> Link </a></td>
                                                 </tr>
-                                            @elseif($attribute->attribute->title == 'EPREL link')
+                                            @elseif($attribute->attribute->title == 'EPREL link - EU oznaka')
                                                 <tr>
                                                     <th scope="row">{{$attribute->attribute->title }} </th>
                                                     <td><a  href="{{$attribute->value }}" target="_blank"> Link </a></td>
@@ -410,6 +410,15 @@
                                                 </tr>
                                             @endif
                                         @endforeach
+
+                                        @if($data->product->brand_id == '4' and $data->product->namjena == 'Guma za osobna vozila' or $data->product->namjena = '4x4 / SUV guma ')
+                                            <tr>
+                                                <th scope="row">EPREL link - EU oznaka </th>
+                                                <td><a  href="https://www.contimediacenter.com/eulabel/hr_HR/{{ substr($data->product->description, 0, strpos($data->product->description, ',')) }}/" target="_blank"> Link </a></td>
+                                            </tr>
+                                        @endif
+
+
                                         </tbody>
                                     </table>
 
