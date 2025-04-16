@@ -345,19 +345,7 @@ class DashboardController extends Controller
                     }
                 } else{
 
-                    if ( ! empty((string) $item->URL_additional_product_picture)) {
-                        $image = ImageHelper::save((string)$item->URL_additional_product_picture, (string)$item->product_name, $exist->id);
 
-                        ProductImage::insert([
-                            'product_id' => $exist->id,
-                            'image' => $image,
-                            'alt' => $item->product_name,
-                            'published' => 1,
-                            'sort_order' => 1,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ]);
-                    }
 
                     if ( ! empty((string) $item->URL_additional_product_picture_1)) {
                         $image = ImageHelper::save((string)$item->URL_additional_product_picture_1, (string)$item->product_name, $exist->id);
