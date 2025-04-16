@@ -398,7 +398,7 @@
                                                     <th scope="row">{{$attribute->attribute->title }} </th>
                                                     <td><a  href="{{$attribute->value }}" target="_blank"> Link </a></td>
                                                 </tr>
-                                            @elseif($attribute->attribute->title == 'EPREL link - EU oznaka')
+                                            @elseif($attribute->attribute->title == 'EPREL link')
                                                 <tr>
                                                     <th scope="row">{{$attribute->attribute->title }} </th>
                                                     <td><a  href="{{$attribute->value }}" target="_blank"> Link </a></td>
