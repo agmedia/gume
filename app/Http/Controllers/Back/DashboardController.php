@@ -94,16 +94,19 @@ class DashboardController extends Controller
                     $count++;
 
 
+                    $images = ProductImage::query()->where('product_id', $exist->id)->count();
+
+                    if (!$images) {
 
                         // + image
-                        if ( ! empty($item->Informacijski_list)) {
+                        if (!empty($item->Informacijski_list)) {
                             $pimage = ImageHelper::save($item->Informacijski_list, $item->Naziv . '-informacijski-list', $exist->id);
 
                             ProductImage::insert([
                                 'product_id' => $exist->id,
-                                'image'      => $pimage,
-                                'alt'        => $item->Naziv . ' Informacijski list',
-                                'published'  => 1,
+                                'image' => $pimage,
+                                'alt' => $item->Naziv . ' Informacijski list',
+                                'published' => 1,
                                 'sort_order' => 1,
                                 'created_at' => Carbon::now(),
                                 'updated_at' => Carbon::now()
@@ -111,16 +114,14 @@ class DashboardController extends Controller
                         }
 
 
-
-
                         // Attributes
-                        if ( ! empty($item->EPREL_link)) {
+                        if (!empty($item->EPREL_link)) {
                             $att_id = $import->resolveAttribute('EPREL Link');
 
                             ProductAttribute::query()->insert([
-                                'product_id'   => $exist->id,
+                                'product_id' => $exist->id,
                                 'attribute_id' => $att_id,
-                                'value'        => $item->EPREL_link,
+                                'value' => $item->EPREL_link,
                             ]);
                         }
 
@@ -131,6 +132,7 @@ class DashboardController extends Controller
                             return redirect()->route('dashboard');
                         }
                     }
+                }
                 }
 
         }
