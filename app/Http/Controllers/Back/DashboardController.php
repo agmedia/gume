@@ -238,13 +238,13 @@ class DashboardController extends Controller
      */
     public function importInter(Request $request)
     {
-        $category = 12;
-        $subcategory = 42;
-        $sync_cat = 'Ulje za 4- taktne motore';
+        $category = 14;
+        $subcategory = 25;
+        $sync_cat = 'Ljetna guma za osobna vozila';
         //gume
-        //$xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
+        $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
         //dijelovi
-        $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d8aa73ceb924b75fd493399154b0c61f3ec93178.xml');
+       // $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d8aa73ceb924b75fd493399154b0c61f3ec93178.xml');
 
         $import = new Import();
         $count  = 0;
@@ -258,6 +258,7 @@ class DashboardController extends Controller
                 $exist = Product::query()->where('sku', $sku)->first();
 
                 if ( ! $exist) {
+
                     $product_id = Product::insertGetId([
                         'brand_id'         => 0,
                         'action_id'        => 0,
@@ -342,6 +343,112 @@ class DashboardController extends Controller
                             return redirect()->route('dashboard');
                         }
                     }
+                } else{
+
+                    if ( ! empty((string) $item->URL_additional_product_picture)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    if ( ! empty((string) $item->URL_additional_product_picture_1)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture_1, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    if ( ! empty((string) $item->URL_additional_product_picture_2)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture_2, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    if ( ! empty((string) $item->URL_additional_product_picture_3)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture_3, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    if ( ! empty((string) $item->URL_additional_product_picture_4)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture_4, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    if ( ! empty((string) $item->URL_additional_product_picture_5)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture_5, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    if ( ! empty((string) $item->URL_additional_product_picture_6)) {
+                        $image = ImageHelper::save((string)$item->URL_additional_product_picture_6, (string)$item->product_name, $exist->id);
+
+                        ProductImage::insert([
+                            'product_id' => $exist->id,
+                            'image' => $image,
+                            'alt' => $item->product_name,
+                            'published' => 1,
+                            'sort_order' => 1,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
+                    $count++;
+
+                    if ($count > 500) {
+                        return redirect()->route('dashboard');
+                    }
+
                 }
             }
         }
