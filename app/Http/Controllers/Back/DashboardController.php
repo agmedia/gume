@@ -94,24 +94,11 @@ class DashboardController extends Controller
                     $count++;
 
 
-                    $images = ProductImage::query()->where('product_id', $exist->id)->count();
+                    $images = ProductAttribute::query()->where('product_id', $exist->id)->where('attribute_id', 1)->count();
 
                     if (!$images) {
 
-                        // + image
-                        if (!empty($item->Informacijski_list)) {
-                            $pimage = ImageHelper::save($item->Informacijski_list, $item->Naziv . '-informacijski-list', $exist->id);
 
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $pimage,
-                                'alt' => $item->Naziv . ' Informacijski list',
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
 
 
                         // Attributes
