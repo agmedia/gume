@@ -345,7 +345,7 @@ class DashboardController extends Controller
                     }
                 } else{
 
-
+                    ProductImage::query()->where('product_id', $exist->id)->delete();
 
                     if ( ! empty((string) $item->URL_additional_product_picture_1)) {
                         $image = ImageHelper::save((string)$item->URL_additional_product_picture_1, (string)$item->product_name, $exist->id);
