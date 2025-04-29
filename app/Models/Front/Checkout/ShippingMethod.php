@@ -4,7 +4,11 @@ namespace App\Models\Front\Checkout;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Cart\CartSession;
+use App\Models\Front\Cart\Cart;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * Class ShippingMethod
@@ -93,6 +97,7 @@ class ShippingMethod
         if (CheckoutSession::hasShipping()) {
             $shipping = (new ShippingMethod())->find(CheckoutSession::getShipping());
         }
+
 
         if ($shipping) {
             $value = $shipping->data->price;

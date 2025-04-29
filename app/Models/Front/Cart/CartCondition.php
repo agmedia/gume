@@ -65,7 +65,7 @@ class CartCondition
             if ($type == 'shipping' && $method->code == 'gls') {
                 $cart = CartSession::resolve();
 
-                $value = $cart['count'] * $value;
+                $value = $cart->get()['count'] * $value;
             }
 
             return new \Darryldecode\Cart\CartCondition([

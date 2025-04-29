@@ -63,11 +63,11 @@ class CheckoutController extends FrontController
         if ($this->isCartEmpty()) {
             return redirect()->route('kosarica');
         }
-
+        $kosarica                 = CartSession::resolve()->get();
         $ship             = new ShippingMethod();
         $shipping_methods = $ship->findGeo(1)->sortBy('sort_order');
 
-        return view('front.checkout.checkout-shipping', compact('shipping_methods'));
+        return view('front.checkout.checkout-shipping', compact('shipping_methods', 'kosarica'));
     }
 
 
