@@ -135,13 +135,13 @@ class DashboardController extends Controller
      */
     public function importInter(Request $request)
     {
-        $category = 14;
-        $subcategory = 25;
-        $sync_cat = 'Ljetna guma za osobna vozila';
+        $category = 12;
+        $subcategory = 45;
+        $sync_cat = 'Autosjedalica';
         //gume
-        $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
+        //$xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
         //dijelovi
-       // $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d8aa73ceb924b75fd493399154b0c61f3ec93178.xml');
+        $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d8aa73ceb924b75fd493399154b0c61f3ec93178.xml');
 
         $import = new Import();
         $count  = 0;
