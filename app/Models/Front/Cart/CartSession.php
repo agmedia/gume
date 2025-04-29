@@ -140,7 +140,15 @@ class CartSession extends Model
      */
     private static function getSessionId(int $length = 8)
     {
-        return auth()->guest() ? Str::random($length) : auth()->id();
+        if (auth()->guest()) {
+            if (session()->has(config('session.cart'))) {
+                return session(config('session.cart'));
+            } else {
+                return Str::random($length);
+            }
+        }
+
+        return auth()->id();
     }
 
 
