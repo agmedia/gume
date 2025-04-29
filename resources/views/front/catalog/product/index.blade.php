@@ -411,7 +411,7 @@
                                             @endif
                                         @endforeach
 
-                                        @if($data->product->brand_id == '4' or $data->product->brand_id == '25' and $data->product->namjena == 'Guma za osobna vozila' or $data->product->brand_id == '4' or $data->product->brand_id == '25' and $data->product->namjena = '4x4 / SUV guma ')
+                                      {{--   @if($data->product->brand_id == '4' or $data->product->brand_id == '25' and $data->product->namjena == 'Guma za osobna vozila' or $data->product->brand_id == '4' or $data->product->brand_id == '25' and $data->product->namjena = '4x4 / SUV guma ')
 
                                             @php
                                                 $continantal_sku = strip_tags($data->product->description);
@@ -423,7 +423,7 @@
                                                 <td><a  href="https://www.contimediacenter.com/eulabel/hr_HR/{{ substr($continantal_sku, 0, strpos($continantal_sku, ',')) }}/" target="_blank"> Link </a></td>
                                             </tr>
                                         @endif
-
+                                        --}}
 
                                         </tbody>
                                     </table>
