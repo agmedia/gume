@@ -82,10 +82,11 @@
                             </h6>
                             <div class="accordion-collapse collapse d-sm-block" id="accountLinks" aria-labelledby="accountHeading" data-bs-parent="#footerLinks">
                                 <ul class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1">
-
+                                    @if(isset($uvjeti_kupnje))
                                     @foreach ($uvjeti_kupnje as $page)
                                         <li class="d-flex w-100 pt-1"><a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
                                     @endforeach
+                                        @endif
 
                                 </ul>
                             </div>

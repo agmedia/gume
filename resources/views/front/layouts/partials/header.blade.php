@@ -17,7 +17,9 @@
         <!-- Navbar nav -->
         <div class="accordion" id="navigation">
             <!-- Categories -->
-            @foreach($category_list as $item)
+
+            @if(isset($category_list))
+                @foreach($category_list as $item)
                 <div class="accordion-item border-0">
                     <div class="accordion-header" id="headingPages{{$item->id}}">
                         <button type="button" class="accordion-button animate-underline fw-medium collapsed py-2" data-bs-toggle="collapse" data-bs-target="#pages{{$item->id}}" aria-expanded="false" aria-controls="pages{{$item->id}}">
@@ -35,7 +37,7 @@
                     </div>
                 </div>
             @endforeach
-
+            @endif
             <hr>
 
             <div class="accordion-item border-0">
@@ -47,9 +49,12 @@
                 <div class="accordion-collapse collapse" id="pages6000" aria-labelledby="headingPages6000" data-bs-parent="#navigation">
                     <div class="accordion-body pb-3">
                         <ul class="dropdown-menu show position-static shadow-none">
+
+                            @if(isset($uvjeti_kupnje))
                             @foreach ($uvjeti_kupnje as $page)
                                 <li><a class="dropdown-item" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
                             @endforeach
+                            @endif
                             <li><a class="dropdown-item" href="{{ route('faq') }}">Česta pitanja</a></li>
                         </ul>
                     </div>

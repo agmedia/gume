@@ -22,6 +22,9 @@
                                     <p class="fs-sm mb-3">Za sve gume kupljene kod nas montaža je besplatna!</p>
                                     <div class="mb-lg-4" id="shippingMethod" role="list">
 
+
+
+
                                         @foreach ($shipping_methods as $method)
                                             <div class="border-bottom">
                                                 <div class="form-check mb-4" role="listitem">
@@ -29,8 +32,11 @@
                                                         <input   type="radio" class="form-check-input fs-base me-2 me-sm-3" name="shipping_method" onclick="shippingChange(this);" value="{{ $method->code }}"
                                                                @if( ! empty(session()->get('selected_shipping')) && session()->get('selected_shipping')->code == $method->code) checked @endif>
                                                         {{ $method->title }}
-
-                                                        <span class="fw-normal ms-auto">{{ $method->data->price != '0' ? price($method->data->price, true) : '' }}</span>
+                                                        @if ($method->code == 'gls')
+                                                        <span class="fw-normal ms-auto">{{ $method->data->price != '0' ? price(($method->data->price * $kosarica['count']), true) : '' }}</span>
+                                                        @else
+                                                            <span class="fw-normal ms-auto">{{ $method->data->price != '0' ? price($method->data->price , true) : '' }}</span>
+                                                        @endif
                                                     </label>
                                                     <p class="fw-lighter fs-sm" style="margin-left: 9px;">{{ $method->data->short_description }}</p>
                                                     @if ($method->code == 'pickup')
