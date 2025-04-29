@@ -128,6 +128,22 @@ class Cart
 
 
     /**
+     * @return $this
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
+    public function resetMethods_IfNeeded()
+    {
+        foreach ($this->cart->getConditions() as $condition) {
+            if ($condition->getAttributes()['code'] == 'gls') {
+                $this->setMethod('shipping', 'gls');
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
      * @param string $coupon
      *
      * @return $this

@@ -50,6 +50,8 @@ class CartNavIcon extends Component
 
         $this->cart->add($product, $quantity);
 
+        $this->cart->resetMethods_IfNeeded();
+
         $this->count = $this->cart->get()['count'];
     }
 
@@ -64,6 +66,8 @@ class CartNavIcon extends Component
         $this->setCart();
 
         $this->cart->remove($product_id);
+
+        $this->cart->resetMethods_IfNeeded();
 
         return redirect()->to(request()->server('HTTP_REFERER'));
     }

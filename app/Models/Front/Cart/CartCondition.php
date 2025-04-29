@@ -75,7 +75,8 @@ class CartCondition
                 'value'      => $value,
                 'attributes' => [
                     'description' => $method->data->short_description,
-                    'geo_zone'    => $method->geo_zone
+                    'geo_zone'    => $method->geo_zone,
+                    'code'        => $method->code,
                 ]
             ]);
         }

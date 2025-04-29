@@ -56,6 +56,8 @@ class Cart extends Component
 
         $this->cart->remove($product_id);
 
+        $this->cart->resetMethods_IfNeeded();
+
         return redirect()->to(request()->server('HTTP_REFERER'));
     }
 
