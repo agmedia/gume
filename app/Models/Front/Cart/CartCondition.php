@@ -62,6 +62,12 @@ class CartCondition
         if ($method) {
             $value = $method->data->price ?: 0;
 
+            if ($type == 'shipping' && $method->code == 'gls') {
+                $cart = CartSession::resolve();
+
+                $value = $cart['count'] * $value;
+            }
+
             return new \Darryldecode\Cart\CartCondition([
                 'name'       => $method->title,
                 'type'       => $type, // payment, shipping, action, sale...
