@@ -129,7 +129,7 @@ class DashboardController extends Controller
     {
 
         $category = 14;
-        $subcategory = 26;
+        $subcategory = 25;
 
 
 
@@ -147,7 +147,7 @@ class DashboardController extends Controller
 
         foreach (json_decode($sorted) as $item) {
             //dd($item);
-            if ($item->Namjena != 'TERETNE' and $item->Kategorija =='GUME' and $item->Podkategorija =='ZIMSKE OSOBNE' and $item->Brand =='SAVA') {
+            if ($item->Namjena != 'TERETNE' and $item->Kategorija =='GUME' and $item->Podkategorija =='LJETNE OSOBNE' and $item->Brand =='SAVA') {
                 $exist = Product::query()->where('sku', $item->Oznaka3)->first();
 
                 if ( ! $exist) {
@@ -172,14 +172,14 @@ class DashboardController extends Controller
                         'meta_title'       => $item->Naziv,
                         'meta_description' => '',
                         'nosivost'         => !empty($item->Li_Si) ? $item->Li_Si : '',
-                        'namjena'          => !empty($item->Namjena) ? $item->Namjena : '',
+                        'namjena'          => 'Guma za osobna vozila',
                         'promjer'          => !empty($item->Promjer) ? $item->Promjer : '',
                         'sirina'           => !empty($item->Širina) ? $item->Širina : '',
                         'visina'           => !empty($item->Visina) ? $item->Visina : '',
                         'buka'             => !empty($item->Buka) ? $item->Buka : '',
                         'prijanjanje'      => !empty($item->Prianjanje_na_mokrom) ? $item->Prianjanje_na_mokrom : '',
                         'iskoristivost'    => !empty($item->Iskoristivost_goriva) ? $item->Iskoristivost_goriva : '',
-                        'sezona'           => !empty($item->Namjena) ? $item->Namjena : '',
+                        'sezona'           => 'Ljeto',
                         'viewed'           => 0,
                         'sort_order'       => 0,
                         'featured'         => 0,
