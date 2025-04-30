@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderTotal extends Model
 {
-    
+
     /**
      * @var string
      */
     protected $table = 'order_total';
-    
+
     /**
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    
-    
+
+
     /**
      * @param $totals
      * @param $order_id
@@ -28,7 +28,7 @@ class OrderTotal extends Model
     public static function store($totals, $order_id)
     {
         self::where('order_id', $order_id)->delete();
-        
+
         for ($i = 0; $i < count($totals); $i++) {
             self::insertGetId([
                 'order_id'   => $order_id,
@@ -39,18 +39,18 @@ class OrderTotal extends Model
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
-    
+
             if ($totals[$i]->code == 'total') {
                 Order::where('id', $order_id)->update([
                     'total' => $totals[$i]->value
                 ]);
             }
         }
-        
+
         return true;
     }
-    
-    
+
+
     /**
      * @param $request
      * @param $order_id
@@ -61,10 +61,10 @@ class OrderTotal extends Model
     {
         $totals     = collect(config('settings.totals'))->where('status', 1)->sortBy('sort_order');
         $order_data = json_decode($request->order_data);
-        
+
         foreach ($totals as $code => $total) {
             $value = $this->resolveTotalValue($order_data, $code);
-            
+
             $this->insertGetId([
                 'order_id'   => $order_id,
                 'code'       => $code,
@@ -75,15 +75,15 @@ class OrderTotal extends Model
                 'updated_at' => Carbon::now()
             ]);
         }
-        
+
         Order::where('id', $order_id)->update([
             'total' => $order_data->total
         ]);
-        
+
         return true;
     }
-    
-    
+
+
     /**
      * @param        $request
      * @param string $code
@@ -104,11 +104,11 @@ class OrderTotal extends Model
         if ($code == 'total') {
             return intval($obj->total);
         }
-        
+
         return false;
     }
-    
-    
+
+
     /**
      * @param $total
      * @param $action
@@ -130,8 +130,8 @@ class OrderTotal extends Model
             return $action ? 3 : 2;
         }
     }
-    
-    
+
+
     /**
      * @param $totals
      *
@@ -144,8 +144,8 @@ class OrderTotal extends Model
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
 }

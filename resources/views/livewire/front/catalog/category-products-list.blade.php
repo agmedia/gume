@@ -1,4 +1,6 @@
 <div>
+
+
     <!-- Filter -->
     <div class="bg-body-tertiary p-3 rounded-3 mb-3">
         <div class="row align-items-center pt-1">
@@ -10,36 +12,39 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
-                    <select class="form-select rounded-pill" wire:model="sirina" wire:change="dropdownFilterSelected('sirina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Širina">
-                        <option value="">Širina</option>
-                        @foreach ($sirine as $item)
-                            @if($item !='')
 
-                            <option value="{{ $item }}" @if($item == $sirina) selected @endif>{{ $item }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
-                    <select class="form-select rounded-pill" wire:model="visina" wire:change="dropdownFilterSelected('visina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Visina">
-                        <option value="">Visina</option>
-                        @foreach ($visine as $item)
-                            @if($item !='')
-                            <option value="{{ $item }}" @if($item == $visina) selected @endif>{{ $item }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
-                    <select class="form-select rounded-pill" wire:model="promjer" wire:change="dropdownFilterSelected('promjer', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Promjer" data-placeholder="Promjer">
-                        @foreach ($promjeri as $item)
-                            @if($item !='')
-                            <option value="{{ $item }}" @if($item == $promjer) selected @endif>{{ $item }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                @if($cat->category->title != 'Dodatna Oprema' )
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill" wire:model="sirina" wire:change="dropdownFilterSelected('sirina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Širina">
+                            <option value="">Širina</option>
+                            @foreach ($sirine as $item)
+                                @if($item !='')
+
+                                <option value="{{ $item }}" @if($item == $sirina) selected @endif>{{ $item }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill" wire:model="visina" wire:change="dropdownFilterSelected('visina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Visina">
+                            <option value="">Visina</option>
+                            @foreach ($visine as $item)
+                                @if($item !='')
+                                <option value="{{ $item }}" @if($item == $visina) selected @endif>{{ $item }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill" wire:model="promjer" wire:change="dropdownFilterSelected('promjer', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Promjer" data-placeholder="Promjer">
+                            @foreach ($promjeri as $item)
+                                @if($item !='')
+                                <option value="{{ $item }}" @if($item == $promjer) selected @endif>{{ $item }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
                 <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                     <select class="form-select rounded-pill" wire:model="sort" wire:change="dropdownFilterSelected('sort', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Sortiraj" data-placeholder="Sortiraj">
                         @foreach ($sorting_list as $item)

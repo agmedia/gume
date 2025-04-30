@@ -54,6 +54,8 @@ class CategoryProductsList extends Component
      */
     public $sorting_list = [];
 
+    public $kat = [];
+
     /**
      * @var string
      */
@@ -82,7 +84,7 @@ class CategoryProductsList extends Component
     /**
      * @var array
      */
-    public $brands = [];
+   // public $brands = [];
 
     /**
      * @var string
@@ -136,8 +138,7 @@ class CategoryProductsList extends Component
         $this->sorting_list = ProductHelper::getSortingList(json_decode($this->route_data));
         //
         $this->brands = Brand::getSelectList( 'slug', json_decode($this->route_data));
-
-
+       // $this->kat = json_decode($this->route_data);
 
         //dd($this->brands);
     }
@@ -195,8 +196,10 @@ class CategoryProductsList extends Component
     {
         $products = $this->resolveProducts(json_decode($this->route_data));
 
-        //dd($sezone, $products);
-        return view('livewire.front.catalog.category-products-list', compact('products'));
+        $cat = json_decode($this->route_data);
+
+        //dd( $products);
+        return view('livewire.front.catalog.category-products-list', compact('products', 'cat'));
     }
 
 

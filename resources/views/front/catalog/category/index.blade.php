@@ -71,7 +71,13 @@
                     </section>
                 @endif
             @endif
-            @livewire('front.catalog.category-products-list', ['route_data' => json_encode($data)])
+
+
+                @livewire('front.catalog.category-products-list', ['route_data' => json_encode($data)])
+
+
+
+
     </div>
 @endsection
 
