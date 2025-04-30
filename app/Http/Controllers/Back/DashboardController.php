@@ -72,9 +72,9 @@ class DashboardController extends Controller
      *
      * @param Request $request
      */
-    public function import(Request $request)
+    public function importOld(Request $request)
     {
-        $xml = simplexml_load_file(public_path('assets/pneumax.xml'));
+        $xml = simplexml_load_file(public_path('assets/pneu-new.xml'));
         $import = new Import();
         $count  = 0;
 
@@ -98,9 +98,6 @@ class DashboardController extends Controller
 
                     if (!$images) {
 
-
-
-
                         // Attributes
                         if (!empty($item->EPREL_link)) {
                             $att_id = $import->resolveAttribute('EPREL Link');
@@ -122,6 +119,189 @@ class DashboardController extends Controller
                 }
                 }
 
+        }
+
+        return redirect()->route('dashboard')->with(['success' => 'Import je uspješno obavljen..! ' . $count . ' proizvoda importano.']);
+    }
+
+
+    public function import(Request $request)
+    {
+
+        $category = 14;
+        $subcategory = 26;
+
+
+
+        $xml = simplexml_load_file(public_path('assets/pneu-new.xml'));
+        $import = new Import();
+        $count  = 0;
+
+
+
+        //
+        $array = json_decode(json_encode($xml),TRUE);
+        $sorted = collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->toJson();
+
+        //dd(collect($array['Artikl'])->count(), collect($array['Artikl'])->whereNotIn('Namjena', ['TERETNE'])->first());
+
+        foreach (json_decode($sorted) as $item) {
+            //dd($item);
+            if ($item->Namjena != 'TERETNE' and $item->Kategorija =='GUME' and $item->Podkategorija =='ZIMSKE OSOBNE' and $item->Brand =='SAVA') {
+                $exist = Product::query()->where('sku', $item->Oznaka3)->first();
+
+                if ( ! $exist) {
+
+                    $count++;
+
+                    $product_id = Product::insertGetId([
+                        'brand_id'         => 0,
+                        'action_id'        => 0,
+                        'sku'              => $item->Oznaka3,
+                        'ean'              => !empty($item->EAN) ? $item->EAN : '',
+                        'name'             => $item->Naziv,
+                        'description'      => '',
+                        'slug'             => Str::slug($item->Naziv),
+                        'price'            => $item->MPC,
+                        'quantity'         => $item->Stock,
+                        'tax_id'           => 2,
+                        'special'          => null,
+                        'special_lock'     => null,
+                        'special_from'     => null,
+                        'special_to'       => null,
+                        'meta_title'       => $item->Naziv,
+                        'meta_description' => '',
+                        'nosivost'         => !empty($item->Li_Si) ? $item->Li_Si : '',
+                        'namjena'          => !empty($item->Namjena) ? $item->Namjena : '',
+                        'promjer'          => !empty($item->Promjer) ? $item->Promjer : '',
+                        'sirina'           => !empty($item->Širina) ? $item->Širina : '',
+                        'visina'           => !empty($item->Visina) ? $item->Visina : '',
+                        'buka'             => !empty($item->Buka) ? $item->Buka : '',
+                        'prijanjanje'      => !empty($item->Prianjanje_na_mokrom) ? $item->Prianjanje_na_mokrom : '',
+                        'iskoristivost'    => !empty($item->Iskoristivost_goriva) ? $item->Iskoristivost_goriva : '',
+                        'sezona'           => !empty($item->Namjena) ? $item->Namjena : '',
+                        'viewed'           => 0,
+                        'sort_order'       => 0,
+                        'featured'         => 0,
+                        'status'           => 1,
+                        'created_at'       => Carbon::now(),
+                        'updated_at'       => Carbon::now()
+                    ]);
+
+                    if ($product_id) {
+                        // image
+                        if ( ! empty($item->Slika1)) {
+                            $image = ImageHelper::save($item->Slika1, $item->Naziv, $product_id);
+
+                            Product::where('id', $product_id)->update([
+                                'image' => $image
+                            ]);
+                        }
+                        // + image
+                        if ( ! empty($item->Informacijski_list)) {
+                            $pimage = ImageHelper::save($item->Informacijski_list, $item->Naziv . '-informacijski-list', $product_id);
+
+                            ProductImage::insert([
+                                'product_id' => $product_id,
+                                'image'      => $pimage,
+                                'alt'        => $item->Naziv . ' Informacijski list',
+                                'published'  => 1,
+                                'sort_order' => 1,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
+                            ]);
+                        }
+
+                        // category
+                        if ( ! empty($item->Kategorija)) {
+                            $cat_id = $import->saveCategory($item->Kategorija);
+
+                            if ($cat_id) {
+                               /* ProductCategory::query()->insert([
+                                    'product_id'  => $product_id,
+                                    'category_id' => $cat_id,
+                                ]);*/
+
+                                // Category
+                                ProductCategory::query()->insert([
+                                    'product_id'  => $product_id,
+                                    'category_id' => $category,
+                                ]);
+                                ProductCategory::query()->insert([
+                                    'product_id'  => $product_id,
+                                    'category_id' => $subcategory,
+                                ]);
+
+                                $product = Product::find($product_id);
+                                $product->update([
+                                    'url' => ProductHelper::url($product),
+                                    'category_string' => ProductHelper::categoryString($product)
+                                ]);
+
+                                // subcategory
+                               /* if ( ! empty($item->Podkategorija)) {
+                                    $subcat_id = $import->saveCategory($item->Podkategorija, $cat_id);
+
+                                    if ($subcat_id) {
+                                        ProductCategory::query()->insert([
+                                            'product_id'  => $product_id,
+                                            'category_id' => $subcat_id,
+                                        ]);
+                                    }
+                                }*/
+                            }
+                        }
+
+                        $product = Product::find($product_id);
+                        $product->update([
+                            'url' => ProductHelper::url($product),
+                            'category_string' => ProductHelper::categoryString($product)
+                        ]);
+
+                        // Brand
+                        if ( ! empty($item->Brand)) {
+                            $brand_id = $import->resolveBrand($item->Brand);
+
+                            $product->update(['brand_id' => $brand_id]);
+                        }
+
+                        // Attributes
+                        if ( ! empty($item->EPREL_link)) {
+                            $att_id = $import->resolveAttribute('EPREL Link');
+
+                            ProductAttribute::query()->insert([
+                                'product_id'   => $product_id,
+                                'attribute_id' => $att_id,
+                                'value'        => $item->EPREL_link,
+                            ]);
+                        }
+                        if ( ! empty($item->Dezen)) {
+                            $att_id = $import->resolveAttribute('Dezen gume');
+
+                            ProductAttribute::query()->insert([
+                                'product_id'   => $product_id,
+                                'attribute_id' => $att_id,
+                                'value'        => $item->Dezen,
+                            ]);
+                        }
+                        if ( ! empty($item->SAP_kod)) {
+                            $att_id = $import->resolveAttribute('SAP Kod');
+
+                            ProductAttribute::query()->insert([
+                                'product_id'   => $product_id,
+                                'attribute_id' => $att_id,
+                                'value'        => $item->SAP_kod,
+                            ]);
+                        }
+
+                        $count++;
+
+                        if ($count > 300) {
+                            return redirect()->route('dashboard');
+                        }
+                    }
+                }
+            }
         }
 
         return redirect()->route('dashboard')->with(['success' => 'Import je uspješno obavljen..! ' . $count . ' proizvoda importano.']);
