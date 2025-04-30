@@ -380,11 +380,22 @@ class Checkout
 
         // Shipping
         if (isset($this->shipping_method->data->price)) {
+
+
+
+            if ($this->shipping_method->title == 'Dostava') {
+                $cart = CartSession::resolve();
+                $value = $cart->get()['count'] *  $this->shipping_method->data->price;
+            } else{
+                $value = $this->shipping_method->data->price;
+            }
+
+
             OrderTotal::query()->insertGetId([
                 'order_id'   => $order_id,
                 'code'       => 'shipping',
                 'title'      => $this->shipping_method->title,
-                'value'      => $this->shipping_method->data->price,
+                'value'      => $value,
                 'sort_order' => $sort_order,
                 'created_at' => now(),
                 'updated_at' => now()
