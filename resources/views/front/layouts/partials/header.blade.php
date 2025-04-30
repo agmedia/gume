@@ -186,6 +186,13 @@
               </span>
                     <span class="d-block animate-target fw-bolder text-nowrap ms-1">AUTO GUME</span>
                 </a>
+
+                <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => '/suv-4x4-gume']) }}">
+              <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
+                <img src="{{ asset('assets/images/auto-gume.png') }}" width="35" alt="Image">
+              </span>
+                    <span class="d-block animate-target fw-bolder text-nowrap ms-1">SUV/4x4 GUME</span>
+                </a>
               {{--   <a class="nav-link align-items-center animate-underline gap-2 p-0" href="{{ route('catalog.route', ['group' => group(true), 'cat' => 'dodatna-oprema', 'subcat' => 'poklopac-kotaca-ratkape']) }}">
               <span class="d-flex align-items-center justify-content-center bg-body-tertiary rounded-circle" style="width: 45px; height: 45px">
                <img src="{{ asset('assets/images/felge.png') }}" width="35" alt="Image">
