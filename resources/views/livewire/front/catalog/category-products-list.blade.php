@@ -13,7 +13,7 @@
                     </select>
                 </div>
 
-                @if($cat->category->title != 'Dodatna Oprema' )
+                @if( isset($cat->category->title) and $cat->category->title != 'Dodatna Oprema' )
                     <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                         <select class="form-select rounded-pill" wire:model="sirina" wire:change="dropdownFilterSelected('sirina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Širina">
                             <option value="">Širina</option>
