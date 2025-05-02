@@ -121,6 +121,7 @@ class Query
 
             $products = Product::active()->where('name', 'like', '%' . $target . '%')
                                ->orWhere('meta_title', 'like', '%' . $target . '%')
+                               ->orWhere('description', 'like', '%' . $target . '%')
                                ->orWhere('nosivost', 'like', '%' . $target . '%')
                                ->orWhere('promjer', 'like', '%' . $target . '%')
                                ->orWhere('sirina', 'like', '%' . $target . '%')
