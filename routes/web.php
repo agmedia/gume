@@ -121,6 +121,7 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('hotel/{hotel}', [HotelController::class, 'show'])->name('hotels.show');
     Route::get('hotel/{hotel}/edit', [HotelController::class, 'edit'])->name('hotels.edit');
     Route::patch('hotel/{hotel}', [HotelController::class, 'update'])->name('hotels.update');
+    Route::delete('hotel/{hotel}', [HotelController::class, 'destroy'])->name('hotels.destroy');
 
     // MARKETING
     Route::prefix('marketing')->group(function () {
@@ -239,6 +240,7 @@ Route::prefix('api/v2')->group(function () {
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
     Route::post('/brands/destroy/api', [BrandController::class, 'destroyApi'])->name('brands.destroy.api');
+    Route::post('/hotels/destroy/api', [HotelController::class, 'destroyApi'])->name('hotels.destroy.api');
     Route::post('/publishers/destroy/api', [PublisherController::class, 'destroyApi'])->name('publishers.destroy.api');
     Route::post('/products/destroy/api', [ProductController::class, 'destroyApi'])->name('products.destroy.api');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');

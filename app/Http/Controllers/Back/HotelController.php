@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Hotel\Hotel;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Settings\Settings;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -120,8 +121,16 @@ class HotelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
-    {}
+    public function destroy(Request $request, Hotel $hotel)
+    {
+        $deleted = $hotel->delete();
+
+        if ($deleted) {
+            return redirect()->route('hotels')->with(['success' => 'Upis je uspješno izbrisan!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom brisanja.']);
+    }
 
     /*******************************************************************************
      *                                Copyright : AGmedia                           *
@@ -132,6 +141,27 @@ class HotelController extends Controller
     {
         return Settings::get('order', 'statuses')
                        ->whereIn('id', config('settings.reservation_statuses'));
+    }
+
+
+    /**
+     * Remove the specified resource from storage via API.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyApi(Request $request): JsonResponse
+    {
+        if ($request->has('id')) {
+            $destroyed = Hotel::destroy($request->input('id'));
+
+            if ($destroyed) {
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 300]);
     }
 
 }
