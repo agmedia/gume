@@ -95,6 +95,7 @@
                                     <a class="btn btn-sm btn-alt-info" href="{{ route('hotels.edit', ['hotel' => $hotel]) }}">
                                         <i class="fa fa-fw fa-edit"></i>
                                     </a>
+                                    <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $hotel->id }}, '{{ route('hotels.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @empty
