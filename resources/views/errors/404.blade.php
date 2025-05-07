@@ -2,6 +2,8 @@
 
 @section ( 'title', '404 Error')
 
+<script>window.location.href = "https://www.pneu-max.hr";</script>
+
 @section('content')
     <div class="container py-5 mb-lg-3">
         <div class="row justify-content-center pt-lg-4 text-center">
