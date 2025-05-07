@@ -58,7 +58,7 @@
                                         <div class="col-md-10 offset-md-1 ag-hide" id="size-all">
                                             <div class="slim"
                                                  data-ratio="16:9"
-                                                 data-force-size="1920,500"
+                                                 data-force-size="1400,500"
                                                  data-max-file-size="2">
                                                 <img src="{{ isset($widget) && isset($widget->image) ? asset($widget->image) : '' }}" alt=""/>
                                                 <input type="file" name="image_long"/>
