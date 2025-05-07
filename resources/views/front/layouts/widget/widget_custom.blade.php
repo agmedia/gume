@@ -25,9 +25,9 @@
                         <div class="row">
                             <div class="col-9 col-sm-8 col-md-7 col-lg-6">
 
-                                <h2 class="display-5 pb-2 ">{{ $widget['title'] }}</h2>
+                              <!--  <h2 class="display-5 pb-2 ">{{ $widget['title'] }}</h2>
                                 <p class="fs-lg text-white mb-4 pb-2">{{ $widget['subtitle'] }}</p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="{{ url($widget['url']) }}">Prijavi se</a>
+                                <a class="btn btn-lg btn-primary rounded-pill" href="{{ url($widget['url']) }}">Prijavi se</a> -->
                             </div>
                         </div>
                     </div>
