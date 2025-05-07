@@ -1,5 +1,5 @@
 @extends('front.layouts.app')
-
+<script>window.location.href = "https://www.pneu-max.hr";</script>
 @section('content')
 
     <div class="container py-5 mb-lg-3">
