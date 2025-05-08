@@ -95,7 +95,7 @@ class Hotel extends Model
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'user_id'  => 'required'
+            'user_id'  => 'required|numeric|min:0|not_in:0'
         ]);
 
         $this->setRequest($request);
