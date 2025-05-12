@@ -152,7 +152,7 @@
             </button>
 
             <!-- Account button visible on screens > 768px wide (md breakpoint) -->
-            <a class="btn btn-icon fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-none d-md-inline-flex" href="{{ route('login') }}">
+            <a class="btn btn-icon fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-inline-flex" href="{{ route('login') }}">
                 <i class="ci-user animate-target"></i>
                 <span class="visually-hidden">Moj račun</span>
             </a>
