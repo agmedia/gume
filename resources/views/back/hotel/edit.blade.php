@@ -175,13 +175,13 @@
                                         <div class="col-md-12 mb-4">
                                             <label for="title-input">Datum preuzimanja na čuvanje</label>
                                             <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                                <input type="text" class="form-control" id="start_date_input" name="start_date" placeholder="do" value="{{ (isset($hotel->start_date) && $hotel->start_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($hotel->start_date)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                                <input type="text" class="form-control" id="start_date_input" name="start_date" placeholder="do" value="{{ (isset($hotel->start_date) && $hotel->start_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($hotel->start_date)->format('m/d/Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="reg-input">Datum isteka čuvanja</label>
-                                                <input type="text" class="form-control"  name="end_date" value="{{ (isset($hotel->start_date) && $hotel->start_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($hotel->start_date)->addMonths(6)->format('d.m.Y') : '' }}" readonly>
+                                                <input type="text" class="form-control"  name="end_date" value="{{ (isset($hotel->start_date) && $hotel->start_date != '0000-00-00 00:00:00') ? \Carbon\Carbon::make($hotel->start_date)->addMonths(6)->format('m/d/Y') : '' }}" readonly>
                                             </div>
                                         </div>
                                     </div>
