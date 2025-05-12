@@ -107,7 +107,7 @@ class Checkout
         }
 
         if (session()->has('order_id')) {
-            $this->order_id = Order::query()->update($this->getOrderModelArray(false));
+            $this->order_id = Order::query()->where('id', session()->get('order_id'))->update($this->getOrderModelArray(false));
 
         } else {
             $this->order_id = Order::insertGetId($this->getOrderModelArray());
@@ -380,16 +380,12 @@ class Checkout
 
         // Shipping
         if (isset($this->shipping_method->data->price)) {
-
-
-
             if ($this->shipping_method->title == 'Dostava') {
                 $cart = CartSession::resolve();
                 $value = $cart->get()['count'] *  $this->shipping_method->data->price;
             } else{
                 $value = $this->shipping_method->data->price;
             }
-
 
             OrderTotal::query()->insertGetId([
                 'order_id'   => $order_id,
