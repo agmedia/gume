@@ -13,8 +13,8 @@
     <meta property="og:description" content="Veliki Izbor Auto Guma po Najpovoljnijim Cijenama,Besplatna Montaža na Vozilo!" />
     <meta property="og:url" content="{{ env('APP_URL')}}"  />
     <meta property="og:site_name" content="PNEU-MAX | Auto gume i ugradnja" />
-    <meta property="og:image" content="{{ asset('media/img/cover-zuzi.jpg') }}" />
-    <meta property="og:image:secure_url" content="{{ asset('media/img/cover-zuzi.jpg') }}" />
+    <meta property="og:image" content="{{ asset('assets/images/03.jpg') }}" />
+    <meta property="og:image:secure_url" content="{{ asset('assets/images/03.jpg') }}" />
     <meta property="og:image:width" content="1920" />
     <meta property="og:image:height" content="720" />
     <meta property="og:image:type" content="image/jpeg" />
