@@ -65,6 +65,7 @@
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 36px;">Br.</th>
+                            <th class="text-center">Dokument</th>
                             <th class="text-center">Datum od-do</th>
                             <th class="text-center">Količina</th>
                             <th>Status</th>
@@ -78,6 +79,12 @@
                                 <td class="text-center">
                                     <a class="font-w600" href="{{ route('hotels.edit', ['hotel' => $hotel]) }}">
                                         <strong>{{ $hotel->id }}</strong>
+                                    </a>
+                                </td>
+
+                                <td class="text-center">
+                                    <a class="font-w600" href="{{ route('hotels.edit', ['hotel' => $hotel]) }}">
+                                        <strong>{{ $hotel->invoice }}</strong>
                                     </a>
                                 </td>
                                 <td class="text-center">{{ \Illuminate\Support\Carbon::make($hotel->start_date)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($hotel->end_date)->format('d.m.Y') }}</td>
