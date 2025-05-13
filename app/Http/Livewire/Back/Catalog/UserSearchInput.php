@@ -113,8 +113,11 @@ class UserSearchInput extends Component
             return $this->emit('error_alert', ['message' => 'Molimo vas da ispravno popunite sve podatke!']);
         }
 
-        //dd($this->new);
+        $email_exist = User::query()->where('email', $this->new['email'])->first();
 
+        if ($email_exist) {
+            return $this->emit('error_alert', ['message' => 'Korisnik sa ' . $this->new['email'] . ' emailom već postoji, molimo vas da izaberete drugi..!']);
+        }
 
         $public_user = User::query()->create([
             'name'     => $this->new['name'],
