@@ -17,6 +17,11 @@
                     <input type="text" class="form-control  @if (session()->has('email')) is-invalid @endif" id="input-email" wire:model.defer="new.email" placeholder="">
                 </div>
 
+                <div class="mb-4 col-sm-12 col-md-12">
+                    <label class="form-label required" for="input-email">Mobitel</label>
+                    <input type="text" class="form-control  @if (session()->has('phone')) is-invalid @endif" id="input-phone" wire:model.defer="new.phone" placeholder="">
+                </div>
+
                 <div class="mb-0 mt-1 col-md-12 text-right">
                     <a href="javascript:void(0)" wire:click="makeNewUser" class="btn btn-primary btn-save shadow-sm">
                         <i class="align-middle" data-feather="save">&nbsp;</i> Snimi

@@ -136,6 +136,7 @@ class UserSearchInput extends Component
             UserDetail::query()->create([
                 'user_id'    => $public_user->id,
                 'fname'      => $this->new['name'],
+                'phone'    => $this->new['phone'],
                 'role'       => 'customer',
                 'status'     => 1,
                 'created_at' => now(),
