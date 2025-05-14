@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('update:prices_and_quantity')->everyMinute();
     }
 
+
     /**
      * Register the commands for the application.
      *
