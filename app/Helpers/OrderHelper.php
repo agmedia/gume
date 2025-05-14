@@ -78,7 +78,7 @@ class OrderHelper
                 return $this->order->{$column . '_email'};
             }
 
-            return $this->order->payment_email;
+            return trim(str_replace('\t', '', $this->order->payment_email));
         }
 
         return $this;
