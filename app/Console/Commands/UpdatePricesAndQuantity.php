@@ -40,6 +40,8 @@ class UpdatePricesAndQuantity extends Command
      */
     public function handle()
     {
+        Log::info('__Update prices and quantities');
+
         $log_start = microtime(true);
 
         $dfw = new DataFeedWatch();
