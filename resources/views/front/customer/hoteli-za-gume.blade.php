@@ -51,10 +51,13 @@
                                     <td>Mobitel</td>
                                     <td>{{ $user->details->phone }}</td>
                                 </tr>
+                                @if(isset($hotel->brand))
                                 <tr>
+
                                     <td>Proizvođač</td>
                                     <td>{{ $hotel->brand->title}}</td>
                                 </tr>
+                                @endif
                                 <tr>
                                     <td>Dimenzija</td>
                                     <td>{{ $hotel->dimension}}</td>
