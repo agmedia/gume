@@ -87,7 +87,7 @@
                             <th>Kupac</th>
                             <th class="text-center">Artikli</th>
                             <th class="text-right">Vrijednost</th>
-                            <th class="text-center font-size-sm" style="width: 80px;">GLS</th>
+                           <!-- <th class="text-center font-size-sm" style="width: 80px;">GLS</th>-->
                             <th class="text-right font-size-sm" style="width: 100px;">Detalji</th>
                         </tr>
                         </thead>
@@ -118,13 +118,13 @@
                                 <td class="text-right">
                                     <strong>€ {{ number_format($order->total, 2, ',', '.') }}</strong>
                                 </td>
-                                <td class="text-center">
+                             {{--    <td class="text-center">
                                     @if($order->printed)
                                         <i class="fa fa-fw fa-check text-success"></i>
                                     @else
                                         <button type="button" class="btn btn-light btn-sm" onclick="sendGLS({{ $order->id }})"><i class="fa fa-shipping-fast ml-1"></i></button>
                                     @endif
-                                </td>
+                                </td>--}}
                                 <td class="text-right">
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $order]) }}">
                                         <i class="fa fa-fw fa-eye"></i>

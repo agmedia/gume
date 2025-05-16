@@ -38,11 +38,11 @@ class Gls
             ini_set('max_execution_time', 600);
 
             //Test ClientNumber:
-            $clientNumber = 380006507; //!!!NOT FOR CUSTOMER TESTING, USE YOUR OWN, USE YOUR OWN!!!
+            $clientNumber = 3; //!!!NOT FOR CUSTOMER TESTING, USE YOUR OWN, USE YOUR OWN!!!
             //Test username:
-            $username = "info@zuzi.hr"; //!!!NOT FOR CUSTOMER TESTING, USE YOUR OWN, USE YOUR OWN!!!
+            $username = ""; //!!!NOT FOR CUSTOMER TESTING, USE YOUR OWN, USE YOUR OWN!!!
             //Test password:
-            $pwd      = "Mimizizi0510"; //!!!NOT FOR CUSTOMER TESTING, USE YOUR OWN, USE YOUR OWN!!!
+            $pwd      = ""; //!!!NOT FOR CUSTOMER TESTING, USE YOUR OWN, USE YOUR OWN!!!
             $password = hash('sha512', $pwd, true);
 
             $brojracuna = $this->order['id'];
