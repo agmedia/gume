@@ -72,7 +72,11 @@ class Reservation extends Model
             return $this->order->payment_fname . ' ' . $this->order->payment_lname;
         }
 
-        return $this->user->name;
+        if ($this->user) {
+            return $this->user->name;
+        }
+
+        return 'Korisnik nije upisan';
     }
 
 
