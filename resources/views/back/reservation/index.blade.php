@@ -99,7 +99,7 @@
                                     @include('back.layouts.partials.status', ['status' => $reservation->active, 'simple' => true])
                                     <span class="fw-bold ml-3">{{ $reservation->time }}</span>
                                 </td>
-                                <td><a href="#">{{ $reservation->username }}</a></td>
+                                <td><a href="#">@if(isset($reservation->username)){{ $reservation->username }}@endif</a></td>
                                 <td class="d-none d-sm-table-cell">
                                     <span class="badge badge-pill badge-{{ $reservation->status->color }}">{{ $reservation->status->title }}</span>
                                 </td>
