@@ -3,6 +3,7 @@
 namespace App\Models\Back\Settings\Api;
 
 use App\Models\Back\Catalog\Product\Product;
+use App\Models\Back\Settings\Temp;
 
 class DataFeedWatch
 {
@@ -43,9 +44,10 @@ class DataFeedWatch
      *
      * @return int The number of products successfully updated.
      */
-    public function updatePricesAndQuantity(): int
+    public function updatePricesAndQuantity(bool $second_feeds = true): int
     {
         $count = 0;
+        $update_arr = [];
 
         if ($this->feed) {
             foreach ($this->feed->product as $item) {
@@ -58,11 +60,20 @@ class DataFeedWatch
                     ]);
 
                     $count++;
+
+                    $update_arr .= [
+                        'sku' => (string) $item->product_code,
+                        'quantity' => (string) $item->stock_number
+                    ];
+
+                    Temp::query()->insert($update_arr);
                 }
             }
         }
 
-        $count_2 = $this->checkSecondUrl();
+        if ($second_feeds) {
+            $count_2 = $this->checkSecondUrl();
+        }
 
         return $count + $count_2;
     }
@@ -82,7 +93,7 @@ class DataFeedWatch
         if ($this->url_2 != '') {
             $this->feed = simplexml_load_file($this->url_2);
 
-            return $this->updatePricesAndQuantity();
+            return $this->updatePricesAndQuantity(false);
         }
 
         return 0;
