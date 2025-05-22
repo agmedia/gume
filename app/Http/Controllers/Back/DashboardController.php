@@ -542,6 +542,8 @@ class DashboardController extends Controller
         
         Product::query()->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
         
+        Temp::query()->truncate();
+        
         return redirect()->route('dashboard')->with(['success' => 'Update je obavljen. Deaktivirano ' . $prods->count() . ' proizvoda.']);
     }
 

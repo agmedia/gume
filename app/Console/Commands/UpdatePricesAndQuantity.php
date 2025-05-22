@@ -52,6 +52,8 @@ class UpdatePricesAndQuantity extends Command
         $temps = Temp::query()->get();
         
         Product::query()->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
+        
+        Temp::query()->truncate();
 
         $log_end = microtime(true);
         Log::info('__Update prices and quantities - Total Execution Time: ' . number_format(($log_end - $log_start), 2, ',', '.') . ' sec.');
