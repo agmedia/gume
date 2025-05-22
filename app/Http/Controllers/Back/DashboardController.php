@@ -23,6 +23,7 @@ use App\Models\Back\Catalog\Publisher;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Settings\Api\DataFeedWatch;
+use App\Models\Back\Settings\Temp;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -536,7 +537,12 @@ class DashboardController extends Controller
         
         $dfw->updatePricesAndQuantity();
         
-        return redirect()->route('dashboard')->with(['success' => 'Update je obavljen.']);
+        $temps = Temp::query()->get();
+        $prods = Product::query()->whereNotIn('sku', $temps->pluck('sku'))->get();
+        
+        Product::query()->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
+        
+        return redirect()->route('dashboard')->with(['success' => 'Update je obavljen. Deaktivirano ' . $prods->count() . ' proizvoda.']);
     }
 
 

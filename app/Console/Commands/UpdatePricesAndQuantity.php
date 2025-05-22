@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Settings\Api\DataFeedWatch;
+use App\Models\Back\Settings\Temp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -46,6 +48,10 @@ class UpdatePricesAndQuantity extends Command
 
         $dfw = new DataFeedWatch();
         $nb_dfw = $dfw->updatePricesAndQuantity();
+        
+        $temps = Temp::query()->get();
+        
+        Product::query()->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
 
         $log_end = microtime(true);
         Log::info('__Update prices and quantities - Total Execution Time: ' . number_format(($log_end - $log_start), 2, ',', '.') . ' sec.');

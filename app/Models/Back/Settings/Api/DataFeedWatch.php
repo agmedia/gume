@@ -47,10 +47,12 @@ class DataFeedWatch
     public function updatePricesAndQuantity(bool $second_feeds = true): int
     {
         $count = 0;
+        $count_2 = 0;
         $update_arr = collect();
 
         if ($this->feed) {
             foreach ($this->feed->product as $item) {
+                //if ($count > 10) { break; }
                 $product = Product::query()->where('sku', (string) $item->product_code)->first();
 
                 if ($product) {
