@@ -524,8 +524,8 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard')->with(['success' => 'Import je uspješno obavljen..! ' . $count . ' proizvoda importano.']);
     }
-    
-    
+
+
     /**
      * @param Request $request
      *
@@ -534,16 +534,18 @@ class DashboardController extends Controller
     public function updatePQ(Request $request)
     {
         $dfw = new DataFeedWatch();
-        
+
         $dfw->updatePricesAndQuantity();
-        
+
         $temps = Temp::query()->get();
         $prods = Product::query()->whereNotIn('sku', $temps->pluck('sku'))->get();
-        
-        Product::query()->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
-        
+
+
+
+        Product::query()->where('brand_id', '!=' , 1 )->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
+
         Temp::query()->truncate();
-        
+
         return redirect()->route('dashboard')->with(['success' => 'Update je obavljen. Deaktivirano ' . $prods->count() . ' proizvoda.']);
     }
 
