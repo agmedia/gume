@@ -131,7 +131,7 @@ class DashboardController extends Controller
     {
 
         $category = 14;
-        $subcategory = 25;
+        $subcategory = 26;
 
 
 
@@ -149,7 +149,7 @@ class DashboardController extends Controller
 
         foreach (json_decode($sorted) as $item) {
             //dd($item);
-            if ($item->Namjena != 'TERETNE' and $item->Kategorija =='GUME' and $item->Podkategorija =='LJETNE OSOBNE' and $item->Brand =='SAVA') {
+            if ($item->Namjena != 'TERETNE' and $item->Kategorija =='GUME' and $item->Podkategorija =='ZIMSKE OSOBNE' and $item->Brand =='SAVA') {
                 $exist = Product::query()->where('sku', $item->Oznaka3)->first();
 
                 if ( ! $exist) {
