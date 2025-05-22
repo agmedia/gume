@@ -135,7 +135,7 @@ class DashboardController extends Controller
 
 
 
-        $xml = simplexml_load_file(public_path('assets/pneunewnew.xml'));
+        $xml = simplexml_load_file(public_path('assets/pneumaxnew.xml'));
         $import = new Import();
         $count  = 0;
 
