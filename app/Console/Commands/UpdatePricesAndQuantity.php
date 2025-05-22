@@ -48,11 +48,11 @@ class UpdatePricesAndQuantity extends Command
 
         $dfw = new DataFeedWatch();
         $nb_dfw = $dfw->updatePricesAndQuantity();
-        
+
         $temps = Temp::query()->get();
-        
-        Product::query()->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
-        
+
+        Product::query()->where('brand_id', '!=' , 1 )->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
+
         Temp::query()->truncate();
 
         $log_end = microtime(true);
