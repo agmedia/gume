@@ -36,6 +36,8 @@
                             <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info mb-3 mr-3">Import Initial XML</a>
                             <a href="{{ route('import.inter') }}" class="btn btn-hero-sm btn-rounded btn-hero-info mb-3 mr-3">Import Inter XML</a>
                             <br>
+                            <a href="{{ route('update.pq') }}" class="btn btn-hero-sm btn-rounded btn-hero-warning mb-3 mr-3">Update XML DFW</a>
+                            <br>
                             <a href="{{ route('mailing.test') }}" class="btn btn-hero-sm btn-rounded btn-hero-success mb-3 mr-3">Mail Test</a>
                             {{--
                             <a href="{{ route('letters.import') }}" class="btn btn-hero-sm btn-rounded btn-hero-warning mb-3 mr-3">First Letters Import</a>

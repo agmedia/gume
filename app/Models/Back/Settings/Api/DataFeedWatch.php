@@ -47,7 +47,7 @@ class DataFeedWatch
     public function updatePricesAndQuantity(bool $second_feeds = true): int
     {
         $count = 0;
-        $update_arr = [];
+        $update_arr = collect();
 
         if ($this->feed) {
             foreach ($this->feed->product as $item) {
@@ -60,14 +60,23 @@ class DataFeedWatch
                     ]);
 
                     $count++;
-
-
-                    array_push($update_arr, [    'sku' => (string) $item->product_code,    'quantity' => (string) $item->stock_number]);
-
-
-                    Temp::query()->insert($update_arr);
+                    
+                    $has = Temp::query()->where('sku', (string) $item->product_code)->first();
+                    
+                    if ( ! $has) {
+                        $has_in = $update_arr->where('sku', (string) $item->product_code)->first();
+                        
+                        if ( ! $has_in) {
+                            $update_arr->push([
+                                'sku' => (string) $item->product_code,
+                                'quantity' => (string) $item->stock_number
+                            ]);
+                        }
+                    }
                 }
             }
+            
+            Temp::query()->insert($update_arr->toArray());
         }
 
         if ($second_feeds) {

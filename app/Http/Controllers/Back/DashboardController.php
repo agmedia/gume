@@ -22,6 +22,7 @@ use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Catalog\Publisher;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderProduct;
+use App\Models\Back\Settings\Api\DataFeedWatch;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -522,7 +523,21 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard')->with(['success' => 'Import je uspješno obavljen..! ' . $count . ' proizvoda importano.']);
     }
-
+    
+    
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePQ(Request $request)
+    {
+        $dfw = new DataFeedWatch();
+        
+        $dfw->updatePricesAndQuantity();
+        
+        return redirect()->route('dashboard')->with(['success' => 'Update je obavljen.']);
+    }
 
 
 
