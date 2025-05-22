@@ -61,10 +61,9 @@ class DataFeedWatch
 
                     $count++;
 
-                    $update_arr .= [
-                        'sku' => (string) $item->product_code,
-                        'quantity' => (string) $item->stock_number
-                    ];
+
+                    array_push($update_arr, [    'sku' => (string) $item->product_code,    'quantity' => (string) $item->stock_number]);
+
 
                     Temp::query()->insert($update_arr);
                 }
