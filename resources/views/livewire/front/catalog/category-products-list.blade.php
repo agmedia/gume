@@ -13,10 +13,36 @@
                     </select>
                 </div>
 
+
+
+                @if( isset($cat->subcategory->title) and $cat->subcategory->title == 'Akumulator za osobna vozila' )
+
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill" wire:model="amperi" wire:change="dropdownFilterSelected('amperi', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Amperi">
+                            <option value="">Amperi</option>
+
+
+                            @foreach ($ampere as $item)
+                                @if($item !='')
+
+                                    <option value="{{ $item['key'] }}" @if($item['key'] == $amperi) selected @endif>{{ $item['key'] }}</option>
+                                @endif
+
+                            @endforeach
+                        </select>
+                    </div>
+
+                @endif
+
                 @if( isset($cat->category->title) and $cat->category->title != 'Dodatna Oprema' )
+
                     <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                         <select class="form-select rounded-pill" wire:model="sirina" wire:change="dropdownFilterSelected('sirina', $event.target.value)" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži"]}' aria-label="Širina">
                             <option value="">Širina</option>
+
+
+
+
                             @foreach ($sirine as $item)
                                 @if($item !='')
 

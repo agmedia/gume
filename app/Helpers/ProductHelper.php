@@ -199,6 +199,17 @@ class ProductHelper
     /**
      * @return Collection
      */
+    public static function getAmperiList(): Collection
+    {
+        return Cache::remember('products.ampere', config('cache.life'), function () {
+            return collect(config('settings.ampere'));
+        });
+    }
+
+
+    /**
+     * @return Collection
+     */
     public static function getSirineList($data): Collection
     {
         return Cache::remember(self::getCacheHash($data, 'sirine'), config('cache.life'), function () use ($data) {

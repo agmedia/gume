@@ -80,6 +80,50 @@ return [
         ],
     ],
 
+    'ampere' => [
+        0 => [
+            'title' => '30Ah',
+            'key' => '30Ah'
+        ],
+        1 => [
+            'title' => '40Ah',
+            'key' => '40Ah'
+        ],
+        2 => [
+            'title' => '50Ah',
+            'key' => '50Ah'
+        ],
+        3 => [
+            'title' => '60Ah',
+            'key' => '60Ah'
+        ],
+        4 => [
+            'title' => '70Ah',
+            'key' => '70Ah'
+        ],
+        5 => [
+            'title' => '80Ah',
+            'key' => '80Ah'
+        ],
+        6 => [
+            'title' => '90Ah',
+            'key' => '90Ah'
+        ],
+        7 => [
+            'title' => '100Ah',
+            'key' => '100Ah'
+        ],
+        8 => [
+            'title' => '110Ah',
+            'key' => '110Ah'
+        ],
+        9 => [
+            'title' => '120Ah',
+            'key' => '120Ah'
+        ],
+
+    ],
+
     'actions_sorting_list' => [
         0 => [
             'title' => 'Sve akcije',

@@ -37,6 +37,11 @@ class CategoryProductsList extends Component
     /**
      * @var array
      */
+    public $ampere = [];
+
+    /**
+     * @var array
+     */
     public $sirine = [];
 
     /**
@@ -75,6 +80,12 @@ class CategoryProductsList extends Component
      * @var string
      */
     public $promjer = '';
+
+    /**
+     * @var string
+     */
+    public $amperi = '';
+
 
     /**
      * @var string
@@ -119,6 +130,7 @@ class CategoryProductsList extends Component
         'sirina'  => ['except' => ''],
         'visina'  => ['except' => ''],
         'promjer' => ['except' => ''],
+        'amperi' => ['except' => ''],
         'brand'   => ['except' => ''],
         'price'   => ['except' => ''],
         'sort'    => ['except' => ''],
@@ -136,6 +148,7 @@ class CategoryProductsList extends Component
         $this->visine       = ProductHelper::getVisineList(json_decode($this->route_data));
         $this->promjeri     = ProductHelper::getPromjeriList(json_decode($this->route_data));
         $this->sorting_list = ProductHelper::getSortingList(json_decode($this->route_data));
+        $this->ampere       = ProductHelper::getAmperiList(json_decode($this->route_data));
         //
         $this->brands = Brand::getSelectList( 'slug', json_decode($this->route_data));
        // $this->kat = json_decode($this->route_data);
@@ -264,6 +277,10 @@ class CategoryProductsList extends Component
             $products->where('promjer', $filter->promjer);
         }
 
+            if ($filter->amperi != '') {
+                $products->where('description', 'LIKE', '%' . $filter->amperi . '%');
+            }
+
         // Sort
         if ($filter->sort != '') {
             $sort = explode('-', $filter->sort);
@@ -292,6 +309,7 @@ class CategoryProductsList extends Component
         $data->promjer     = $this->promjer;
         $data->sort        = $this->sort;
         $data->brand       = $this->brand;
+        $data->amperi       = $this->amperi;
         $data->price       = $this->price;
         $data->page        = $this->page;
 
@@ -305,6 +323,7 @@ class CategoryProductsList extends Component
                       . $data->visina
                       . $data->promjer
                       . $data->brand
+                      . $data->amperi
                       . $data->sort
                       . $data->price
                       . $data->page
