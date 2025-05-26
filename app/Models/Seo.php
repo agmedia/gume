@@ -26,8 +26,8 @@ class Seo
         $response = [];
 
         $response['product'] = [
-            'title'       => $product->name . ' knjige ' . (isset($product->author->title) ? $product->author->title : ''),
-            'description' => 'Knjiga ' . $product->name . ' izdavača ' . (isset($product->author->title) ? $product->author->title : '') . ' godine izdanja ' . ($product->year ?: '') . ' i mjesta izdavanja ' . ($product->origin ?: '') . ' u PNEU-MAX Shop-u.'
+            'title'       => $product->name,
+            'description' => $product->description
         ];
 
         $response['gdl'] = TagManager::getGoogleProductDataLayer($product);
@@ -61,7 +61,7 @@ class Seo
 
         return [
             'title'       => $title,
-            'description' => $description
+            'description' => strip_tags(html_entity_decode($description))
         ];
     }
 

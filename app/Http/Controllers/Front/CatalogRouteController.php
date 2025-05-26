@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Breadcrumb;
 use App\Helpers\Helper;
+use App\Helpers\Metatags;
 use App\Helpers\Query;
 use App\Helpers\RouteResolver;
 use App\Http\Controllers\FrontController;
@@ -48,11 +49,13 @@ class CatalogRouteController extends FrontController
 
             $meta = Seo::getProductData($prod);
 
+            $bookscheme = Metatags::productSchema($prod);
+
             $related_products = Product::where('featured', '1')->get();
 
             $crumbs = (new Breadcrumb())->product($data->group, $data->category, $data->subcategory, $data->product)->resolve();
 
-            return view('front.catalog.product.index', compact('data', 'meta', 'crumbs','related_products'));
+            return view('front.catalog.product.index', compact('data', 'bookscheme', 'meta', 'crumbs','related_products'));
         }
 
         // Nastavi sa prikazom kategorije sa listom proizvoda.

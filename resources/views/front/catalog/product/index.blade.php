@@ -539,4 +539,8 @@
         {!! collect($crumbs)->toJson() !!}
     </script>
 
+    <script type="application/ld+json">
+        {!! collect($bookscheme)->toJson() !!}
+    </script>
+
 @endpush
