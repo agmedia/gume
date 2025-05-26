@@ -27,7 +27,7 @@ class Seo
 
         $response['product'] = [
             'title'       => $product->name,
-            'description' => strip_tags(html_entity_decode($description))
+            'description' => strip_tags(html_entity_decode($product->description))
         ];
 
         $response['gdl'] = TagManager::getGoogleProductDataLayer($product);
