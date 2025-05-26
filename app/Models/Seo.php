@@ -27,7 +27,7 @@ class Seo
 
         $response['product'] = [
             'title'       => $product->name,
-            'description' => $product->description
+            'description' => strip_tags(html_entity_decode($description))
         ];
 
         $response['gdl'] = TagManager::getGoogleProductDataLayer($product);
@@ -87,7 +87,7 @@ class Seo
 
         return [
             'title'       => $title,
-            'description' => $description
+            'description' => strip_tags(html_entity_decode($description))
         ];
     }
 
