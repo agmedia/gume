@@ -103,6 +103,30 @@
 
         <!-- Copyright + Payment methods -->
         <div class="d-md-flex align-items-center border-top py-4">
+            <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
+                <div>
+                    <img src="assets/img/payment-methods/visa-dark-mode.svg" alt="Visa">
+                </div>
+                <div>
+                    <img src="assets/img/payment-methods/mastercard.svg" alt="Mastercard">
+                </div>
+                <div>
+                    <img src="assets/img/payment-methods/maestro.svg" alt="Maestro">
+                </div>
+
+
+                <div>
+                    <img src="assets/img/payment-methods/apple-pay-dark-mode.svg" alt="ApplePay">
+                </div>
+
+                <div>
+                    <img src="assets/img/payment-methods/google-pay-dark-mode.svg" alt="GooglePay">
+                </div>
+                <div>
+                    <img src="assets/img/payment-methods/corvus-logo-i.svg" style="height:15px;margin-top:10px" alt="Corvus">
+                </div>
+
+            </div>
             <div class="d-flex gap-2 fs-xs gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
                 Web by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://www.agmedia.hr" target="_blank" rel="noreferrer">AG media</a></span>
             </div>
