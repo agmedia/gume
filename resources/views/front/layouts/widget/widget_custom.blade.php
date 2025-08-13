@@ -58,7 +58,7 @@
     <div class="d-none d-xxl-block" style="height: 624px"></div>
 </section>
 
-<section class="container pt-4 pb-5 mt-2 mt-sm-3 mt-lg-4">
+<!--<section class="container pt-4 pb-5 mt-2 mt-sm-3 mt-lg-4">
     <div class="col-12 align-items-center justify-content-between border-bottom pb-3 pb-md-4">
         <div class="alert alert-danger d-flex" role="alert">
             <div class="alert-icon">
@@ -69,4 +69,4 @@
             Auto gume kupljene na našem web shop-u biti će isporučene  ili ugrađene iza 10.08.2025
         </div>
     </div>
-</section>
+</section>-->
