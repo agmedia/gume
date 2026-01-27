@@ -68,11 +68,11 @@ class Reservation extends Model
      */
     public function getUsernameAttribute($value)
     {
-        if ($this->order_id) {
-            return $this->order->payment_fname . ' ' . $this->order->payment_lname;
+        if ($this->order_id && $this->order) {
+            return trim(($this->order->payment_fname ?? '') . ' ' . ($this->order->payment_lname ?? ''));
         }
 
-        if (isset($this->user)) {
+        if ($this->user) {
             return $this->user->name;
         }
 
@@ -85,16 +85,12 @@ class Reservation extends Model
      */
     public function order()
     {
-        return $this->hasOne(Order::class, 'id', 'order_id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
 
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 
