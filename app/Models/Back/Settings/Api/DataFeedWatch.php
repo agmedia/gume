@@ -9,6 +9,7 @@ use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductAttribute;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -306,6 +307,8 @@ class DataFeedWatch
      */
     private function createProduct(array $data, array $categoryIds, Import $import, array $options): Product
     {
+        $desiredStatus = $data['status'];
+
         $product = Product::query()->create([
             'brand_id'         => $import->resolveBrand($data['brand']),
             'action_id'        => 0,
@@ -330,19 +333,27 @@ class DataFeedWatch
             'prijanjanje'      => $data['prijanjanje'],
             'iskoristivost'    => $data['iskoristivost'],
             'sezona'           => $data['season'],
-            'status'           => $data['status'],
+            // Keep new items inactive until the import fully succeeds.
+            'status'           => 0,
         ]);
 
-        if ( ! empty($categoryIds)) {
-            ProductCategory::storeData($categoryIds, $product->id);
+        try {
+            if ( ! empty($categoryIds)) {
+                ProductCategory::storeData($categoryIds, $product->id);
+            }
+
+            $this->syncMedia($product, $data, $options, true);
+            $product = $this->enforceImageRequirement($product, $data, true);
+            $this->syncAttributes($product, $data, $import);
+            $this->refreshProductMetadata($product);
+            $product->update(['status' => $desiredStatus]);
+
+            return $product->fresh();
+        } catch (Throwable $e) {
+            $this->cleanupImportedProduct($product);
+
+            throw $e;
         }
-
-        $this->syncMedia($product, $data, $options, true);
-        $product = $this->enforceImageRequirement($product, $data, true);
-        $this->syncAttributes($product, $data, $import);
-        $this->refreshProductMetadata($product);
-
-        return $product->fresh();
     }
 
 
@@ -519,6 +530,11 @@ class DataFeedWatch
      */
     private function cleanupImportedProduct(Product $product): void
     {
+        if ( ! $product->exists) {
+            return;
+        }
+
+        ProductAttribute::query()->where('product_id', $product->id)->delete();
         ProductImage::query()->where('product_id', $product->id)->delete();
         ProductCategory::query()->where('product_id', $product->id)->delete();
         Storage::disk('products')->deleteDirectory((string) $product->id);
