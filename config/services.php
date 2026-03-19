@@ -47,6 +47,17 @@ return [
         'server_prefix' => env('MAILCHIMP_SERVER_PREFIX'),
     ],
 
+    'intercars' => [
+        'token_url'                => env('INTERCARS_TOKEN_URL', 'https://is.webapi.intercars.eu/oauth2/token'),
+        'base_url'                 => env('INTERCARS_BASE_URL', 'https://api.webapi.intercars.eu'),
+        'client_id'                => env('INTERCARS_CLIENT_ID'),
+        'client_secret'            => env('INTERCARS_CLIENT_SECRET'),
+        'scope'                    => env('INTERCARS_SCOPE', 'allinone'),
+        'language'                 => env('INTERCARS_LANGUAGE', 'hr'),
+        'timeout'                  => (int) env('INTERCARS_TIMEOUT', 120),
+        'product_information_path' => env('INTERCARS_PRODUCT_INFORMATION_PATH', storage_path('app/intercars')),
+    ],
+
     /*******************************************************************************
      *                              END Copyright : AGmedia                         *
      *******************************************************************************/

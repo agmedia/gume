@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductAttribute extends Model
 {
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * @var string $table

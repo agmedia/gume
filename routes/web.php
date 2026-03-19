@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\v2\FilterController;
 use App\Http\Controllers\Back\Catalog\AttributesController;
 use App\Http\Controllers\Back\Catalog\BrandController;
 use App\Http\Controllers\Back\Catalog\CategoryController;
+use App\Http\Controllers\Back\Catalog\InterCarsController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\OrderController;
@@ -85,6 +86,8 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
         Route::patch('product/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+        Route::get('ic-api', [InterCarsController::class, 'index'])->name('catalog.intercars.index');
+        Route::post('ic-api/sync', [InterCarsController::class, 'sync'])->name('catalog.intercars.sync');
         // AUTORI
         Route::get('brands', [BrandController::class, 'index'])->name('brands');
         Route::get('brand/create', [BrandController::class, 'create'])->name('brands.create');

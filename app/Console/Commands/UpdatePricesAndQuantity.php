@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Back\Catalog\Author;
-use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Settings\Api\DataFeedWatch;
 use App\Models\Back\Settings\Temp;
 use Illuminate\Console\Command;
@@ -48,10 +46,6 @@ class UpdatePricesAndQuantity extends Command
 
         $dfw = new DataFeedWatch();
         $nb_dfw = $dfw->updatePricesAndQuantity();
-
-        $temps = Temp::query()->get();
-
-        Product::query()->where('brand_id', '!=' , 1 )->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
 
         Temp::query()->truncate();
 
