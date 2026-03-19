@@ -38,7 +38,7 @@
             height: 624px;
         }
 
-        @media (min-width: 1400px) and (max-height: 600px) {
+        @media (min-width: 1400px) and (max-height: 700px) {
             .widget-custom-hero {
                 max-width: 1140px;
             }
