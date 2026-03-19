@@ -48,21 +48,23 @@
                                     <div class="row">
                                         <div class="col-md-10 offset-md-1" id="size-half">
                                             <div class="slim"
-                                                 data-ratio="16:9"
-                                                 data-force-size="640,360"
+                                                 data-ratio="free"
+                                                 data-size="640,360"
                                                  data-max-file-size="2">
                                                 <img src="{{ isset($widget) && isset($widget->image) ? asset($widget->image) : '' }}" alt=""/>
                                                 <input type="file" name="image"/>
                                             </div>
+                                            <small class="form-text text-muted">Slika se resize-a bez automatskog cropa.</small>
                                         </div>
                                         <div class="col-md-10 offset-md-1 ag-hide" id="size-all">
                                             <div class="slim"
-                                                 data-ratio="16:9"
-                                                 data-force-size="1400,500"
+                                                 data-ratio="free"
+                                                 data-size="1400,500"
                                                  data-max-file-size="2">
                                                 <img src="{{ isset($widget) && isset($widget->image) ? asset($widget->image) : '' }}" alt=""/>
                                                 <input type="file" name="image_long"/>
                                             </div>
+                                            <small class="form-text text-muted">Preporuka za desktop banner je omjer oko 1024x320, bez automatskog cropa pri uploadu.</small>
                                         </div>
                                     </div>
                                 </div>
