@@ -124,6 +124,10 @@ class Import
             foreach ($segments as $segment) {
                 $existing = $this->findExistingCategory($segment, $parentId);
 
+                if ( ! $existing && count($segments) === 1 && ! $parentId) {
+                    $existing = $this->findExistingCategoryAnywhere($segment);
+                }
+
                 if ( ! $existing) {
                     $matchedAllSegments = false;
                     break;
@@ -269,9 +273,33 @@ class Import
      */
     private function findExistingCategory(string $name, int $parent = 0): ?Category
     {
+        $name = trim($name);
+
         return Category::query()
-                       ->where('title', trim($name))
                        ->where('parent_id', $parent)
+                       ->where(function ($query) use ($name) {
+                           $query->where('title', $name)
+                                 ->orWhere('slug', Str::slug($name));
+                       })
+                       ->orderBy('id')
+                       ->first();
+    }
+
+
+    /**
+     * @param string $name
+     *
+     * @return Category|null
+     */
+    private function findExistingCategoryAnywhere(string $name): ?Category
+    {
+        $name = trim($name);
+
+        return Category::query()
+                       ->where(function ($query) use ($name) {
+                           $query->where('title', $name)
+                                 ->orWhere('slug', Str::slug($name));
+                       })
                        ->orderBy('id')
                        ->first();
     }

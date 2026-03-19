@@ -514,9 +514,13 @@ class DataFeedWatch
 
         if ($data['tyre_type'] !== '' && $data['category'] !== '' && $data['tyre_type'] !== $data['category']) {
             $categories[] = $data['tyre_type'] . ' > ' . $data['category'];
-        } elseif ($data['category'] !== '') {
+        }
+
+        if ($data['category'] !== '') {
             $categories[] = $data['category'];
-        } elseif ($data['tyre_type'] !== '') {
+        }
+
+        if ($data['tyre_type'] !== '') {
             $categories[] = $data['tyre_type'];
         }
 
