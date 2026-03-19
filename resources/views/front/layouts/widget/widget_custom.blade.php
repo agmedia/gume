@@ -4,8 +4,18 @@
 @once
     <style>
         .widget-custom-hero {
+            width: calc(100% - 1rem);
+            max-width: 1320px;
             margin-right: auto;
             margin-left: auto;
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+
+        @media (min-width: 576px) {
+            .widget-custom-hero {
+                width: calc(100% - 2rem);
+            }
         }
 
         .widget-custom-hero__spacer--xs {
@@ -30,10 +40,7 @@
 
         @media (min-width: 1400px) and (max-height: 600px) {
             .widget-custom-hero {
-                width: calc(100% - 2rem);
                 max-width: 1140px;
-                overflow: hidden;
-                border-radius: 1.5rem;
             }
 
             .widget-custom-hero__container {
