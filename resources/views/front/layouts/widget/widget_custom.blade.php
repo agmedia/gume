@@ -26,6 +26,17 @@
             height: 420px;
         }
 
+        .widget-custom-hero__image {
+            object-fit: cover;
+            object-position: center center;
+        }
+
+        @media (min-width: 576px) {
+            .widget-custom-hero__image {
+                object-fit: contain !important;
+            }
+        }
+
         @media (min-width: 768px) {
             .widget-custom-hero__spacer--md,
             .widget-custom-hero__spacer--lg,
@@ -70,7 +81,7 @@
         <div class="swiper-wrapper">
             @foreach($data as  $widget)
             <!-- Slide -->
-            <div class="swiper-slide" style="background-color: #000">
+            <div class="swiper-slide" style="background-color: #fff">
                 <div class="position-absolute d-flex align-items-center w-100 h-100 z-2">
                     <div class="container mt-lg-n4 widget-custom-hero__container">
                         <div class="row">
@@ -83,8 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{ $widget['image'] }}" class="position-absolute d-none d-sm-block top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
-                <img src="{{ asset('media/img/banner-mobile.jpg') }}" class="position-absolute d-block d-sm-none top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
+                <img src="{{ $widget['image'] }}" class="position-absolute top-0 start-0 w-100 h-100 widget-custom-hero__image rtl-flip" alt="Image">
 
             </div>
             @endforeach
