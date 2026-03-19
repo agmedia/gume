@@ -23,7 +23,6 @@ use App\Models\Back\Catalog\Publisher;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Settings\Api\DataFeedWatch;
-use App\Models\Back\Settings\Temp;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -317,212 +316,19 @@ class DashboardController extends Controller
      */
     public function importInter(Request $request)
     {
-        $category = 12;
-        $subcategory = 45;
-        $sync_cat = 'Autosjedalica';
-        //gume
-        //$xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d2bfb7399e3bee04d0dabb9b5f0954de960f8569.xml');
-        //dijelovi
-        $xml = simplexml_load_file('https://feeds.datafeedwatch.com/70335/d8aa73ceb924b75fd493399154b0c61f3ec93178.xml');
+        $report = (new DataFeedWatch())->syncProducts([
+            'import_missing' => true,
+        ]);
 
-        $import = new Import();
-        $count  = 0;
-
-        $group = [];
-        foreach ($xml->children() as $item) {
-            $cat = (string) $item->category;
-
-            if (strpos($cat, $sync_cat) !== false) {
-                $sku = (string) $item->product_code;
-                $exist = Product::query()->where('sku', $sku)->first();
-
-                if ( ! $exist) {
-
-                    $product_id = Product::insertGetId([
-                        'brand_id'         => 0,
-                        'action_id'        => 0,
-                        'sku'              => $sku,
-                        'ean'              => !empty((string) $item->ean) ? (string) $item->ean : '',
-                        'name'             => (string) $item->product_name,
-                        'description'      => (string) $item->description,
-                        'slug'             => Str::slug((string) $item->product_name),
-                        'price'            => (string) $item->price,
-                        'quantity'         => (string) $item->stock_number,
-                        'tax_id'           => 2,
-                        'special'          => null,
-                        'special_lock'     => null,
-                        'special_from'     => null,
-                        'special_to'       => null,
-                        'meta_title'       => (string) $item->product_name,
-                        'meta_description' => '',
-                        'nosivost'         => !empty((string) $item->carrying_capacity_index) ? (string) $item->carrying_capacity_index : '',
-                        'namjena'          => !empty((string) $item->tyre_type) ? (string) $item->tyre_type : '',
-                        'promjer'          => !empty((string) $item->dimensions_diameter) ? (string) $item->dimensions_diameter : '',
-                        'sirina'           => !empty((string) $item->dimensions_width) ? (string) $item->dimensions_width : '',
-                        'visina'           => !empty((string) $item->dimensions_height) ? (string) $item->dimensions_height : '',
-                        'buka'             => !empty((string) $item->external_rolling_noise) ? (string) $item->external_rolling_noise : '',
-                        'prijanjanje'      => !empty((string) $item->grip_on_wet_roads) ? (string) $item->grip_on_wet_roads : '',
-                        'iskoristivost'    => !empty((string) $item->fuel_efficiency) ? (string) $item->fuel_efficiency : '',
-                        'sezona'           => '',
-                        'viewed'           => 0,
-                        'sort_order'       => 0,
-                        'featured'         => 0,
-                        'status'           => 1,
-                        'created_at'       => Carbon::now(),
-                        'updated_at'       => Carbon::now()
-                    ]);
-
-                    if ($product_id) {
-                        // image
-                        if ( ! empty((string) $item->URL_to_product_image)) {
-                            $image = ImageHelper::save((string) $item->URL_to_product_image, (string) $item->product_name, $product_id);
-
-                            Product::where('id', $product_id)->update([
-                                'image' => $image
-                            ]);
-                        }
-
-                        // Category
-                        ProductCategory::query()->insert([
-                            'product_id'  => $product_id,
-                            'category_id' => $category,
-                        ]);
-                        ProductCategory::query()->insert([
-                            'product_id'  => $product_id,
-                            'category_id' => $subcategory,
-                        ]);
-
-                        $product = Product::find($product_id);
-                        $product->update([
-                            'url' => ProductHelper::url($product),
-                            'category_string' => ProductHelper::categoryString($product)
-                        ]);
-
-                        // Brand
-                        if ( ! empty((string) $item->brand)) {
-                            $brand_id = $import->resolveBrand($item->brand);
-
-                            $product->update(['brand_id' => $brand_id]);
-                        }
-
-                        // Attributes
-                        if ( ! empty((string) $item->speed_index)) {
-                            $att_id = $import->resolveAttribute('Index Brzine');
-
-                            ProductAttribute::query()->insert([
-                                'product_id'   => $product_id,
-                                'attribute_id' => $att_id,
-                                'value'        => (string) $item->speed_index,
-                            ]);
-                        }
-
-                        $count++;
-
-                        if ($count > 500) {
-                            return redirect()->route('dashboard');
-                        }
-                    }
-                } else{
-
-                    $images = ProductImage::query()->where('product_id', $exist->id)->count();
-
-                    if ( ! $images) {
-                        if ( ! empty((string) $item->URL_additional_product_picture_1)) {
-                            $image = ImageHelper::save((string)$item->URL_additional_product_picture_1, (string)$item->product_name, $exist->id);
-
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $image,
-                                'alt' => $item->product_name,
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        if ( ! empty((string) $item->URL_additional_product_picture_2)) {
-                            $image = ImageHelper::save((string)$item->URL_additional_product_picture_2, (string)$item->product_name, $exist->id);
-
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $image,
-                                'alt' => $item->product_name,
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        if ( ! empty((string) $item->URL_additional_product_picture_3)) {
-                            $image = ImageHelper::save((string)$item->URL_additional_product_picture_3, (string)$item->product_name, $exist->id);
-
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $image,
-                                'alt' => $item->product_name,
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        if ( ! empty((string) $item->URL_additional_product_picture_4)) {
-                            $image = ImageHelper::save((string)$item->URL_additional_product_picture_4, (string)$item->product_name, $exist->id);
-
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $image,
-                                'alt' => $item->product_name,
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        if ( ! empty((string) $item->URL_additional_product_picture_5)) {
-                            $image = ImageHelper::save((string)$item->URL_additional_product_picture_5, (string)$item->product_name, $exist->id);
-
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $image,
-                                'alt' => $item->product_name,
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        if ( ! empty((string) $item->URL_additional_product_picture_6)) {
-                            $image = ImageHelper::save((string)$item->URL_additional_product_picture_6, (string)$item->product_name, $exist->id);
-
-                            ProductImage::insert([
-                                'product_id' => $exist->id,
-                                'image' => $image,
-                                'alt' => $item->product_name,
-                                'published' => 1,
-                                'sort_order' => 1,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
-                            ]);
-                        }
-
-                        $count++;
-                    }
-
-                    if ($count > 500) {
-                        return redirect()->route('dashboard');
-                    }
-
-                }
-            }
-        }
-
-        return redirect()->route('dashboard')->with(['success' => 'Import je uspješno obavljen..! ' . $count . ' proizvoda importano.']);
+        return redirect()->route('dashboard')->with([
+            'success' => sprintf(
+                'Feed import/update je obavljen. Kreirano: %d | Ažurirano: %d | Preskočeno: %d | Greške: %d',
+                $report['created'],
+                $report['updated'],
+                $report['skipped'],
+                $report['failed']
+            ),
+        ]);
     }
 
 
@@ -533,20 +339,18 @@ class DashboardController extends Controller
      */
     public function updatePQ(Request $request)
     {
-        $dfw = new DataFeedWatch();
+        $report = (new DataFeedWatch())->syncProducts([
+            'import_missing' => false,
+        ]);
 
-        $dfw->updatePricesAndQuantity();
-
-        $temps = Temp::query()->get();
-        $prods = Product::query()->whereNotIn('sku', $temps->pluck('sku'))->get();
-
-
-
-        Product::query()->where('brand_id', '!=' , 1 )->whereNotIn('sku', $temps->pluck('sku'))->update(['status' => 0]);
-
-        Temp::query()->truncate();
-
-        return redirect()->route('dashboard')->with(['success' => 'Update je obavljen. Deaktivirano ' . $prods->count() . ' proizvoda.']);
+        return redirect()->route('dashboard')->with([
+            'success' => sprintf(
+                'Feed update je obavljen. Ažurirano: %d | Preskočeno: %d | Greške: %d',
+                $report['updated'],
+                $report['skipped'],
+                $report['failed']
+            ),
+        ]);
     }
 
 

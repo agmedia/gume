@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Back\Settings\Api\DataFeedWatch;
-use App\Models\Back\Settings\Temp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +13,8 @@ class UpdatePricesAndQuantity extends Command
      *
      * @var string
      */
-    protected $signature = 'update:prices_and_quantity';
+    protected $signature = 'update:prices_and_quantity
+                            {--import-missing : Import missing products from feeds before updating existing ones}';
 
     /**
      * The console command description.
@@ -44,14 +44,14 @@ class UpdatePricesAndQuantity extends Command
 
         $log_start = microtime(true);
 
-        $dfw = new DataFeedWatch();
-        $nb_dfw = $dfw->updatePricesAndQuantity();
-
-        Temp::query()->truncate();
+        $report = (new DataFeedWatch())->syncProducts([
+            'import_missing' => (bool) $this->option('import-missing'),
+        ]);
 
         $log_end = microtime(true);
+        Log::info('__DataFeedWatch report', $report);
         Log::info('__Update prices and quantities - Total Execution Time: ' . number_format(($log_end - $log_start), 2, ',', '.') . ' sec.');
 
-        return 1;
+        return 0;
     }
 }
