@@ -10,6 +10,7 @@ use App\Models\Back\Catalog\Product\ProductAttribute;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleXMLElement;
 use Throwable;
@@ -337,6 +338,7 @@ class DataFeedWatch
         }
 
         $this->syncMedia($product, $data, $options, true);
+        $product = $this->enforceImageRequirement($product, $data, true);
         $this->syncAttributes($product, $data, $import);
         $this->refreshProductMetadata($product);
 
@@ -388,6 +390,7 @@ class DataFeedWatch
         }
 
         $this->syncMedia($product, $data, $options, false);
+        $product = $this->enforceImageRequirement($product, $data, false);
         $this->syncAttributes($product, $data, $import);
         $this->refreshProductMetadata($product);
     }
@@ -407,9 +410,11 @@ class DataFeedWatch
             return;
         }
 
-        if ($data['main_image'] !== '' && ($isNew || empty($product->image))) {
+        $primaryImage = $this->resolvePrimaryImage($data);
+
+        if ($primaryImage !== null && ($isNew || empty($product->image))) {
             try {
-                $image = ImageHelper::save($data['main_image'], $data['name'] ?: $data['sku'], $product->id);
+                $image = ImageHelper::save($primaryImage, $data['name'] ?: $data['sku'], $product->id);
                 $product->update(['image' => $image]);
             } catch (Throwable $e) {
                 Log::warning('DataFeedWatch main image sync failed for SKU ' . $data['sku'] . ': ' . $e->getMessage());
@@ -432,7 +437,7 @@ class DataFeedWatch
             ->values();
 
         foreach ($images as $sortOrder => $url) {
-            if ($url === $data['main_image']) {
+            if ($primaryImage !== null && $url === $primaryImage) {
                 continue;
             }
 
@@ -450,6 +455,74 @@ class DataFeedWatch
                 Log::warning('DataFeedWatch gallery image sync failed for SKU ' . $data['sku'] . ': ' . $e->getMessage());
             }
         }
+    }
+
+
+    /**
+     * @param array $data
+     *
+     * @return string|null
+     */
+    private function resolvePrimaryImage(array $data): ?string
+    {
+        if ( ! empty($data['main_image'])) {
+            return $data['main_image'];
+        }
+
+        foreach ($data['additional_images'] as $image) {
+            if ( ! empty($image)) {
+                return $image;
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @param Product $product
+     * @param array   $data
+     * @param bool    $isNew
+     *
+     * @return Product
+     */
+    private function enforceImageRequirement(Product $product, array $data, bool $isNew): Product
+    {
+        $product = $product->fresh();
+
+        if ( ! empty($product->image)) {
+            return $product;
+        }
+
+        if ($isNew) {
+            $this->cleanupImportedProduct($product);
+
+            throw new \RuntimeException('DataFeedWatch skipped SKU ' . $data['sku'] . ' because no product image could be imported.');
+        }
+
+        $product->update(['status' => 0]);
+
+        Log::warning('DataFeedWatch disabled SKU because no product image is available after sync.', [
+            'sku'        => $data['sku'],
+            'feed_name'  => $data['name'],
+            'main_image' => $data['main_image'],
+        ]);
+
+        return $product->fresh();
+    }
+
+
+    /**
+     * @param Product $product
+     *
+     * @return void
+     */
+    private function cleanupImportedProduct(Product $product): void
+    {
+        ProductImage::query()->where('product_id', $product->id)->delete();
+        ProductCategory::query()->where('product_id', $product->id)->delete();
+        Storage::disk('products')->deleteDirectory((string) $product->id);
+        $product->delete();
     }
 
 
