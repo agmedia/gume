@@ -70,9 +70,9 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{ $widget['image'] }}" class="position-absolute d-none d-sm-block top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
+                <img src="{{ $widget['image'] }}" class="position-absolute d-block top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
 
-                <img src="{{ asset('media/img/banner-mobile.jpg') }}" class="position-absolute d-block d-sm-none top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
+
 
 
             </div>
