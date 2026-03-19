@@ -3,6 +3,11 @@
 
 @once
     <style>
+        .widget-custom-hero {
+            margin-right: auto;
+            margin-left: auto;
+        }
+
         .widget-custom-hero__spacer--xs {
             height: 380px;
         }
@@ -24,6 +29,13 @@
         }
 
         @media (min-width: 1400px) and (max-height: 600px) {
+            .widget-custom-hero {
+                width: calc(100% - 2rem);
+                max-width: 1140px;
+                overflow: hidden;
+                border-radius: 1.5rem;
+            }
+
             .widget-custom-hero__container {
                 max-width: 1140px;
             }
