@@ -134,6 +134,47 @@ class Import
 
 
     /**
+     * Resolve only categories that already exist in the catalog tree.
+     *
+     * @param array $categories
+     *
+     * @return array
+     */
+    public function resolveExistingCategories(array $categories): array
+    {
+        $response = [];
+
+        foreach ($categories as $category) {
+            if ($category == 'Akcijska ponuda') {
+                continue;
+            }
+
+            $category = $this->replaceNames($category);
+            $segments = array_values(array_filter(array_map('trim', explode('>', $category))));
+
+            if (empty($segments)) {
+                continue;
+            }
+
+            $parentId = 0;
+
+            foreach ($segments as $segment) {
+                $existing = $this->findExistingCategory($segment, $parentId);
+
+                if ( ! $existing) {
+                    break;
+                }
+
+                $parentId = $existing->id;
+                $response[] = $existing->id;
+            }
+        }
+
+        return array_values(array_unique($response));
+    }
+
+
+    /**
      * @param string $name
      * @param int    $parent
      *
@@ -255,5 +296,21 @@ class Import
         $text = str_replace('knji?evnosti', 'književnosti', $text);
 
         return $text;
+    }
+
+
+    /**
+     * @param string $name
+     * @param int    $parent
+     *
+     * @return Category|null
+     */
+    private function findExistingCategory(string $name, int $parent = 0): ?Category
+    {
+        return Category::query()
+                       ->where('title', trim($name))
+                       ->where('parent_id', $parent)
+                       ->orderBy('id')
+                       ->first();
     }
 }

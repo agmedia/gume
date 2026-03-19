@@ -79,8 +79,22 @@ class DataFeedWatch
             try {
                 $this->scanFeed($feedUrl, function (SimpleXMLElement $item) use (&$report, &$processed, $import, $options) {
                     $data = $this->mapItem($item);
+                    $categoryIds = $this->resolveCategoryIds($data, $import);
 
                     if ($data['sku'] === '') {
+                        $report['skipped']++;
+
+                        return;
+                    }
+
+                    if (empty($categoryIds)) {
+                        Log::info('DataFeedWatch skipped SKU because no existing category match was found.', [
+                            'sku'       => $data['sku'],
+                            'feed_name' => $data['name'],
+                            'category'  => $data['category'],
+                            'tyre_type' => $data['tyre_type'],
+                        ]);
+
                         $report['skipped']++;
 
                         return;
@@ -101,7 +115,7 @@ class DataFeedWatch
                         $product = $this->findExistingProduct($data);
 
                         if ($product) {
-                            $this->updateProduct($product, $data, $import, $options);
+                            $this->updateProduct($product, $data, $categoryIds, $import, $options);
                             $report['updated']++;
 
                             return;
@@ -113,7 +127,7 @@ class DataFeedWatch
                             return;
                         }
 
-                        $this->createProduct($data, $import, $options);
+                        $this->createProduct($data, $categoryIds, $import, $options);
                         $report['created']++;
                     } catch (Throwable $e) {
                         Log::warning('DataFeedWatch sync failed for SKU ' . $data['sku'] . ': ' . $e->getMessage(), [
@@ -283,12 +297,13 @@ class DataFeedWatch
 
     /**
      * @param array  $data
+     * @param array  $categoryIds
      * @param Import $import
      * @param array  $options
      *
      * @return Product
      */
-    private function createProduct(array $data, Import $import, array $options): Product
+    private function createProduct(array $data, array $categoryIds, Import $import, array $options): Product
     {
         $product = Product::query()->create([
             'brand_id'         => $import->resolveBrand($data['brand']),
@@ -317,8 +332,6 @@ class DataFeedWatch
             'status'           => $data['status'],
         ]);
 
-        $categoryIds = $this->resolveCategoryIds($data, $import);
-
         if ( ! empty($categoryIds)) {
             ProductCategory::storeData($categoryIds, $product->id);
         }
@@ -334,12 +347,13 @@ class DataFeedWatch
     /**
      * @param Product $product
      * @param array   $data
+     * @param array   $categoryIds
      * @param Import  $import
      * @param array   $options
      *
      * @return void
      */
-    private function updateProduct(Product $product, array $data, Import $import, array $options): void
+    private function updateProduct(Product $product, array $data, array $categoryIds, Import $import, array $options): void
     {
         $payload = [
             'price'            => $data['price'] ?? $product->price,
@@ -368,8 +382,6 @@ class DataFeedWatch
         $product->update($payload);
 
         if ( ! $product->category()) {
-            $categoryIds = $this->resolveCategoryIds($data, $import);
-
             if ( ! empty($categoryIds)) {
                 ProductCategory::storeData($categoryIds, $product->id);
             }
@@ -508,7 +520,7 @@ class DataFeedWatch
             $categories[] = $data['tyre_type'];
         }
 
-        return $import->resolveCategories($categories);
+        return $import->resolveExistingCategories($categories);
     }
 
 
