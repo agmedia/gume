@@ -213,45 +213,15 @@ class DashboardController extends Controller
                             ]);
                         }
 
-                        // category
-                        if ( ! empty($item->Kategorija)) {
-                            $cat_id = $import->saveCategory($item->Kategorija);
-
-                            if ($cat_id) {
-                               /* ProductCategory::query()->insert([
-                                    'product_id'  => $product_id,
-                                    'category_id' => $cat_id,
-                                ]);*/
-
-                                // Category
-                                ProductCategory::query()->insert([
-                                    'product_id'  => $product_id,
-                                    'category_id' => $category,
-                                ]);
-                                ProductCategory::query()->insert([
-                                    'product_id'  => $product_id,
-                                    'category_id' => $subcategory,
-                                ]);
-
-                                $product = Product::find($product_id);
-                                $product->update([
-                                    'url' => ProductHelper::url($product),
-                                    'category_string' => ProductHelper::categoryString($product)
-                                ]);
-
-                                // subcategory
-                               /* if ( ! empty($item->Podkategorija)) {
-                                    $subcat_id = $import->saveCategory($item->Podkategorija, $cat_id);
-
-                                    if ($subcat_id) {
-                                        ProductCategory::query()->insert([
-                                            'product_id'  => $product_id,
-                                            'category_id' => $subcat_id,
-                                        ]);
-                                    }
-                                }*/
-                            }
-                        }
+                        // This legacy import always maps to predefined local categories.
+                        ProductCategory::query()->insert([
+                            'product_id'  => $product_id,
+                            'category_id' => $category,
+                        ]);
+                        ProductCategory::query()->insert([
+                            'product_id'  => $product_id,
+                            'category_id' => $subcategory,
+                        ]);
 
                         $product = Product::find($product_id);
                         $product->update([
