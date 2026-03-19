@@ -26,16 +26,14 @@
             height: 420px;
         }
 
-        .widget-custom-hero__spacer--lg {
-            height: 500px;
-        }
-
-        .widget-custom-hero__spacer--xl {
-            height: 560px;
-        }
-
-        .widget-custom-hero__spacer--xxl {
-            height: 624px;
+        @media (min-width: 768px) {
+            .widget-custom-hero__spacer--md,
+            .widget-custom-hero__spacer--lg,
+            .widget-custom-hero__spacer--xl,
+            .widget-custom-hero__spacer--xxl {
+                height: auto;
+                aspect-ratio: 1024 / 320;
+            }
         }
 
         @media (min-width: 1400px) and (max-height: 700px) {
@@ -49,10 +47,6 @@
 
             .widget-custom-hero__content {
                 max-width: 520px;
-            }
-
-            .widget-custom-hero__spacer--xxl {
-                height: 560px;
             }
         }
     </style>
@@ -89,10 +83,8 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{ $widget['image'] }}" class="position-absolute d-block top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
-
-
-
+                <img src="{{ $widget['image'] }}" class="position-absolute d-none d-sm-block top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
+                <img src="{{ asset('media/img/banner-mobile.jpg') }}" class="position-absolute d-block d-sm-none top-0 start-0 w-100 h-100 object-fit-cover rtl-flip" alt="Image">
 
             </div>
             @endforeach
