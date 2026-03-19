@@ -77,19 +77,9 @@ class Import
      */
     public function resolveStringCategories(string $categories)
     {
-        $default = config('settings.eng_default_category');
-        $response[] = $default;
+        $categories = preg_split('/\s*,\s*/', $categories) ?: [];
 
-        $categories = explode(', ', $categories);
-
-        if ( ! isset($categories[1])) {
-            $response[] = $this->saveCategory($categories[0]);
-        } else {
-            $response[] = $this->saveCategory($categories[0]);
-            $response[] = $this->saveCategory($categories[1]);
-        }
-
-        return $response;
+        return $this->resolveExistingCategories($categories);
     }
 
 
@@ -100,36 +90,7 @@ class Import
      */
     public function resolveCategories(array $categories)
     {
-        $response = [];
-
-        foreach ($categories as $category) {
-            if ($category != 'Akcijska ponuda') {
-                $category = $this->replaceNames($category);
-
-                if ( ! str_contains($category, '>')) {
-                    $response[] = $this->saveCategory($category);
-                } else {
-                    $parent_id = 0;
-                    $cats = explode('>', $category);
-
-                    foreach ($cats as $key => $cat) {
-                        if ($key == 0) {
-                            $parent_id = $this->saveCategory($cat);
-                            $response[] = $parent_id;
-                        } else {
-                            $id = $this->saveCategory($cat, $parent_id);
-                            $response[] = $id;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (empty($response)) {
-            $response[] = 1;
-        }
-
-        return $response;
+        return $this->resolveExistingCategories($categories);
     }
 
 
@@ -157,16 +118,23 @@ class Import
             }
 
             $parentId = 0;
+            $matchedIds = [];
+            $matchedAllSegments = true;
 
             foreach ($segments as $segment) {
                 $existing = $this->findExistingCategory($segment, $parentId);
 
                 if ( ! $existing) {
+                    $matchedAllSegments = false;
                     break;
                 }
 
                 $parentId = $existing->id;
-                $response[] = $existing->id;
+                $matchedIds[] = $existing->id;
+            }
+
+            if ($matchedAllSegments) {
+                $response = array_merge($response, $matchedIds);
             }
         }
 
@@ -182,25 +150,19 @@ class Import
      */
     public function saveCategory(string $name, int $parent = 0)
     {
-        $exist = Category::where('title', $name)->first();
+        $exist = $this->findExistingCategory($name, $parent);
 
-        if ( ! $exist) {
-            return Category::insertGetId([
-                'parent_id'        => $parent,
-                'title'            => $name,
-                'description'      => '',
-                'meta_title'       => $name,
-                'meta_description' => $name,
-                'group'            => Helper::categoryGroupPath(true),
-                'lang'             => 'hr',
-                'status'           => 1,
-                'slug'             => Str::slug($name),
-                'created_at'       => Carbon::now(),
-                'updated_at'       => Carbon::now()
-            ]);
+        if ($exist) {
+            return $exist->id;
         }
 
-        return $exist->id;
+        Log::warning('Import skipped missing category because auto-creation is disabled.', [
+            'title'  => trim($name),
+            'parent' => $parent,
+            'group'  => Helper::categoryGroupPath(true),
+        ]);
+
+        return 0;
     }
 
 
