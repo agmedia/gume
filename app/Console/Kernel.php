@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('intercars:sync-stock-status')
+        $schedule->command('update:prices_and_quantity')
                  ->dailyAt('00:01')
                  ->withoutOverlapping();
     }
