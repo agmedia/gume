@@ -78,11 +78,13 @@
                                 <span class="nav-main-link-name">Artikli</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['catalog.intercars.*']) ? ' active' : '' }}" href="{{ route('catalog.intercars.index') }}">
-                                <span class="nav-main-link-name">IC API</span>
-                            </a>
-                        </li>
+                        @if (Route::has('catalog.intercars.index'))
+                            <li class="nav-main-item">
+                                <a class="nav-main-link{{ request()->routeIs(['catalog.intercars.*']) ? ' active' : '' }}" href="{{ route('catalog.intercars.index') }}">
+                                    <span class="nav-main-link-name">IC API</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['brands', 'brands.*']) ? ' active' : '' }}" href="{{ route('brands') }}">
                                 <span class="nav-main-link-name">Brandovi</span>
