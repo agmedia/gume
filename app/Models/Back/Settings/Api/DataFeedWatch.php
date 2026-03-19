@@ -76,52 +76,61 @@ class DataFeedWatch
         $processed = [];
 
         foreach ($this->resolveFeedUrls((bool) $options['include_secondary_feed']) as $feedUrl) {
-            $this->scanFeed($feedUrl, function (SimpleXMLElement $item) use (&$report, &$processed, $import, $options) {
-                $data = $this->mapItem($item);
+            try {
+                $this->scanFeed($feedUrl, function (SimpleXMLElement $item) use (&$report, &$processed, $import, $options) {
+                    $data = $this->mapItem($item);
 
-                if ($data['sku'] === '') {
-                    $report['skipped']++;
-
-                    return;
-                }
-
-                $key = Str::upper($data['sku']);
-
-                if (isset($processed[$key])) {
-                    $report['skipped']++;
-
-                    return;
-                }
-
-                $processed[$key] = true;
-                $report['total']++;
-
-                try {
-                    $product = $this->findExistingProduct($data);
-
-                    if ($product) {
-                        $this->updateProduct($product, $data, $import, $options);
-                        $report['updated']++;
-
-                        return;
-                    }
-
-                    if ( ! $options['import_missing']) {
+                    if ($data['sku'] === '') {
                         $report['skipped']++;
 
                         return;
                     }
 
-                    $this->createProduct($data, $import, $options);
-                    $report['created']++;
-                } catch (Throwable $e) {
-                    Log::warning('DataFeedWatch sync failed for SKU ' . $data['sku'] . ': ' . $e->getMessage(), [
-                        'exception' => $e,
-                    ]);
+                    $key = Str::upper($data['sku']);
 
-                    $report['failed']++;
-                }
-            });
+                    if (isset($processed[$key])) {
+                        $report['skipped']++;
+
+                        return;
+                    }
+
+                    $processed[$key] = true;
+                    $report['total']++;
+
+                    try {
+                        $product = $this->findExistingProduct($data);
+
+                        if ($product) {
+                            $this->updateProduct($product, $data, $import, $options);
+                            $report['updated']++;
+
+                            return;
+                        }
+
+                        if ( ! $options['import_missing']) {
+                            $report['skipped']++;
+
+                            return;
+                        }
+
+                        $this->createProduct($data, $import, $options);
+                        $report['created']++;
+                    } catch (Throwable $e) {
+                        Log::warning('DataFeedWatch sync failed for SKU ' . $data['sku'] . ': ' . $e->getMessage(), [
+                            'exception' => $e,
+                        ]);
+
+                        $report['failed']++;
+                    }
+                });
+            } catch (Throwable $e) {
+                Log::warning('DataFeedWatch feed scan failed: ' . $e->getMessage(), [
+                    'feed_url'  => $feedUrl,
+                    'exception' => $e,
+                ]);
+
+                $report['failed']++;
+            }
         }
 
         return $report;
@@ -152,7 +161,8 @@ class DataFeedWatch
     private function scanFeed(string $feedUrl, callable $callback): void
     {
         $reader = new XMLReader();
-        libxml_use_internal_errors(true);
+        $previousUseInternalErrors = libxml_use_internal_errors(true);
+        libxml_clear_errors();
 
         if ( ! $reader->open($feedUrl)) {
             throw new \RuntimeException('Nije moguće otvoriti DataFeedWatch feed: ' . $feedUrl);
@@ -164,10 +174,38 @@ class DataFeedWatch
                     continue;
                 }
 
-                $callback(new SimpleXMLElement($reader->readOuterXml()));
+                $itemXml = $reader->readOuterXml();
+
+                if ( ! is_string($itemXml) || trim($itemXml) === '') {
+                    Log::warning('DataFeedWatch skipped empty product node while scanning feed.', [
+                        'feed_url' => $feedUrl,
+                    ]);
+
+                    libxml_clear_errors();
+
+                    continue;
+                }
+
+                try {
+                    $callback(new SimpleXMLElement($itemXml));
+                } catch (Throwable $e) {
+                    $errors = array_values(array_filter(array_map(static function (\LibXMLError $error) {
+                        return trim($error->message);
+                    }, libxml_get_errors())));
+
+                    Log::warning('DataFeedWatch skipped malformed product node while scanning feed.', [
+                        'feed_url'      => $feedUrl,
+                        'message'       => $e->getMessage(),
+                        'libxml_errors' => $errors,
+                    ]);
+                } finally {
+                    libxml_clear_errors();
+                }
             }
         } finally {
             $reader->close();
+            libxml_clear_errors();
+            libxml_use_internal_errors($previousUseInternalErrors);
         }
     }
 

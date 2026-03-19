@@ -55,6 +55,9 @@ return [
         'scope'                    => env('INTERCARS_SCOPE', 'allinone'),
         'language'                 => env('INTERCARS_LANGUAGE', 'hr'),
         'timeout'                  => (int) env('INTERCARS_TIMEOUT', 120),
+        'asset_timeout'            => (int) env('INTERCARS_ASSET_TIMEOUT', env('INTERCARS_TIMEOUT', 120)),
+        'asset_retries'            => (int) env('INTERCARS_ASSET_RETRIES', 2),
+        'asset_retry_sleep'        => (int) env('INTERCARS_ASSET_RETRY_SLEEP', 1000),
         'product_information_path' => env('INTERCARS_PRODUCT_INFORMATION_PATH', storage_path('app/intercars')),
     ],
 
