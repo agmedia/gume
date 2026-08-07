@@ -86,6 +86,27 @@
                 </tbody>
             </table>
 
+            @if($hasTires)
+                <div class="border rounded-4 p-3 p-sm-4 mb-4">
+                    <div class="form-check form-switch d-flex align-items-start gap-2 mb-0">
+                        <input class="form-check-input flex-shrink-0 mt-1"
+                               type="checkbox"
+                               role="switch"
+                               id="free-wiper-inspection"
+                               wire:model="free_wiper_inspection">
+                        <label class="form-check-label" for="free-wiper-inspection">
+                            <span class="d-block fw-semibold text-dark-emphasis">Besplatan pregled brisača</span>
+                            <span class="d-block fs-sm text-body-secondary mt-1">
+                                Želim da pri montaži guma u radionici besplatno pregledate stanje brisača.
+                            </span>
+                            <span class="d-block fs-xs text-body-secondary mt-1">
+                                Opcija vrijedi samo uz odabir montaže i preuzimanja u radionici.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            @endif
+
             <div class="nav position-relative z-2 mb-4 mb-lg-0">
                 <a class="nav-link animate-underline px-0" href="{{ route('catalog.route', ['group' => group(true)]) }}">
                     <i class="ci-chevron-left fs-lg me-1"></i>

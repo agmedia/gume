@@ -10,6 +10,10 @@ use Illuminate\Support\Carbon;
 class Reservation extends Model
 {
 
+    public const MIN_BOOKING_DAYS = 3;
+
+    public const BOOKING_RANGE_DAYS = 14;
+
     /**
      * @var string
      */
@@ -26,10 +30,11 @@ class Reservation extends Model
      *
      * @return array
      */
-    public static function getUpcomingDays(int $range = 14): array
+    public static function getUpcomingDays(int $range = self::BOOKING_RANGE_DAYS): array
     {
         $days  = [];
-        $items = CarbonPeriod::create(now(), now()->addDays(14));
+        $start = self::earliestBookingDate();
+        $items = CarbonPeriod::create($start, $start->copy()->addDays(max(0, $range)));
 
         foreach ($items as $day) {
             array_push($days, [
@@ -44,10 +49,52 @@ class Reservation extends Model
 
 
     /**
+     * @return Carbon
+     */
+    public static function earliestBookingDate(): Carbon
+    {
+        return today()->addDays(self::MIN_BOOKING_DAYS);
+    }
+
+
+    /**
+     * @param string|null $day
+     * @param int         $range
+     *
+     * @return bool
+     */
+    public static function isBookableDay(?string $day, int $range = self::BOOKING_RANGE_DAYS): bool
+    {
+        if (empty($day)) {
+            return false;
+        }
+
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', $day)->startOfDay();
+        } catch (\Throwable $exception) {
+            return false;
+        }
+
+        if ($date->format('Y-m-d') !== $day) {
+            return false;
+        }
+
+        $earliest = self::earliestBookingDate();
+        $latest   = $earliest->copy()->addDays(max(0, $range));
+
+        return $date->betweenIncluded($earliest, $latest);
+    }
+
+
+    /**
      * @return array
      */
-    public static function getHoursList(string $day = null): array
+    public static function getHoursList(?string $day = null): array
     {
+        if ( ! self::isBookableDay($day)) {
+            return [];
+        }
+
         $day = Carbon::parse($day);
 
         $from = Carbon::parse('08:00');
@@ -85,6 +132,31 @@ class Reservation extends Model
         }
 
         return $hours;
+    }
+
+
+    /**
+     * @param string|null $day
+     * @param string|null $time
+     *
+     * @return bool
+     */
+    public static function isSlotAvailable(?string $day, ?string $time): bool
+    {
+        if (empty($time)) {
+            return false;
+        }
+
+        foreach (self::getHoursList($day) as $hour) {
+            $compactTime = $hour['from'] . '-' . $hour['to'];
+            $spacedTime  = $hour['from'] . ' - ' . $hour['to'];
+
+            if ($hour['available'] && in_array($time, [$compactTime, $spacedTime], true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

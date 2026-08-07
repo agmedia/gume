@@ -37,12 +37,36 @@ class Cart extends Component
      */
     public $count;
 
+    /**
+     * @var bool
+     */
+    public $free_wiper_inspection = false;
+
 
     /**
      * @return void
      */
     public function mount()
-    {}
+    {
+        $this->free_wiper_inspection = (bool) session()->get('free_wiper_inspection', false);
+    }
+
+
+    /**
+     * @param bool $value
+     *
+     * @return void
+     */
+    public function updatedFreeWiperInspection($value)
+    {
+        $this->free_wiper_inspection = (bool) $value;
+
+        if ($this->free_wiper_inspection) {
+            session()->put('free_wiper_inspection', true);
+        } else {
+            session()->forget('free_wiper_inspection');
+        }
+    }
 
 
     /**
@@ -93,12 +117,20 @@ class Cart extends Component
     public function render()
     {
         $this->setCart();
+        $items    = $this->getItems();
+        $hasTires = $this->hasTires($items);
+
+        if ( ! $hasTires && $this->free_wiper_inspection) {
+            $this->free_wiper_inspection = false;
+            session()->forget('free_wiper_inspection');
+        }
 
         //dd(Product::query()->find(3)->coupon());
 
         return view('livewire.front.checkout.cart', [
-            'cart' => $this->cart->get(),
-            'items' => $this->getItems()
+            'cart'     => $this->cart->get(),
+            'items'    => $items,
+            'hasTires' => $hasTires,
         ]);
     }
 
@@ -122,5 +154,26 @@ class Cart extends Component
     private function getItems()
     {
         return $this->cart->get()['items']->sortBy('name')/*->toArray()*/;
+    }
+
+
+    /**
+     * @param mixed $items
+     *
+     * @return bool
+     */
+    private function hasTires($items): bool
+    {
+        $productIds = collect($items)->pluck('id')->filter()->all();
+
+        if (empty($productIds)) {
+            return false;
+        }
+
+        return Product::query()
+            ->whereIn('id', $productIds)
+            ->whereNotNull('sirina')
+            ->where('sirina', '!=', '')
+            ->exists();
     }
 }

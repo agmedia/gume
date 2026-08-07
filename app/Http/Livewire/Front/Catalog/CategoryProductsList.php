@@ -42,6 +42,16 @@ class CategoryProductsList extends Component
     /**
      * @var array
      */
+    public $wiper_vehicles = [];
+
+    /**
+     * @var array
+     */
+    public $wiper_dimensions = [];
+
+    /**
+     * @var array
+     */
     public $sirine = [];
 
     /**
@@ -85,6 +95,27 @@ class CategoryProductsList extends Component
      * @var string
      */
     public $amperi = '';
+
+    /**
+     * Vehicle make/model search used by the wiper category.
+     *
+     * @var string
+     */
+    public $vozilo = '';
+
+    /**
+     * Wiper installation position (front or rear).
+     *
+     * @var string
+     */
+    public $pozicija = '';
+
+    /**
+     * Wiper length, for example 600mm or 600/530mm.
+     *
+     * @var string
+     */
+    public $dimenzija_brisaca = '';
 
 
     /**
@@ -131,6 +162,9 @@ class CategoryProductsList extends Component
         'visina'  => ['except' => ''],
         'promjer' => ['except' => ''],
         'amperi' => ['except' => ''],
+        'vozilo'  => ['except' => ''],
+        'pozicija' => ['except' => ''],
+        'dimenzija_brisaca' => ['except' => ''],
         'brand'   => ['except' => ''],
         'price'   => ['except' => ''],
         'sort'    => ['except' => ''],
@@ -143,14 +177,19 @@ class CategoryProductsList extends Component
      */
     public function mount()
     {
-        $this->sezone       = ProductHelper::getSezoneList(json_decode($this->route_data));
-        $this->sirine       = ProductHelper::getSirineList(json_decode($this->route_data));
-        $this->visine       = ProductHelper::getVisineList(json_decode($this->route_data));
-        $this->promjeri     = ProductHelper::getPromjeriList(json_decode($this->route_data));
-        $this->sorting_list = ProductHelper::getSortingList(json_decode($this->route_data));
-        $this->ampere       = ProductHelper::getAmperiList(json_decode($this->route_data));
+        $routeData          = json_decode($this->route_data);
+        $this->sezone       = ProductHelper::getSezoneList($routeData);
+        $this->sirine       = ProductHelper::getSirineList($routeData);
+        $this->visine       = ProductHelper::getVisineList($routeData);
+        $this->promjeri     = ProductHelper::getPromjeriList($routeData);
+        $this->sorting_list = ProductHelper::getSortingList($routeData);
+        $this->ampere       = ProductHelper::getAmperiList($routeData);
         //
-        $this->brands = Brand::getSelectList( 'slug', json_decode($this->route_data));
+        $this->brands = Brand::getSelectList('slug', $routeData);
+
+        if (isset($routeData->subcategory->slug) && $routeData->subcategory->slug === 'metlica-brisaca') {
+            $this->resolveWiperFilterOptions((int) $routeData->subcategory->id);
+        }
        // $this->kat = json_decode($this->route_data);
 
         //dd($this->brands);
@@ -277,9 +316,32 @@ class CategoryProductsList extends Component
             $products->where('promjer', $filter->promjer);
         }
 
-            if ($filter->amperi != '') {
-                $products->where('description', 'LIKE', '%' . $filter->amperi . '%');
-            }
+        // Wiper compatibility and dimensions are stored in the description.
+        if ($filter->vozilo != '') {
+            $vehicle = addcslashes($filter->vozilo, '\\%_');
+
+            $products->where(function (Builder $query) use ($vehicle) {
+                $query->where('description', 'LIKE', '%' . $vehicle . '%')
+                      ->orWhere('name', 'LIKE', '%' . $vehicle . '%');
+            });
+        }
+
+        if ($filter->dimenzija_brisaca != '') {
+            $dimension = addcslashes($filter->dimenzija_brisaca, '\\%_');
+
+            $products->where(function (Builder $query) use ($dimension) {
+                $query->where('description', 'LIKE', '%' . $dimension . '%')
+                      ->orWhere('name', 'LIKE', '%' . $dimension . '%');
+            });
+        }
+
+        if (in_array($filter->pozicija, ['sprijeda', 'straga'], true)) {
+            $products->where('description', 'LIKE', '%mjesto ugradnje: ' . $filter->pozicija . '%');
+        }
+
+        if ($filter->amperi != '') {
+            $products->where('description', 'LIKE', '%' . $filter->amperi . '%');
+        }
 
         // Sort
         if ($filter->sort != '') {
@@ -310,6 +372,9 @@ class CategoryProductsList extends Component
         $data->sort        = $this->sort;
         $data->brand       = $this->brand;
         $data->amperi       = $this->amperi;
+        $data->vozilo      = $this->vozilo;
+        $data->pozicija    = $this->pozicija;
+        $data->dimenzija_brisaca = $this->dimenzija_brisaca;
         $data->price       = $this->price;
         $data->page        = $this->page;
 
@@ -324,6 +389,9 @@ class CategoryProductsList extends Component
                       . $data->promjer
                       . $data->brand
                       . $data->amperi
+                      . $data->vozilo
+                      . $data->pozicija
+                      . $data->dimenzija_brisaca
                       . $data->sort
                       . $data->price
                       . $data->page
@@ -332,6 +400,65 @@ class CategoryProductsList extends Component
         $data->cacheHash = hash('crc32', $cache_hash);
 
         return $data;
+    }
+
+
+    /**
+     * Build searchable vehicle/model and wiper-dimension lists from the
+     * products that are actually available in the wiper category.
+     *
+     * @param int $categoryId
+     *
+     * @return void
+     */
+    private function resolveWiperFilterOptions(int $categoryId): void
+    {
+        $options = Cache::remember('wiper.filter.options.' . $categoryId, config('cache.life'), function () use ($categoryId) {
+            $vehicles   = [];
+            $dimensions = [];
+
+            $descriptions = Product::query()
+                ->where('status', 1)
+                ->where('quantity', '>', 0)
+                ->whereHas('categories', function (Builder $query) use ($categoryId) {
+                    $query->where('category_id', $categoryId);
+                })
+                ->pluck('description');
+
+            foreach ($descriptions as $description) {
+                $text = html_entity_decode(strip_tags((string) $description), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                $text = trim(preg_replace('/\s+/u', ' ', $text));
+
+                if (preg_match_all('/\b\d{3}(?:\/\d{3})?mm\b/iu', $text, $matches)) {
+                    foreach ($matches[0] as $dimension) {
+                        $dimensions[$dimension] = $dimension;
+                    }
+                }
+
+                if (preg_match('/\b\d{3}(?:\/\d{3})?mm\s+(.+)$/iu', $text, $matches)) {
+                    $compatibility = preg_replace('/\s+\d{2}\.\d{2}-.*$/u', '', $matches[1]);
+
+                    foreach (preg_split('/;\s*/u', $compatibility) as $vehicle) {
+                        $vehicle = trim($vehicle, " \t\n\r\0\x0B,;");
+
+                        if ($vehicle !== '') {
+                            $vehicles[$vehicle] = $vehicle;
+                        }
+                    }
+                }
+            }
+
+            natcasesort($vehicles);
+            uksort($dimensions, 'strnatcasecmp');
+
+            return [
+                'vehicles'   => array_values($vehicles),
+                'dimensions' => array_values($dimensions),
+            ];
+        });
+
+        $this->wiper_vehicles   = $options['vehicles'];
+        $this->wiper_dimensions = $options['dimensions'];
     }
 
 

@@ -217,6 +217,7 @@ class Checkout
         session()->forget('selected_shipping');
         session()->forget('customer_info');
         session()->forget('order_id');
+        session()->forget('free_wiper_inspection');
     }
 
     /*******************************************************************************

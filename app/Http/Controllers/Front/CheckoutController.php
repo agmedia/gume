@@ -107,6 +107,10 @@ class CheckoutController extends FrontController
         if ($request->has('shipping_method')) {
             $selected_shipping = Settings::get('shipping', 'list.' . $request->input('shipping_method'))->first();
             session()->put('selected_shipping', $selected_shipping);
+
+            if ( ! $selected_shipping || $selected_shipping->code !== 'pickup') {
+                session()->forget('free_wiper_inspection');
+            }
         }
 
         $user = $this->resolveUser();
@@ -186,7 +190,14 @@ class CheckoutController extends FrontController
         $selected_payment     = Settings::get('payment', 'list.' . $request->input('payment_method'))->first();
         $cart                 = CartSession::resolve()->get();
 
-        $checkout = new Checkout($selected_payment, $selected_shipping, $user, $selected_reservation, $request->input('comment'), $cart);
+        $comment = trim((string) $request->input('comment'));
+
+        if ((bool) session()->get('free_wiper_inspection', false) && $selected_shipping->code === 'pickup') {
+            $inspectionNote = 'BESPLATAN PREGLED BRISAČA: DA';
+            $comment = $inspectionNote . ($comment !== '' ? "\n\n" . $comment : '');
+        }
+
+        $checkout = new Checkout($selected_payment, $selected_shipping, $user, $selected_reservation, $comment, $cart);
 
         $payment_form = $checkout->recordUnfinishedOrder()
                                  ->resolvePaymentForm();

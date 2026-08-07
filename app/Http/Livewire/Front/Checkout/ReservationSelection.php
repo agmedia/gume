@@ -40,13 +40,16 @@ class ReservationSelection extends Component
     {
         if (empty($this->selected_day) || empty($this->selected_hour)) {
             return redirect()->to(request()->server('HTTP_REFERER'))->with('error', 'Niste odabrali datum montaže. Molimo odaberite dan i vrijeme.');
-
-        } else {
-            session()->put('selected_reservation', [
-                'day' => $this->selected_day,
-                'hour' => $this->selected_hour,
-            ]);
         }
+
+        if ( ! Reservation::isSlotAvailable($this->selected_day, $this->selected_hour)) {
+            return redirect()->to(request()->server('HTTP_REFERER'))->with('error', 'Termin montaže moguće je odabrati najranije za 3 dana.');
+        }
+
+        session()->put('selected_reservation', [
+            'day'  => $this->selected_day,
+            'hour' => $this->selected_hour,
+        ]);
     }
 
 

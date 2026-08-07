@@ -1,10 +1,50 @@
 <div>
 
+    @php
+        $isWiperCategory = isset($cat->subcategory->slug) && $cat->subcategory->slug === 'metlica-brisaca';
+    @endphp
 
     <!-- Filter -->
     <div class="bg-body-tertiary p-3 rounded-3 mb-3">
         <div class="row align-items-center pt-1">
             <div class="col-12 d-md-flex d-block gap-2">
+                @if($isWiperCategory)
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill"
+                                wire:model="vozilo"
+                                wire:change="dropdownFilterSelected('vozilo', $event.target.value)"
+                                data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži model"]}'
+                                aria-label="Marka i model vozila">
+                            <option value="">Sva vozila</option>
+                            @foreach($wiper_vehicles as $vehicle)
+                                <option value="{{ $vehicle }}" @if($vehicle === $vozilo) selected @endif>{{ $vehicle }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill"
+                                wire:model="dimenzija_brisaca"
+                                wire:change="dropdownFilterSelected('dimenzija_brisaca', $event.target.value)"
+                                data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]},"searchEnabled": true,"searchPlaceholderValue": ["Pretraži dimenziju"]}'
+                                aria-label="Dimenzija brisača">
+                            <option value="">Sve dimenzije</option>
+                            @foreach($wiper_dimensions as $dimension)
+                                <option value="{{ $dimension }}" @if($dimension === $dimenzija_brisaca) selected @endif>{{ str_replace('mm', ' mm', $dimension) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
+                        <select class="form-select rounded-pill"
+                                wire:model="pozicija"
+                                wire:change="dropdownFilterSelected('pozicija', $event.target.value)"
+                                data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}'
+                                aria-label="Pozicija brisača">
+                            <option value="">Sve pozicije</option>
+                            <option value="sprijeda" @if($pozicija === 'sprijeda') selected @endif>Prednji brisači</option>
+                            <option value="straga" @if($pozicija === 'straga') selected @endif>Stražnji brisači</option>
+                        </select>
+                    </div>
+                @endif
                 <div class="d-block w-100 mb-2 mb-md-0 me-1" wire:ignore>
                     <select class="form-select rounded-pill" wire:model="brand" wire:change="dropdownFilterSelected('brand', $event.target.value)" data-placeholder="Brand" data-select='{"classNames": {"containerInner": ["form-select", "filter-select", "rounded-pill"]}}' aria-label="Brand">
                         @foreach ($brands as $slug => $title)
@@ -89,6 +129,12 @@
                 </nav>-->
             </div>
         </div>
+        @if($isWiperCategory)
+            <div class="d-flex align-items-center fs-xs text-body-secondary mt-2 px-1">
+                <i class="ci-info me-2"></i>
+                Popisi prikazuju samo modele vozila i dimenzije dostupnih brisača.
+            </div>
+        @endif
     </div>
 
     <!-- Shop filters offcanvas -->

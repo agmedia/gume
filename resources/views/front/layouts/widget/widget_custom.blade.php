@@ -25,8 +25,10 @@
 
         .widget-custom-hero__image {
             display: block;
-            width: 100%;
-            height: auto;
+            width: 100% !important;
+            height: auto !important;
+            max-width: 100%;
+            object-fit: unset !important;
         }
 
         .widget-custom-hero__pagination {

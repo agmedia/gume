@@ -28,6 +28,12 @@
                 <h3 class="fs-sm mb-2">{{ $selected_shipping->title }}</h3>
                 <div class="d-flex align-items-center fs-sm">{{ $selected_shipping->data->short_description }}</div>
             @endif
+            @if((bool) session()->get('free_wiper_inspection', false) && $selected_shipping->code === 'pickup')
+                <div class="d-flex align-items-center fs-sm text-success mt-2">
+                    <i class="ci-check-circle me-2"></i>
+                    Uključen je besplatan pregled brisača.
+                </div>
+            @endif
         </div>
     </div>
 </div>

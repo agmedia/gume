@@ -88,6 +88,10 @@ class CartViewAside extends Component
         if ($method) {
             session()->put('selected_shipping', $method);
 
+            if ($method->code !== 'pickup') {
+                session()->forget('free_wiper_inspection');
+            }
+
             $this->cart->setMethod('shipping', $method);
         }
 

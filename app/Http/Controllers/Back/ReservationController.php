@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Reservations\Reservation;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Checkout\Reservation as FrontReservation;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -154,7 +155,7 @@ class ReservationController extends Controller
      */
     public function getDays()
     {
-        $days = \App\Models\Front\Checkout\Reservation::getUpcomingDays();
+        $days = FrontReservation::getUpcomingDays();
 
         return response()->json($days);
     }
@@ -170,7 +171,7 @@ class ReservationController extends Controller
         $hours = [];
 
         if ($request->has('day')) {
-            $hours = \App\Models\Front\Checkout\Reservation::getHoursList($request->input('day'));
+            $hours = FrontReservation::getHoursList($request->input('day'));
         }
 
         return response()->json($hours);
@@ -184,16 +185,32 @@ class ReservationController extends Controller
      */
     public function setReservation(Request $request)
     {
-        if ($request->has('day') && $request->has('time')) {
-            session()->put('selected_reservation', [
-                'day' => $request->input('day'),
-                'hour' => $request->input('time'),
-            ]);
+        $request->validate([
+            'day'  => ['required', 'date_format:Y-m-d'],
+            'time' => ['required', 'string', 'max:13'],
+        ]);
 
-            return response()->json(['success' => 'Rezervacija je snimljena!']);
+        $day  = $request->input('day');
+        $time = $request->input('time');
+
+        if ( ! FrontReservation::isBookableDay($day)) {
+            return response()->json([
+                'error' => 'Termin montaže moguće je odabrati najranije za 3 dana.',
+            ], 422);
         }
 
-        return response()->json(['error' => 'Molimo selektirajte dan i sat rezervacije.']);
+        if ( ! FrontReservation::isSlotAvailable($day, $time)) {
+            return response()->json([
+                'error' => 'Odabrani termin više nije dostupan. Molimo odaberite drugi termin.',
+            ], 422);
+        }
+
+        session()->put('selected_reservation', [
+            'day'  => $day,
+            'hour' => $time,
+        ]);
+
+        return response()->json(['success' => 'Rezervacija je snimljena!']);
     }
 
     /*******************************************************************************

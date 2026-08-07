@@ -3,7 +3,10 @@
 
     <!-- Header with nav tabs -->
     <div class="offcanvas-header py-3 pt-lg-4">
-        <h4 class="offcanvas-title" id="deliveryDateTimeLabel">Odaberite termin montaže</h4>
+        <div>
+            <h4 class="offcanvas-title" id="deliveryDateTimeLabel">Odaberite termin montaže</h4>
+            <p class="fs-sm text-body-secondary mb-0">Prvi termin moguće je odabrati najranije za 3 dana.</p>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zatvori"></button>
     </div>
 
