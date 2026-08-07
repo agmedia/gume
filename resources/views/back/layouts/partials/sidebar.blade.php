@@ -105,6 +105,12 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
+                    <a class="nav-main-link{{ request()->routeIs(['contract-withdrawals.*']) ? ' active' : '' }}" href="{{ route('contract-withdrawals.index') }}">
+                        <i class="nav-main-link-icon si si-action-undo"></i>
+                        <span class="nav-main-link-name">Raskidi ugovora</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['reservations', 'reservations.*']) ? ' active' : '' }}" href="{{ route('reservations') }}">
                         <i class="nav-main-link-icon si si-list"></i>
                         <span class="nav-main-link-name">Rezervacije</span>
@@ -180,6 +186,11 @@
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['faqs', 'faqs.*']) ? ' active' : '' }}" href="{{ route('faqs') }}">
                                 <span class="nav-main-link-name">FAQ</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['contract-withdrawal-settings.*']) ? ' active' : '' }}" href="{{ route('contract-withdrawal-settings.edit') }}">
+                                <span class="nav-main-link-name">Raskidi ugovora</span>
                             </a>
                         </li>
                         <li class="nav-main-item{{ request()->is(['admin/settings/application/*']) ? ' open' : '' }}">

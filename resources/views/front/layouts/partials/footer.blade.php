@@ -62,13 +62,15 @@
                                     </li>
 
                                     <li class="d-flex w-100 pt-1">
-                                        <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ env('APP_URL')}}info/montazni-partneri">Montažni partneri</a>
-                                    </li>
-                                    <li class="d-flex w-100 pt-1">
                                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('faq') }}">Česta pitanja</a>
                                     </li>
                                     <li class="d-flex w-100 pt-1">
                                         <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('kontakt') }}">Kontaktirajte nas</a>
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <button type="button" class="nav-link animate-underline d-inline fw-normal p-0 border-0 bg-transparent text-start" data-cookie-consent-trigger>
+                                            <span class="animate-target">Postavke kolačića</span>
+                                        </button>
                                     </li>
 
                                 </ul>
@@ -87,7 +89,9 @@
                                         <li class="d-flex w-100 pt-1"><a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
                                     @endforeach
                                         @endif
-
+                                    <li class="d-flex w-100 pt-1">
+                                        <a class="nav-link animate-underline animate-target d-inline fw-normal p-0" href="{{ route('contract-withdrawal.create') }}">Jednostrani raskid ugovora</a>
+                                    </li>
                                 </ul>
                             </div>
                             <hr class="d-sm-none my-0">
@@ -105,25 +109,25 @@
         <div class="d-md-flex align-items-center border-top py-4">
             <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
                 <div>
-                    <img src="assets/img/payment-methods/visa-dark-mode.svg" alt="Visa">
+                    <img src="{{ asset('assets/img/payment-methods/visa-dark-mode.svg') }}" alt="Visa">
                 </div>
                 <div>
-                    <img src="assets/img/payment-methods/mastercard.svg" alt="Mastercard">
+                    <img src="{{ asset('assets/img/payment-methods/mastercard.svg') }}" alt="Mastercard">
                 </div>
                 <div>
-                    <img src="assets/img/payment-methods/maestro.svg" alt="Maestro">
-                </div>
-
-
-                <div>
-                    <img src="assets/img/payment-methods/apple-pay-dark-mode.svg" alt="ApplePay">
+                    <img src="{{ asset('assets/img/payment-methods/maestro.svg') }}" alt="Maestro">
                 </div>
 
+
                 <div>
-                    <img src="assets/img/payment-methods/google-pay-dark-mode.svg" alt="GooglePay">
+                    <img src="{{ asset('assets/img/payment-methods/apple-pay-dark-mode.svg') }}" alt="ApplePay">
+                </div>
+
+                <div>
+                    <img src="{{ asset('assets/img/payment-methods/google-pay-dark-mode.svg') }}" alt="GooglePay">
                 </div>
                 <div>
-                    <img src="assets/img/payment-methods/corvus-logo-i.svg" style="height:15px;margin-top:10px" alt="Corvus">
+                    <img src="{{ asset('assets/img/payment-methods/corvus-logo-i.svg') }}" style="height:15px;margin-top:10px" alt="Corvus">
                 </div>
 
             </div>

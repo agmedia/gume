@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Cache\TaggableStore;
 use phpDocumentor\Reflection\Types\False_;
 
 class Helper
@@ -381,7 +382,7 @@ class Helper
      */
     public static function resolveCache(string $tag): ?object
     {
-        if (env('APP_ENV') == 'local') {
+        if (app()->environment(['local', 'testing']) || ! Cache::getStore() instanceof TaggableStore) {
             return Cache::getFacadeRoot();
         }
 
@@ -397,8 +398,8 @@ class Helper
      */
     public static function flushCache(string $tag, string $key)
     {
-        if (env('APP_ENV') == 'local') {
-            return Cache::getFacadeRoot();
+        if (app()->environment(['local', 'testing']) || ! Cache::getStore() instanceof TaggableStore) {
+            return Cache::forget($key);
         }
 
         return Cache::tags([$tag])->forget($key);

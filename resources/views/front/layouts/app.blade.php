@@ -28,6 +28,8 @@
     <!-- Font icons -->
     <link rel="preload" href="{{ asset('assets/icons/cartzilla-icons.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{{ asset('assets/icons/cartzilla-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome-pro/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome-pro/css/solid.min.css') }}">
     <!-- Vendor styles -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/simplebar/dist/simplebar.min.css') }}">
@@ -39,8 +41,71 @@
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}" id="theme-styles">
     @livewireStyles
     @livewireScripts
+    @include('front.layouts.partials.cookie-consent-head')
 
     @if (config('app.env') == 'production')
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.cookieAnalyticsAllowed = false;
+            window.cookieMarketingAllowed = false;
+            window.canTrackAnalytics = () => false;
+
+            function getStoredCookieConsent() {
+                const match = document.cookie.match(/(?:^|;\s*)cc_cookie=([^;]+)/);
+
+                if (!match) {
+                    return null;
+                }
+
+                try {
+                    return JSON.parse(decodeURIComponent(match[1]));
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            window.applyGooglePrivacySettings = function (marketingGranted) {
+                const marketingAllowed = marketingGranted === true;
+
+                gtag('set', 'ads_data_redaction', !marketingAllowed);
+                gtag('set', 'allow_google_signals', marketingAllowed);
+                gtag('set', 'allow_ad_personalization_signals', marketingAllowed);
+            };
+
+            window.updateGoogleConsentFromCookie = function (analyticsGranted, marketingGranted) {
+                window.cookieAnalyticsAllowed = analyticsGranted === true;
+                window.cookieMarketingAllowed = marketingGranted === true;
+                window.applyGooglePrivacySettings(marketingGranted);
+
+                gtag('consent', 'update', {
+                    analytics_storage: analyticsGranted ? 'granted' : 'denied',
+                    ad_storage: marketingGranted ? 'granted' : 'denied',
+                    ad_user_data: marketingGranted ? 'granted' : 'denied',
+                    ad_personalization: marketingGranted ? 'granted' : 'denied'
+                });
+            };
+
+            gtag('consent', 'default', {
+                analytics_storage: 'denied',
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                wait_for_update: 500
+            });
+            window.applyGooglePrivacySettings(false);
+
+            const storedConsent = getStoredCookieConsent();
+
+            if (storedConsent && Array.isArray(storedConsent.categories)) {
+                window.updateGoogleConsentFromCookie(
+                    storedConsent.categories.includes('analytics'),
+                    storedConsent.categories.includes('marketing')
+                );
+            }
+        </script>
+
+        @yield('google_data_layer')
 
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -49,9 +114,6 @@
                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-TZRDVQ8C');</script>
         <!-- End Google Tag Manager -->
-
-
-        @yield('google_data_layer')
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-X8ZP5E2BYT"></script>
         <script>
@@ -59,7 +121,10 @@
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'G-X8ZP5E2BYT');
+            gtag('config', 'G-X8ZP5E2BYT', {
+                allow_google_signals: window.cookieMarketingAllowed === true,
+                allow_ad_personalization_signals: window.cookieMarketingAllowed === true
+            });
         </script>
 
     @endif
@@ -92,14 +157,6 @@
 </head>
 <!-- Body-->
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZRDVQ8C"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-
-
-
 <div id="agapp">
     @include('front.layouts.partials.header')
             <main class="content-wrapper">
@@ -113,6 +170,11 @@
     @include('front.layouts.partials.footer')
 
 </div>
+
+@include('front.layouts.partials.cookie-consent')
+<button type="button" class="cookie-consent-trigger cookie-consent-trigger--floating" aria-label="Postavke kolačića" title="Postavke kolačića" data-cookie-consent-trigger>
+    <i class="fa-solid fa-cookie-bite" aria-hidden="true"></i>
+</button>
 
 <!-- Back to top button -->
 <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
@@ -137,7 +199,6 @@
 {{--<script src="https://cdn.jsdelivr.net/npm/axios@1.8.1/dist/axios.min.js"></script>
 <script src="{{ asset('assets/cart.js?v=1.0') }}"></script>--}}
 
-<script src="https://kit.fontawesome.com/62acfcc394.js" crossorigin="anonymous"></script>
 <!-- Bootstrap + Theme scripts -->
 
 <script type="text/javascript">
