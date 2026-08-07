@@ -126,7 +126,7 @@ class CategoryProductsList extends Component
     /**
      * @var array
      */
-   // public $brands = [];
+    public $brands = [];
 
     /**
      * @var string

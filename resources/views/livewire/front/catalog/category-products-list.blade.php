@@ -374,10 +374,11 @@
                                     <li class="ps-0 fs-xs list-group-item"><i class="ci-percent"></i></i> Mogućnost plaćanja na rate kod nas u poslovnici</li>
 
                                 </ul>
-                               </div>
+                            </div>
 
                             <div class="d-flex align-items-center justify-content-between">
-                                @if ($product->special() && ($product->special() < $product->main_price))
+                                @php($specialPrice = $product->special())
+                                @if ($specialPrice && ($specialPrice < $product->main_price))
                                     <div class="h5 lh-1 mb-0">{{ $product->main_special_text }} <del class="text-body-tertiary fs-sm fw-normal">{{ $product->main_price_text }}</del></div>
                                 @else
                                     <div class="h5 lh-1 mb-0"> {{ $product->main_price_text }}</div>

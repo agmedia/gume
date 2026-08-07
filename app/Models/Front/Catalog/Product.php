@@ -50,6 +50,13 @@ class Product extends Model
      */
     protected $eur;
 
+    /**
+     * Resolved action values for this product during the current render.
+     *
+     * @var array
+     */
+    protected $special_cache = [];
+
 
     /**
      * Get the route key for the model.
@@ -469,8 +476,15 @@ class Product extends Model
      */
     public function special(bool $return_action = false)
     {
+        $cacheKey = $return_action ? 'action' : 'price';
+
+        if (array_key_exists($cacheKey, $this->special_cache)) {
+            return $this->special_cache[$cacheKey];
+        }
+
+        $result  = null;
         $special = new Special($this);
-        $action = $special->resolveAction();
+        $action  = $special->resolveAction();
 
         if ($action) {
             $coupon_ok = $special->checkCoupon($action);
@@ -478,15 +492,15 @@ class Product extends Model
 
             if ($coupon_ok && $dates_ok) {
                 if ($return_action && $special->isProductOnAction($action)) {
-                    return $action->toArray();
+                    $result = $action->toArray();
 
                 } else {
-                    return $special->getDiscountPrice($action);
+                    $result = $special->getDiscountPrice($action);
                 }
             }
         }
 
-        return null;
+        return $this->special_cache[$cacheKey] = $result;
     }
 
 

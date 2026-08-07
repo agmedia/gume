@@ -51,6 +51,20 @@ class Special
      */
     private $active_actions;
 
+    /**
+     * Active actions are identical for every product rendered in one request.
+     *
+     * @var Collection|null
+     */
+    private static $request_active_actions;
+
+    /**
+     * Product IDs targeted by an action, cached for the current request.
+     *
+     * @var array
+     */
+    private static $request_action_product_ids = [];
+
 
     /**
      * @param Product|null       $product
@@ -216,9 +230,19 @@ class Special
             return true;
         }
 
-        $ids = $this->getActionProductsList($action);
+        $ids = $this->getActionLinkIds($action);
 
-        if (in_array($this->product->id, $ids)) {
+        if ($action->group == 'product') {
+            return in_array((int) $this->product->id, $ids, true);
+        }
+
+        if ($action->group == 'brand') {
+            return in_array((int) $this->product->brand_id, $ids, true);
+        }
+
+        $productIds = $this->getActionProductsList($action);
+
+        if (in_array((int) $this->product->id, $productIds, true)) {
             return true;
         }
 
@@ -247,22 +271,39 @@ class Special
     public function getActionProductsList(ProductAction|null $product_action = null): array
     {
         $action = $this->resolveRealAction($product_action);
+        $cacheKey = $action->id . ':' . $action->group . ':' . $action->links;
 
-        $ids = explode(',', substr(str_replace('"', '', $action->links), 1, -1));
+        if (array_key_exists($cacheKey, self::$request_action_product_ids)) {
+            return self::$request_action_product_ids[$cacheKey];
+        }
+
+        $ids = $this->getActionLinkIds($action);
 
         if ($action->group == 'product') {
-            return $ids;
+            return self::$request_action_product_ids[$cacheKey] = $ids;
         }
 
         if ($action->group == 'category') {
-            return ProductCategory::query()->whereIn('category_id', $ids)->pluck('product_id')->unique()->toArray();
+            return self::$request_action_product_ids[$cacheKey] = ProductCategory::query()
+                ->whereIn('category_id', $ids)
+                ->pluck('product_id')
+                ->map(fn ($id) => (int) $id)
+                ->unique()
+                ->values()
+                ->all();
         }
 
         if ($action->group == 'brand') {
-            return Product::query()->whereIn('brand_id', $ids)->pluck('id')->unique()->toArray();
+            return self::$request_action_product_ids[$cacheKey] = Product::query()
+                ->whereIn('brand_id', $ids)
+                ->pluck('id')
+                ->map(fn ($id) => (int) $id)
+                ->unique()
+                ->values()
+                ->all();
         }
 
-        return [];
+        return self::$request_action_product_ids[$cacheKey] = [];
     }
 
 
@@ -301,13 +342,39 @@ class Special
      */
     private function setupAvailableActions(): Special
     {
-        $this->active_actions = ProductAction::query()->active()->get();
+        if (self::$request_active_actions === null) {
+            self::$request_active_actions = ProductAction::query()->active()->get();
+        }
+
+        $this->active_actions = self::$request_active_actions;
 
         if ($this->active_actions->count()) {
             $this->action = $this->getBestAction();
         }
 
         return $this;
+    }
+
+
+    /**
+     * @param ProductAction $action
+     *
+     * @return array
+     */
+    private function getActionLinkIds(ProductAction $action): array
+    {
+        $ids = json_decode($action->links, true);
+
+        if ( ! is_array($ids)) {
+            $ids = explode(',', substr(str_replace('"', '', $action->links), 1, -1));
+        }
+
+        return collect($ids)
+            ->map(fn ($id) => (int) $id)
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
     }
 
 
