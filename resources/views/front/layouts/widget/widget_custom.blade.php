@@ -31,6 +31,10 @@
             object-fit: unset !important;
         }
 
+        .widget-custom-hero__link {
+            display: block;
+        }
+
         .widget-custom-hero__pagination {
             bottom: 0.75rem !important;
         }
@@ -63,7 +67,19 @@
             @foreach($data as  $widget)
             <!-- Slide -->
             <div class="swiper-slide" style="background-color: #fff">
-                <img src="{{ $widget['image'] }}" class="widget-custom-hero__image rtl-flip" alt="Image">
+                @if(! empty($widget['url']) && $widget['url'] !== '/')
+                    <a href="{{ url($widget['url']) }}"
+                       class="widget-custom-hero__link"
+                       aria-label="{{ $widget['title'] ?: 'Otvori ponudu' }}">
+                        <img src="{{ $widget['image'] }}"
+                             class="widget-custom-hero__image rtl-flip"
+                             alt="{{ $widget['title'] ?: 'Banner' }}">
+                    </a>
+                @else
+                    <img src="{{ $widget['image'] }}"
+                         class="widget-custom-hero__image rtl-flip"
+                         alt="{{ $widget['title'] ?: 'Banner' }}">
+                @endif
             </div>
             @endforeach
             <!-- Slide -->
