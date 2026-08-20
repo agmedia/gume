@@ -137,6 +137,7 @@ class CatalogRouteController extends FrontController
             $data->ids = $ids;
             $data->category = null;
             $data->subcategory = null;
+            $data->is_search = true;
 
             $crumbs = null; $meta = null;
 

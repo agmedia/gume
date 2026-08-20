@@ -2,9 +2,11 @@
 
     @php
         $isWiperCategory = isset($cat->subcategory->slug) && $cat->subcategory->slug === 'metlica-brisaca';
+        $isSearchResult = isset($cat->is_search) && $cat->is_search;
     @endphp
 
     <!-- Filter -->
+    @unless($isSearchResult)
     <div class="bg-body-tertiary p-3 rounded-3 mb-3">
         <div class="row align-items-center pt-1">
             <div class="col-12 d-md-flex d-block gap-2">
@@ -136,6 +138,7 @@
             </div>
         @endif
     </div>
+    @endunless
 
     <!-- Shop filters offcanvas -->
     <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shopFilters" tabindex="-1" aria-labelledby="shopFiltersLabel">
