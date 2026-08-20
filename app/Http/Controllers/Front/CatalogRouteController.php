@@ -138,6 +138,7 @@ class CatalogRouteController extends FrontController
             $data->category = null;
             $data->subcategory = null;
             $data->is_search = true;
+            $data->search_term = $request->input(config('settings.search_keyword'));
 
             $crumbs = null; $meta = null;
 

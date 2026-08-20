@@ -27,6 +27,10 @@
 @endif
 @section('content')
     <div class="container pb-5 mb-2 mb-sm-3 mb-lg-4 mb-xl-5">
+        @if (isset($data->is_search) && $data->is_search)
+            <h1 class="h3 position-relative my-3">Rezultati pretraživanja: {{ $data->search_term }}</h1>
+        @endif
+
         @if (isset($data->group) && $data->group)
             <!-- Breadcrumb -->
             <nav class="position-relative  my-3 " aria-label="breadcrumb">
